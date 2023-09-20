@@ -193,8 +193,8 @@ h5 {
 }
 
 #home {
-    padding-top: 120px;
-    padding-bottom: 140px;
+    padding-top: 140px;
+    padding-bottom: 200px;
     text-align: center;
     position: relative;
     /* Ensure proper stacking context */
@@ -227,8 +227,9 @@ h5 {
 }
 
 #home .btn:hover {
-    background: #D43F52;
+    background: #1d68b3;
     border-color: transparent;
+    
 }
 
 /* end home */
@@ -274,17 +275,23 @@ h5 {
 #work .card-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 #work .card {
     flex-basis: calc(33.33% - 20px);
-    /* Three cards in a row */
     border: 1px solid #ccc;
     border-radius: 15px;
     margin: 10px;
     padding-bottom: 10px;
     text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+#work .card:hover {
+    background: #0c447c42;
+    border-color: transparent;
+    transform: scale(1.015);
 }
 
 #work .image-container {
