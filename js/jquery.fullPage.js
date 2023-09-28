@@ -94,7 +94,7 @@
             //scrolling
             css3: true,
             scrollingSpeed: 700,
-            autoScrolling: true,
+            autoScrolling : true,
             fitToSection: true,
             easing: 'easeInOutCubic',
             easingcss3: 'ease',
@@ -148,7 +148,8 @@
         $.extend($.easing,{ easeInQuart: function (x, t, b, c, d) { return c*(t/=d)*t*t*t + b; }});
 
         FP.setAutoScrolling = function(value, type){
-            setVariableState('autoScrolling', value, type);
+            options.autoScrolling = false
+            setVariableState('autoScrolling', false, type);
 
             var element = $(SECTION_ACTIVE_SEL);
 
@@ -718,7 +719,7 @@
                             if($(SECTION_ACTIVE_SEL).is(currentSection)){
                                 isResizing = true;
                             }
-                            scrollPage(currentSection);
+                            // scrollPage(currentSection);
                             isResizing = false;
                         }
                     }, 1000);

@@ -6,12 +6,41 @@ https://templatemo.com/tm-458-lavish
 		
 */
 
+@media (max-width: 767px) {
+    body {
+        font-size: 14px; /* Adjust the font size for mobile */
+    }
+
+    /* You may need to adjust other styles for mobile here */
+
+    /* Forcing the page to fit the screen width and preventing horizontal scrolling */
+    html, body {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    /* Adjust styles for specific sections or elements on mobile */
+    #home {
+        padding-top: 100px;
+    }
+
+    #work .card-container {
+        display: flex;
+        flex-direction: column; /* Show one card per row on mobile */
+    }
+
+    #work .card {
+        flex-basis: 100%; /* Make each card take the full width on mobile */
+    }
+}
+
 body {
     background: #000000;
     color: #999;
     font-family: 'El Messiri', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
+
 }
 
 /* start all section */
@@ -61,7 +90,7 @@ h5 {
 #about,
 #portfolio,
 #contact {
-    padding-top: 100px;
+    padding-top: 60px;
     padding-bottom: 120px;
 }
 
@@ -193,8 +222,8 @@ h5 {
 }
 
 #home {
-    padding-top: 140px;
-    padding-bottom: 200px;
+    padding-top: 100px;
+    padding-bottom: 300px;
     text-align: center;
     position: relative;
     /* Ensure proper stacking context */
@@ -221,7 +250,7 @@ h5 {
     font-weight: bold;
     width: 180px;
     height: 60px;
-    margin-top: 40px;
+    border-radius: 8px;
     padding-top: 18px;
     transition: all 0.4s ease-in-out;
 }
@@ -229,7 +258,6 @@ h5 {
 #home .btn:hover {
     background: #1d68b3;
     border-color: transparent;
-    
 }
 
 /* end home */
@@ -275,11 +303,11 @@ h5 {
 #work .card-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 #work .card {
-    flex-basis: calc(33.33% - 20px);
+    flex-basis: calc(50% - 20px);
     border: 1px solid #ccc;
     border-radius: 15px;
     margin: 10px;
@@ -288,6 +316,7 @@ h5 {
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 }
+
 #work .card:hover {
     background: #0c447c42;
     border-color: transparent;
@@ -303,7 +332,7 @@ h5 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color:#00000083;
+    background-color: #00000083;
     color: #ffffff;
     padding: 2% 8%;
     font-size: 18px;
