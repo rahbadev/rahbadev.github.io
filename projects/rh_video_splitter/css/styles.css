@@ -1959,8 +1959,8 @@ a:hover.back-to-top {
 	
 	/* Header */
 	.header .image-container {
-		width: 58.0625rem;
-		height: 36.125rem;
+		width: 50rem;
+		height: 50rem;
 		margin-right: auto;
 		margin-left: auto;
 	}
@@ -2060,6 +2060,7 @@ a:hover.back-to-top {
 		max-width: 16.375rem;
 		margin-right: 5.75rem;
 		margin-left: auto;
+		text-align: right;
 	}
 
 	.basic-2 img {

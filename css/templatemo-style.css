@@ -327,6 +327,10 @@ p{
     text-align: center;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+    height: 400px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 #work .card:hover {
@@ -336,7 +340,13 @@ p{
 }
 
 #work .image-container {
+    flex: 4; /* 75% of the card height */
     position: relative;
+    max-width: 100%;
+    height: auto;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    overflow: hidden;
 }
 
 #work .soon-text {
@@ -352,17 +362,25 @@ p{
     border-radius: 5px;
 }
 
+#work .card-body {
+    flex: 1; /* 25% of the card height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+}
+
 #work .card img {
     max-width: 100%;
     height: auto;
+    object-fit: cover;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
 }
 
-#work .app-name {
-    font-weight: bold;
-    margin-top: 20px;
-    margin-bottom: 20px;
+#work .app-name,
+#work .description {
+    margin: 0;
 }
 
 #work .description {
