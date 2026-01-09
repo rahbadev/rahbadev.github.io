@@ -16,10 +16,25 @@
 
     <style>
         /* =========================================
-           1. Core Variables (DO NOT FORMAT THIS PART)
+           1. Core Variables (Protected Block)
            ========================================= */
+
+        /* هذا الكود يمنع المنسق من كسر الأسطر التالية */
         /* prettier-ignore */
-        :root{--primary:#0877bc;--primary-rgb:8, 119, 188;--bg-body:#0f172a;--bg-card:#1e293b;--text-main:#f8fafc;--text-muted:#94a3b8;--border-color:rgba(255,255,255,0.1);}
+/* =========================================
+           1. Core Variables
+           ========================================= */
+        :root {
+            /* ⚠️ انسخ هذا السطر كما هو ولا تسمح بتقسيمه */
+            --primary: #0877bc;
+            --primary-rgb: 8, 119, 188;
+            
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255,255,255,0.1);
+        }
 
         [data-theme="light"] {
             --bg-body: #f8f9fa;
@@ -340,7 +355,7 @@
             box-shadow: 0 4px 10px rgba(var(--primary-rgb), 0.3);
         }
 
-        .feature-item span {
+        .feature-item span.text {
             font-weight: 600;
             font-size: 1.05rem;
         }
@@ -366,9 +381,9 @@
         }
 
         .swiper-slide-active .screenshot-img {
-            transform: scale(1.02);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            border-color: rgba(var(--primary-rgb), 0.4);
+            transform: scale(1.03);
+            box-shadow: 0 20px 50px rgba(var(--primary-rgb), 0.25);
+            border-color: var(--primary);
         }
 
         .swiper-pagination-bullet-active {
