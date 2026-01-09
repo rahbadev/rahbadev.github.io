@@ -1,0 +1,80 @@
+name: 🚀 Publish APK & Update Info
+
+on:
+  push:
+    paths:
+      - 'projects/**/*.apk' # يعمل فقط عند تغيير ملف APK
+
+permissions:
+  contents: write
+
+jobs:
+  release-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🔍 Detect Changed APK & Process
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # 1. اكتشاف الملف المتغير
+          CHANGED_FILE=$(git diff --name-only HEAD^ HEAD | grep 'projects/.*\.apk$' | head -n 1)
+          
+          if [ -z "$CHANGED_FILE" ]; then
+            echo "No APK file changes detected."
+            exit 0
+          fi
+
+          echo "📦 Found APK: $CHANGED_FILE"
+
+          # 2. استخراج المعلومات
+          PROJECT_DIR=$(dirname "$CHANGED_FILE")
+          PROJECT_NAME=$(basename "$PROJECT_DIR")
+          FILENAME=$(basename "$CHANGED_FILE")
+          
+          # استخراج الإصدار من الاسم (مثال: app_5.0.0.apk -> 5.0.0)
+          # يفترض أن الاسم بصيغة app_VERSION.apk أو مشابه
+          VERSION_RAW="${FILENAME#app_}"
+          VERSION="${VERSION_RAW%.apk}"
+          
+          TAG_NAME="${PROJECT_NAME}-v${VERSION}"
+          FIXED_NAME="${PROJECT_NAME}.apk"
+
+          # 3. إنشاء Release
+          gh release create "$TAG_NAME" \
+            "$CHANGED_FILE#$FIXED_NAME" \
+            --title "$PROJECT_NAME v$VERSION" \
+            --notes "تحديث تلقائي للإصدار $VERSION"
+
+          # 4. تحديث رابط التحميل في info.json
+          INFO_FILE="$PROJECT_DIR/info.json"
+          DOWNLOAD_URL="https://github.com/${{ github.repository }}/releases/download/$TAG_NAME/$FIXED_NAME"
+          
+          # نستخدم Node.js لتحديث JSON بدقة (أفضل من jq في بعض البيئات)
+          node -e "
+            const fs = require('fs');
+            const file = '$INFO_FILE';
+            const data = JSON.parse(fs.readFileSync(file));
+            data.version = '$VERSION';
+            
+            // تحديث رابط التحميل المباشر
+            const directIdx = data.downloads.findIndex(d => d.type === 'direct');
+            if (directIdx !== -1) {
+                data.downloads[directIdx].url = '$DOWNLOAD_URL';
+                data.downloads[directIdx].available = true;
+                delete data.downloads[directIdx].comingSoon;
+            }
+            
+            fs.writeFileSync(file, JSON.stringify(data, null, 4));
+          "
+
+          # 5. حفظ التعديلات
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add "$INFO_FILE"
+          git commit -m "🤖 Auto-update $PROJECT_NAME to v$VERSION"
+          git push

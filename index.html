@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+
+<head>
+	<meta charset="utf-8">
+	<title>رحبة التطوير - تطوير تطبيقات الجوال</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="images/icon.ico" type="image/x-icon">
+
+	<!-- Bootstrap 5 RTL -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+	<!-- Google Font -->
+	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+	<style>
+		:root {
+			--primary-color: #6366f1;
+			--secondary-color: #8b5cf6;
+			--accent-color: #06b6d4;
+			--dark-bg: #0f172a;
+			--card-bg: #1e293b;
+			--text-color: #e2e8f0;
+			--text-secondary: #94a3b8;
+		}
+
+		/* Light Mode Colors */
+		[data-theme="light"] {
+			--dark-bg: #f8fafc;
+			--card-bg: #ffffff;
+			--text-color: #1e293b;
+			--text-secondary: #475569;
+		}
+
+		/* Theme Toggle Button */
+		.theme-toggle {
+			position: fixed;
+			top: 30px;
+			left: 30px;
+			z-index: 1000;
+			background: var(--card-bg);
+			border: 2px solid rgba(var(--primary-rgb), 0.3);
+			width: 60px;
+			height: 60px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			color: var(--accent-color);
+			font-size: 1.5rem;
+			transition: all 0.3s ease;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+			backdrop-filter: blur(10px);
+		}
+
+		.theme-toggle:hover {
+			transform: scale(1.1) rotate(15deg);
+			box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
+			border-color: var(--primary-color);
+		}
+
+		* {
+			font-family: 'Cairo', sans-serif;
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			background: var(--dark-bg);
+			min-height: 100vh;
+			position: relative;
+			overflow-x: hidden;
+			color: var(--text-color);
+			transition: background 0.3s ease, color 0.3s ease;
+		}
+
+		/* خلفية شبكة متحركة */
+		body::before {
+			content: '';
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-image:
+				linear-gradient(rgba(99, 102, 241, 0.1) 1px, transparent 1px),
+				linear-gradient(90deg, rgba(99, 102, 241, 0.1) 1px, transparent 1px);
+			background-size: 50px 50px;
+			animation: gridMove 20s linear infinite;
+			pointer-events: none;
+			z-index: 0;
+		}
+
+		@keyframes gridMove {
+			0% {
+				transform: translate(0, 0);
+			}
+
+			100% {
+				transform: translate(50px, 50px);
+			}
+		}
+
+		/* Animated gradient orbs */
+		body::after {
+			content: '';
+			position: fixed;
+			top: -50%;
+			right: -50%;
+			width: 100%;
+			height: 100%;
+			background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+			animation: float 15s ease-in-out infinite;
+			pointer-events: none;
+			z-index: 0;
+		}
+
+		@keyframes float {
+
+			0%,
+			100% {
+				transform: translate(0, 0) rotate(0deg);
+			}
+
+			33% {
+				transform: translate(30px, -30px) rotate(120deg);
+			}
+
+			66% {
+				transform: translate(-20px, 20px) rotate(240deg);
+			}
+		}
+
+		/* Header Section - Modern Hero */
+		.header-section {
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: white;
+			text-align: center;
+			padding: 60px 20px;
+			position: relative;
+			z-index: 1;
+		}
+
+		.hero-content {
+			max-width: 900px;
+			margin: 0 auto;
+		}
+
+		.brand-logo {
+			max-width: 200px;
+			height: auto;
+			margin-bottom: 40px;
+			animation: floatIn 1s ease-out;
+			filter: drop-shadow(0 15px 35px rgba(99, 102, 241, 0.4));
+			border-radius: 30px;
+		}
+
+		.brand-logo:hover {
+			animation: bounce 0.8s ease-in-out;
+			filter: drop-shadow(0 20px 40px rgba(99, 102, 241, 0.6));
+		}
+
+		@keyframes floatIn {
+			0% {
+				opacity: 0;
+				transform: translateY(-50px) scale(0.8);
+			}
+
+			100% {
+				opacity: 1;
+				transform: translateY(0) scale(1);
+			}
+		}
+
+		@keyframes bounce {
+
+			0%,
+			100% {
+				transform: translateY(0);
+			}
+
+			50% {
+				transform: translateY(-20px);
+			}
+		}
+
+		.hero-title {
+			font-size: 3.5rem;
+			font-weight: 800;
+			margin-bottom: 20px;
+			background: linear-gradient(135deg, #fff, var(--accent-color));
+			background-clip: text;
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			animation: fadeInDown 0.8s ease;
+			letter-spacing: -1px;
+		}
+
+		@keyframes fadeInDown {
+			from {
+				opacity: 0;
+				transform: translateY(-30px);
+			}
+
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		.tagline {
+			font-size: 1.5rem;
+			font-weight: 400;
+			margin-bottom: 25px;
+			color: var(--text-secondary);
+			animation: fadeIn 1.2s ease-in;
+			line-height: 1.8;
+		}
+
+		.rotating-text {
+			font-size: 1.3rem;
+			font-weight: 500;
+			margin: 35px 0;
+			min-height: 60px;
+			color: var(--text-secondary);
+			animation: fadeIn 1.5s ease-in;
+			line-height: 1.6;
+		}
+
+		.tech-stack {
+			display: flex;
+			justify-content: center;
+			gap: 15px;
+			flex-wrap: wrap;
+			margin: 40px 0;
+			animation: fadeIn 2s ease-in;
+		}
+
+		.tech-badge {
+			background: rgba(99, 102, 241, 0.1);
+			border: 1px solid rgba(99, 102, 241, 0.3);
+			color: var(--accent-color);
+			padding: 8px 20px;
+			border-radius: 20px;
+			font-size: 0.9rem;
+			font-weight: 600;
+			transition: all 0.3s ease;
+			backdrop-filter: blur(10px);
+		}
+
+		.tech-badge:hover {
+			background: rgba(99, 102, 241, 0.2);
+			transform: translateY(-3px);
+			box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+		}
+
+		.cta-buttons {
+			display: flex;
+			gap: 20px;
+			justify-content: center;
+			flex-wrap: wrap;
+			margin-top: 50px;
+		}
+
+		.cta-button {
+			background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+			color: white;
+			padding: 16px 40px;
+			border-radius: 12px;
+			text-decoration: none;
+			font-weight: 700;
+			font-size: 1.1rem;
+			display: inline-flex;
+			align-items: center;
+			gap: 10px;
+			transition: all 0.3s ease;
+			box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+			animation: fadeIn 2.5s ease-in;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.cta-button::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+			transition: left 0.5s ease;
+		}
+
+		.cta-button:hover::before {
+			left: 100%;
+		}
+
+		.cta-button:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 15px 40px rgba(99, 102, 241, 0.5);
+		}
+
+		.cta-button.secondary {
+			background: transparent;
+			border: 2px solid rgba(99, 102, 241, 0.5);
+			color: var(--accent-color);
+		}
+
+		.cta-button.secondary:hover {
+			background: rgba(99, 102, 241, 0.1);
+			border-color: var(--primary-color);
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+				transform: translateY(20px);
+			}
+
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		/* Projects Section */
+		.projects-section {
+			background: var(--dark-bg);
+			padding: 120px 20px;
+			min-height: 100vh;
+			position: relative;
+			z-index: 1;
+		}
+
+		.section-header {
+			text-align: center;
+			max-width: 800px;
+			margin: 0 auto 80px;
+		}
+
+		.section-title {
+			text-align: center;
+			font-size: 3.5rem;
+			font-weight: 800;
+			color: var(--text-color);
+			margin-bottom: 20px;
+			position: relative;
+			animation: slideInUp 0.8s ease-out;
+		}
+
+		.section-title span {
+			background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+			background-clip: text;
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+		}
+
+		.section-subtitle {
+			text-align: center;
+			color: var(--text-secondary);
+			font-size: 1.25rem;
+			margin-bottom: 20px;
+			animation: slideInUp 1s ease-out;
+			font-weight: 400;
+			line-height: 1.8;
+		}
+
+		.section-title::after {
+			content: '';
+			display: block;
+			width: 80px;
+			height: 4px;
+			background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+			margin: 25px auto 0;
+			border-radius: 10px;
+			animation: expandWidth 1s ease-out;
+		}
+
+		@keyframes slideInUp {
+			from {
+				opacity: 0;
+				transform: translateY(30px);
+			}
+
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		@keyframes expandWidth {
+			from {
+				width: 0;
+			}
+
+			to {
+				width: 100px;
+			}
+		}
+
+		.projects-container {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+			gap: 30px;
+			max-width: 1400px;
+			margin: 0 auto;
+		}
+
+		.project-card {
+			background: var(--card-bg);
+			border-radius: 20px;
+			overflow: hidden;
+			box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+			transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+			text-decoration: none;
+			color: inherit;
+			display: block;
+			position: relative;
+			transform-origin: center;
+			border: 1px solid rgba(99, 102, 241, 0.1);
+		}
+
+		.project-card::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+			opacity: 0;
+			transition: opacity 0.4s ease;
+			z-index: 0;
+			pointer-events: none;
+		}
+
+		.project-card:hover::before {
+			opacity: 1;
+		}
+
+		.project-card:hover {
+			transform: translateY(-10px);
+			box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+			border-color: rgba(99, 102, 241, 0.3);
+		}
+
+		.project-image {
+			width: 100%;
+			height: 220px;
+			object-fit: cover;
+			position: relative;
+			transition: transform 0.6s ease;
+		}
+
+		.project-card:hover .project-image {
+			transform: scale(1.05);
+		}
+
+		.project-image-wrapper {
+			overflow: hidden;
+			position: relative;
+			background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+		}
+
+		.coming-soon-badge {
+			position: absolute;
+			top: 15px;
+			right: 15px;
+			background: linear-gradient(135deg, #f59e0b, #ef4444);
+			color: white;
+			padding: 8px 20px;
+			border-radius: 20px;
+			font-size: 0.85rem;
+			font-weight: 700;
+			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+			z-index: 2;
+			animation: pulse 2s ease-in-out infinite;
+			backdrop-filter: blur(10px);
+		}
+
+		@keyframes pulse {
+
+			0%,
+			100% {
+				transform: scale(1);
+			}
+
+			50% {
+				transform: scale(1.05);
+			}
+		}
+
+		.project-content {
+			padding: 25px;
+			position: relative;
+			z-index: 1;
+		}
+
+		.project-title {
+			font-size: 1.5rem;
+			font-weight: 700;
+			color: var(--text-color);
+			margin-bottom: 12px;
+			transition: all 0.3s ease;
+		}
+
+		.project-card:hover .project-title {
+			color: var(--accent-color);
+			transform: translateX(-5px);
+		}
+
+		.project-description {
+			color: var(--text-secondary);
+			font-size: 1rem;
+			line-height: 1.7;
+			margin-bottom: 20px;
+		}
+
+		.project-link-arrow {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			color: var(--primary-color);
+			font-weight: 600;
+			font-size: 0.95rem;
+			opacity: 0;
+			transform: translateX(-10px);
+			transition: all 0.3s ease;
+		}
+
+		.project-card:hover .project-link-arrow {
+			opacity: 1;
+			transform: translateX(0);
+		}
+
+		/* Contact Section - Social Media Grid */
+		.contact-section {
+			background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+			padding: 100px 20px;
+			color: white;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.social-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+			gap: 30px;
+			max-width: 1200px;
+			margin: 0 auto;
+		}
+
+		.social-card {
+			background: rgba(255, 255, 255, 0.1);
+			backdrop-filter: blur(10px);
+			border-radius: 20px;
+			padding: 40px 30px;
+			text-align: center;
+			transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+			text-decoration: none;
+			color: white;
+			border: 2px solid rgba(255, 255, 255, 0.2);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.social-card::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+			transition: left 0.6s ease;
+		}
+
+		.social-card:hover::before {
+			left: 100%;
+		}
+
+		.social-card:hover {
+			transform: translateY(-10px) scale(1.05);
+			box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+			border-color: rgba(255, 255, 255, 0.4);
+		}
+
+		.social-icon {
+			width: 80px;
+			height: 80px;
+			border-radius: 20px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 0 auto 25px;
+			font-size: 2.5rem;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+			transition: all 0.3s ease;
+		}
+
+		.social-card:hover .social-icon {
+			transform: scale(1.15) rotate(5deg);
+			box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+		}
+
+		.social-card h3 {
+			font-size: 1.5rem;
+			font-weight: 700;
+			margin-bottom: 10px;
+		}
+
+		.social-card p {
+			font-size: 1rem;
+			opacity: 0.9;
+			margin: 0;
+		}
+
+		.contact-section::before {
+			content: '';
+			position: absolute;
+			top: -50%;
+			right: -10%;
+			width: 500px;
+			height: 500px;
+			background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+			border-radius: 50%;
+			animation: float 10s ease-in-out infinite;
+		}
+
+		@keyframes float {
+
+			0%,
+			100% {
+				transform: translate(0, 0);
+			}
+
+			50% {
+				transform: translate(-30px, 30px);
+			}
+		}
+
+		/* Footer */
+		.footer {
+			background: rgba(0, 0, 0, 0.3);
+			padding: 60px 20px;
+			text-align: center;
+			color: white;
+			backdrop-filter: blur(10px);
+		}
+
+		.social-links {
+			margin: 30px 0;
+			display: flex;
+			justify-content: center;
+			gap: 20px;
+			flex-wrap: wrap;
+		}
+
+		.social-links a {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 70px;
+			height: 70px;
+			color: white;
+			color: white;
+			border-radius: 50%;
+			transition: all 0.4s ease;
+			text-decoration: none;
+			font-size: 1.3rem;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.social-links a::before {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 0;
+			height: 0;
+			background: white;
+			border-radius: 50%;
+			transform: translate(-50%, -50%);
+			transition: width 0.5s, height 0.5s;
+		}
+
+		.social-links a:hover::before {
+			width: 100px;
+			height: 100px;
+		}
+
+		.social-links a i {
+			position: relative;
+			z-index: 1;
+			transition: color 0.3s ease;
+		}
+
+		.social-links a:hover {
+			transform: translateY(-8px) rotate(360deg);
+			box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+		}
+
+		.social-links a:hover i {
+			animation: bounce 0.6s ease;
+		}
+
+		/* Loading State */
+		.loading {
+			text-align: center;
+			padding: 60px 20px;
+			color: #999;
+		}
+
+		@media (max-width: 768px) {
+			.hero-title {
+				font-size: 2.5rem;
+			}
+
+			.rotating-text {
+				font-size: 1.2rem;
+			}
+
+			.section-title {
+				font-size: 2.5rem;
+			}
+
+			.projects-container {
+				grid-template-columns: 1fr;
+				gap: 25px;
+			}
+
+			.social-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.brand-logo {
+				max-width: 180px;
+			}
+
+			.cta-buttons {
+				flex-direction: column;
+			}
+
+			.cta-button {
+				width: 100%;
+			}
+
+			.tech-stack {
+				gap: 10px;
+			}
+
+			.theme-toggle {
+				width: 50px;
+				height: 50px;
+				top: 20px;
+				left: 20px;
+			}
+
+			.social-links a {
+				width: 60px;
+				height: 60px;
+				font-size: 1.5rem;
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<body>
+		<!-- Theme Toggle Button (Hidden) -->
+		<!-- <button class="theme-toggle" id="themeToggle" aria-label="تبديل الوضع">
+			<i class="fas fa-moon"></i>
+		</button> -->
+
+		<!-- Header Section -->
+		<section class="header-section">
+			<div class="hero-content">
+				<img src="./images/brand.png" alt="رحبة التطوير" class="brand-logo">
+				<h1 class="hero-title">نجعل الفكرة واقعًا</h1>
+				<p class="tagline">
+					متخصصون في تصميم وتطوير تطبيقات الجوال عالية الجودة التي تلبي احتياجات عملائنا.
+				</p>
+				<div class="tech-stack">
+					<span class="tech-badge">Android <i class="fab fa-android"></i></span>
+					<span class="tech-badge">Java <i class="fab fa-java"></i></span>
+					<span class="tech-badge">Kotlin <i class="fas fa-code"></i></span>
+					<span class="tech-badge">Flutter <svg
+							style="width: 1em; height: 1em; display: inline-block; vertical-align: middle;"
+							viewBox="0 0 24 24" fill="currentColor">
+							<path
+								d="M14.314 0L2.3 12 6 15.7 21.684.013h-7.357zm.014 11.072L7.857 17.53l6.47 6.47H21.7l-6.46-6.468 6.46-6.46h-7.37z" />
+						</svg></span>
+					<span class="tech-badge">Mobile Dev <i class="fas fa-mobile-alt"></i></span>
+				</div>
+				<div class="rotating-text" id="rotatingText">
+					تصميم وتطوير تطبيقات جوال بجودة عالية
+				</div>
+				<div class="cta-buttons">
+					<a href="#projects" class="cta-button">
+						<i class="fas fa-rocket"></i>
+						<span>استكشف المشاريع</span>
+					</a>
+					<a href="#contact" class="cta-button secondary">
+						<i class="fas fa-envelope"></i>
+						<span>تواصل معنا</span>
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<!-- Projects Section -->
+		<section class="projects-section" id="projects">
+			<div class="container">
+				<div class="section-header">
+					<h2 class="section-title">
+						<span>مشاريعنا المميزة</span>
+					</h2>
+					<p class="section-subtitle">
+						اكتشف مجموعة من التطبيقات المبتكرة التي صممتها وطورتها بعناية
+					</p>
+				</div>
+				<div class="projects-container" id="projectsContainer">
+					<div class="loading">
+						<i class="fas fa-spinner fa-spin fa-3x mb-3"></i>
+						<p>جاري تحميل المشاريع...</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Social Media Section -->
+		<section class="contact-section" id="contact">
+			<div class="container">
+				<h2 class="section-title text-white">تواصل معنا</h2>
+				<p class="section-subtitle text-white" style="font-size: 1.3rem; margin-bottom: 50px; opacity: 0.95;">
+					نسعد بالتواصل معك عبر منصاتنا الاجتماعية</p>
+				<div class="social-grid">
+					<a href="https://www.facebook.com/rahbadev/" target="_blank" class="social-card">
+						<div class="social-icon" style="background: linear-gradient(135deg, #1877f2, #0c63d4);">
+							<i class="fab fa-facebook-f"></i>
+						</div>
+						<h3>Facebook</h3>
+						<p>تابعنا على فيسبوك</p>
+					</a>
+					<a href="https://twitter.com/rahbadev" target="_blank" class="social-card">
+						<div class="social-icon" style="background: linear-gradient(135deg, #1da1f2, #0d8bd9);">
+							<i class="fab fa-twitter"></i>
+						</div>
+						<h3>Twitter</h3>
+						<p>تابع آخر الأخبار</p>
+					</a>
+					<a href="https://t.me/rahbadev" target="_blank" class="social-card">
+						<div class="social-icon" style="background: linear-gradient(135deg, #0088cc, #006ba3);">
+							<i class="fab fa-telegram-plane"></i>
+						</div>
+						<h3>Telegram</h3>
+						<p>انضم لقناتنا</p>
+					</a>
+					<a href="https://github.com/rahbadev" target="_blank" class="social-card">
+						<div class="social-icon" style="background: linear-gradient(135deg, #24292e, #1a1e22);">
+							<i class="fab fa-github"></i>
+						</div>
+						<h3>GitHub</h3>
+						<p>تصفح المشاريع</p>
+					</a>
+					<a href="https://play.google.com/store/apps/dev?id=6736668226615202750" target="_blank"
+						class="social-card">
+						<div class="social-icon" style="background: linear-gradient(135deg, #34a853, #0f9d58);">
+							<i class="fab fa-google-play"></i>
+						</div>
+						<h3>Google Play</h3>
+						<p>حمّل تطبيقاتنا</p>
+					</a>
+					<a href="mailto:rahbadev@gmail.com" class="social-card">
+						<div class="social-icon" style="background: linear-gradient(135deg, #ea4335, #c5221f);">
+							<i class="fas fa-envelope"></i>
+						</div>
+						<h3>Email</h3>
+						<p>راسلنا مباشرة</p>
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer class="footer">
+			<div class="container">
+				<h3 style="font-size: 1.8rem; margin-bottom: 30px; color: var(--text-color);">تابعنا على</h3>
+				<div class="social-links">
+					<a href="https://www.facebook.com/rahbadev/" target="_blank" title="Facebook"
+						style="background: #1877f2;">
+						<i class="fab fa-facebook-f"></i>
+					</a>
+					<a href="https://twitter.com/rahbadev" target="_blank" title="Twitter" style="background: #1da1f2;">
+						<i class="fab fa-twitter"></i>
+					</a>
+					<a href="https://t.me/rahbadev" target="_blank" title="Telegram" style="background: #0088cc;">
+						<i class="fab fa-telegram-plane"></i>
+					</a>
+					<a href="https://github.com/rahbadev" target="_blank" title="GitHub" style="background: #24292e;">
+						<i class="fab fa-github"></i>
+					</a>
+					<a href="https://play.google.com/store/apps/dev?id=6736668226615202750" target="_blank"
+						title="Google Play" style="background: #34a853;">
+						<i class="fab fa-google-play"></i>
+					</a>
+					<a href="mailto:rahbadev@gmail.com" title="Email" style="background: #ea4335;">
+						<i class="fas fa-envelope"></i>
+					</a>
+				</div>
+				<p style="color: var(--text-secondary); margin-top: 30px;">© 2026 رحبة التطوير - جميع الحقوق محفوظة</p>
+			</div>
+		</footer>
+
+		<!-- Bootstrap JS -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+		<script>
+			// Dark Mode Only (Theme Toggle Removed)
+			document.documentElement.setAttribute('data-theme', 'dark');
+
+			// Rotating text animation
+			const texts = [
+				'تصميم وتطوير تطبيقات جوال بجودة عالية',
+				'تحقيق رؤيتك من خلال التطبيقات المتميزة',
+				'تطوير التطبيقات لإثراء تجارب المستخدم'
+			];
+			let currentIndex = 0;
+			const rotatingElement = document.getElementById('rotatingText');
+
+			function rotateText() {
+				rotatingElement.style.opacity = '0';
+				setTimeout(() => {
+					currentIndex = (currentIndex + 1) % texts.length;
+					rotatingElement.textContent = texts[currentIndex];
+					rotatingElement.style.opacity = '1';
+				}, 500);
+			}
+
+			rotatingElement.style.transition = 'opacity 0.5s ease';
+			setInterval(rotateText, 4000);
+
+			// Smooth scroll
+			document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+				anchor.addEventListener('click', function (e) {
+					e.preventDefault();
+					const target = document.querySelector(this.getAttribute('href'));
+					if (target) {
+						target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+					}
+				});
+			});
+
+			// Load projects
+			(function () {
+				fetch('projects.json')
+					.then(response => {
+						if (!response.ok) throw new Error('Failed to load projects');
+						return response.json();
+					})
+					.then(projects => {
+						renderProjects(projects);
+					})
+					.catch(error => {
+						console.error('Error loading projects:', error);
+						document.getElementById('projectsContainer').innerHTML =
+							'<div class="loading"><p style="color: #999;">فشل تحميل المشاريع. يرجى المحاولة لاحقاً.</p></div>';
+					});
+
+				function renderProjects(projects) {
+					const container = document.getElementById('projectsContainer');
+
+					if (!projects || projects.length === 0) {
+						container.innerHTML = '<div class="loading"><p>لا توجد مشاريع متاحة حالياً.</p></div>';
+						return;
+					}
+
+					container.innerHTML = '';
+
+					projects.forEach(project => {
+						const card = createProjectCard(project);
+						container.innerHTML += card;
+					});
+				}
+
+				function createProjectCard(project) {
+					const thumbnail = project.icon
+						? project.link + project.icon
+						: (project.thumbnail ? project.link + project.thumbnail : './images/brand.png');
+
+					const isComingSoon = project.status === 'coming-soon';
+					const comingSoonBadge = isComingSoon ? '<span class="coming-soon-badge">قريباً...</span>' : '';
+
+					return `
+					<a href="${project.link}" class="project-card">
+						<div class="project-image-wrapper">
+							<img src="${thumbnail}" alt="${project.title}" class="project-image" 
+								 onerror="this.src='./images/brand.png'">
+							${comingSoonBadge}
+						</div>
+						<div class="project-content">
+							<h3 class="project-title">${project.title}</h3>
+							<p class="project-description">${project.tagline || project.description || ''}</p>
+							<span class="project-link-arrow">
+								<span>اكتشف المزيد</span>
+								<i class="fas fa-arrow-left"></i>
+							</span>
+						</div>
+					</a>
+				`;
+				}
+			})();
+		</script>
+
+	</body>
+
+</html>

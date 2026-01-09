@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{TITLE}}</title>
+    <meta name="description" content="{{DESC}}">
+    <link rel="icon" href="{{LOGO_PATH}}">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        /* =========================================
+           1. Core Variables & System (Dark Mode Base)
+           ========================================= */
+        /* prettier-ignore */
+        :root {
+
+            /* لون التطبيق الديناميكي */
+            --primary: {
+                    {
+                    PRIMARY_COLOR
+                }
+            }
+
+            ;
+
+            --primary-rgb: {
+                    {
+                    PRIMARY_RGB
+                }
+            }
+
+            ;
+
+            /* ألوان النظام (مطابقة للصفحة الرئيسية) */
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            overflow-x: hidden;
+            margin: 0;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* =========================================
+           2. Background Effects (Grid + Glow)
+           ========================================= */
+        /* الشبكة المتحركة (نفس الصفحة الرئيسية) */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* نستخدم لون التطبيق للشبكة */
+            background-image:
+                linear-gradient(rgba(var(--primary-rgb), 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(var(--primary-rgb), 0.07) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 30s linear infinite;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        /* التوهج العائم (Orb) */
+        body::after {
+            content: '';
+            position: fixed;
+            top: -20%;
+            right: -10%;
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, rgba(var(--primary-rgb), 0.15) 0%, transparent 70%);
+            animation: floatOrb 15s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes gridMove {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        @keyframes floatOrb {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-30px, 30px);
+            }
+        }
+
+        /* =========================================
+           3. App Header & Icon (The "Awesome" Part)
+           ========================================= */
+        .app-header {
+            padding: 100px 20px 60px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* حاوية الأيقونة المتوهجة */
+        .icon-container {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 35px;
+            /* المربع الزجاجي */
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 35px;
+            border: 2px solid rgba(var(--primary-rgb), 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* توهج خارجي بلون التطبيق */
+            box-shadow: 0 0 50px rgba(var(--primary-rgb), 0.2), inset 0 0 20px rgba(var(--primary-rgb), 0.1);
+            animation: iconFloat 4s ease-in-out infinite;
+            transition: all 0.4s ease;
+        }
+
+        /* تأثير التوهج عند التأشير على الأيقونة */
+        .icon-container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(var(--primary-rgb), 0.5),
+                0 0 80px rgba(var(--primary-rgb), 0.3),
+                inset 0 0 30px rgba(var(--primary-rgb), 0.2);
+            border-color: rgba(var(--primary-rgb), 0.6);
+        }
+
+        /* شعاع خلف الأيقونة */
+        .icon-container::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 40px;
+            background: linear-gradient(45deg, var(--primary), transparent, var(--primary));
+            z-index: -1;
+            opacity: 0.4;
+            filter: blur(15px);
+            animation: borderRotate 4s linear infinite;
+        }
+
+        .app-icon {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 30px;
+            padding: 5px;
+        }
+
+        @keyframes iconFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        /* العناوين */
+        h1.app-title {
+            font-weight: 800;
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 50%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 5px 20px rgba(var(--primary-rgb), 0.4));
+            animation: titleShine 3s ease-in-out infinite;
+            letter-spacing: -1px;
+        }
+
+        @keyframes titleShine {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 5px 15px rgba(var(--primary-rgb), 0.25));
+            }
+
+            50% {
+                filter: drop-shadow(0 7px 20px rgba(var(--primary-rgb), 0.35));
+            }
+        }
+
+        p.app-tagline {
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        /* =========================================
+           4. Buttons (Modern & Glowing)
+           ========================================= */
+        .download-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .btn-download {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 40px;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            color: #fff !important;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-download i {
+            font-size: 1.5rem;
+        }
+
+        /* زر التحميل المباشر APK (مميز جداً) */
+        .btn-download.direct {
+            background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 50%, var(--primary) 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+            border: none;
+            box-shadow: 0 10px 30px rgba(var(--primary-rgb), 0.4),
+                0 0 40px rgba(139, 92, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-download.direct::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-download.direct:hover::before {
+            left: 100%;
+        }
+
+        .btn-download.direct:hover {
+            box-shadow: 0 15px 50px rgba(var(--primary-rgb), 0.6),
+                0 0 60px rgba(139, 92, 246, 0.5);
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Google Play - زاهي ومتوهج */
+        .btn-download.playstore {
+            background: linear-gradient(135deg, #34a853 0%, #0f9d58 50%, #34a853 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+            border: none;
+            box-shadow: 0 10px 30px rgba(52, 168, 83, 0.4),
+                0 0 40px rgba(52, 168, 83, 0.3);
+        }
+
+        .btn-download.playstore::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-download.playstore:hover::before {
+            left: 100%;
+        }
+
+        .btn-download.playstore:hover {
+            box-shadow: 0 15px 50px rgba(52, 168, 83, 0.6),
+                0 0 60px rgba(52, 168, 83, 0.5);
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        .btn-download.playstore i {
+            color: #fff;
+        }
+
+        /* App Store - زاهي ومتوهج */
+        .btn-download.appstore {
+            background: linear-gradient(135deg, #007aff 0%, #0051d5 50%, #007aff 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 122, 255, 0.4),
+                0 0 40px rgba(0, 122, 255, 0.3);
+        }
+
+        .btn-download.appstore::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-download.appstore:hover::before {
+            left: 100%;
+        }
+
+        .btn-download.appstore:hover {
+            box-shadow: 0 15px 50px rgba(0, 122, 255, 0.6),
+                0 0 60px rgba(0, 122, 255, 0.5);
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        /* Github - زاهي ومتوهج */
+        .btn-download.github {
+            background: linear-gradient(135deg, #24292e 0%, #1a1e22 50%, #24292e 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+            border: none;
+            box-shadow: 0 10px 30px rgba(36, 41, 46, 0.4),
+                0 0 40px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-download.github::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-download.github:hover::before {
+            left: 100%;
+        }
+
+        .btn-download.github:hover {
+            box-shadow: 0 15px 50px rgba(36, 41, 46, 0.6),
+                0 0 60px rgba(255, 255, 255, 0.3);
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        /* =========================================
+           5. Content Area (Glassmorphism Cards)
+           ========================================= */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title {
+            font-weight: 800;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: #fff;
+            border-right: 5px solid var(--primary);
+            padding-right: 15px;
+        }
+
+        .description-text {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--text-color);
+            margin-bottom: 40px;
+            text-align: justify;
+        }
+
+        /* المميزات */
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid transparent;
+            transition: 0.3s;
+        }
+
+        .feature-item:hover {
+            background: rgba(var(--primary-rgb), 0.1);
+            border-color: rgba(var(--primary-rgb), 0.3);
+            transform: translateX(-5px);
+        }
+
+        .icon-box {
+            background: rgba(var(--primary-rgb), 0.2);
+            color: var(--primary);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 15px;
+            flex-shrink: 0;
+            box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.2);
+        }
+
+        /* =========================================
+           6. Carousel (Screenshots)
+           ========================================= */
+        .swiper {
+            width: 100%;
+            padding: 20px 10px 50px;
+        }
+
+        .screenshot-img {
+            border-radius: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            max-height: 500px;
+            width: auto;
+            max-width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
+        }
+
+        .swiper-slide-active .screenshot-img {
+            transform: scale(1.05);
+            border-color: var(--primary);
+            box-shadow: 0 15px 50px rgba(var(--primary-rgb), 0.2);
+        }
+
+        .swiper-pagination-bullet {
+            background: #fff;
+            opacity: 0.3;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: var(--primary) !important;
+            opacity: 1;
+            width: 25px;
+            border-radius: 10px;
+        }
+
+        /* =========================================
+           7. Footer
+           ========================================= */
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 30px;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn-back:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .app-header {
+                padding-top: 60px;
+            }
+
+            h1.app-title {
+                font-size: 2.5rem;
+            }
+
+            .btn-download {
+                width: 100%;
+            }
+
+            .glass-card {
+                padding: 25px;
+            }
+
+            .screenshot-img {
+                max-height: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="app-header">
+        <div class="container">
+            <div class="icon-container">
+                <img src="{{LOGO_PATH}}" alt="{{TITLE}}" class="app-icon">
+            </div>
+
+            <h1 class="app-title">{{TITLE}}</h1>
+            <p class="app-tagline">{{TAGLINE}}</p>
+
+            <div class="download-wrapper">
+                {{DOWNLOAD_BUTTONS}}
+            </div>
+
+            <div style="color: var(--text-muted); font-size: 0.9rem;">
+                {{VERSION_INFO}} <span class="mx-2">|</span> {{FILE_SIZE}}
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row g-5">
+
+            <div class="col-lg-5">
+                <div class="glass-card">
+                    <h3 class="section-title">عن التطبيق</h3>
+                    <p class="description-text">{{DESC}}</p>
+
+                    <h5 style="color: #fff; margin-bottom: 20px; font-weight: 700;">أبرز المميزات:</h5>
+                    <div class="features-list">
+                        {{FEATURES_HTML}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="glass-card" style="background: transparent; border: none; box-shadow: none; padding: 0;">
+                    <h3 class="section-title d-lg-none text-center">لقطات الشاشة</h3>
+                    <div class="swiper screenshotsSwiper">
+                        <div class="swiper-wrapper">
+                            {{SCREENSHOTS_HTML}}
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 رحبة التطوير. جميع الحقوق محفوظة.</p>
+            <a href="../../index.html" class="btn-back">
+                <i class="fa-solid fa-arrow-right ms-2"></i> العودة للمشاريع
+            </a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Swiper Configuration
+        new Swiper('.screenshotsSwiper', {
+            spaceBetween: 30,
+            centeredSlides: false,
+            pagination: { el: '.swiper-pagination', clickable: true },
+            autoplay: { delay: 3000, disableOnInteraction: false },
+            breakpoints: {
+                320: { slidesPerView: 1.4, centeredSlides: true, spaceBetween: 15 },
+                640: { slidesPerView: 2.2, spaceBetween: 20 },
+                1024: { slidesPerView: 3, spaceBetween: 30 }
+            }
+        });
+    </script>
+</body>
+
+</html>
