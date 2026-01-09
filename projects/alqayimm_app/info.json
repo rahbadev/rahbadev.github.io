@@ -1,0 +1,45 @@
+{
+    "title": "تطبيق الدين القيم",
+    "tagline": "التطبيق الرسمي لمعهد الدين القيم للعلوم الشرعية",
+    "description": "تطبيق يسهل الوصول إلى محتوى معهد الدين القيم للعلوم الشرعية بسهولة ويسر. يوفر التطبيق مجموعة من الخدمات والمحتويات الدينية الشرعية التي تساعد المستخدمين على الوصول السريع للدروس والمحاضرات والمواد العلمية.",
+    "features": [
+        "الوصول السريع والسهل لمحتوى معهد الدين القيم",
+        "مكتبة شاملة من المحاضرات والدروس العلمية الشرعية",
+        "واجهة مستخدم عربية بسيطة وسهلة الاستخدام",
+        "تحديثات دورية للمحتوى والمواد العلمية",
+        "إمكانية التصفح دون اتصال بالإنترنت للمواد المحملة",
+        "دعم كامل للغة العربية مع تجربة استخدام سلسة"
+    ],
+    "thumbnail": "screens/1.png",
+    "status": "available",
+    "colors": {
+        "primary": "#0877bc"
+    },
+    "downloads": [
+        {
+            "type": "playstore",
+            "label": "Google Play",
+            "url": "https://play.google.com/store/apps/details?id=com.alqayim.btech&hl=ar",
+            "icon": "fab fa-google-play",
+            "available": true
+        },
+        {
+            "type": "direct",
+            "label": "ملف APK",
+            "url": "app_5.0.0(41).apk",
+            "icon": "fas fa-download",
+            "available": true
+        },
+        {
+            "type": "appstore",
+            "label": "App Store",
+            "url": "#",
+            "icon": "fab fa-apple",
+            "available": false,
+            "comingSoon": true
+        }
+    ],
+    "version": "5.0.0",
+    "versionCode": 41,
+    "lastUpdated": "2025-12-15"
+}

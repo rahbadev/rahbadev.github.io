@@ -1,0 +1,21 @@
+{
+    "name": "rahbadev-portfolio-ssg",
+    "version": "1.0.0",
+    "description": "Static Site Generator for RahbaDev Portfolio - مولد مواقع ثابتة لصفحة رحبة التطوير",
+    "main": "build.js",
+    "scripts": {
+        "build": "node build.js",
+        "dev": "node build.js && echo Build completed! Open index.html in your browser."
+    },
+    "keywords": [
+        "static-site-generator",
+        "portfolio",
+        "arabic",
+        "rtl"
+    ],
+    "author": "RahbaDev",
+    "license": "MIT",
+    "engines": {
+        "node": ">=14.0.0"
+    }
+}
