@@ -1,4 +1,1 @@
-# Ignore templates to preserve placeholders
-_templates/
-projects/*/index.html
-projects/*/privacy-policy.html
+_templates/*.html

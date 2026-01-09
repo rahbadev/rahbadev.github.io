@@ -1,4 +1,0 @@
-# Prevent formatters from modifying templates
-_templates/*.html linguist-generated=false
-projects/**/index.html linguist-generated=true
-projects/**/privacy-policy.html linguist-generated=true
