@@ -157,14 +157,17 @@
 			max-width: 200px;
 			height: auto;
 			margin-bottom: 40px;
-			animation: floatIn 1s ease-out;
+			animation: floatIn 1s ease-out, gentleFloat 6s ease-in-out infinite;
 			filter: drop-shadow(0 15px 35px rgba(99, 102, 241, 0.4));
 			border-radius: 30px;
+			transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+			position: relative;
 		}
 
 		.brand-logo:hover {
-			animation: bounce 0.8s ease-in-out;
-			filter: drop-shadow(0 20px 40px rgba(99, 102, 241, 0.6));
+			animation: bounce 0.8s ease-in-out, gentleFloat 6s ease-in-out infinite;
+			filter: drop-shadow(0 20px 40px rgba(99, 102, 241, 0.6)) drop-shadow(0 0 60px rgba(99, 102, 241, 0.3));
+			transform: scale(1.05) rotate(3deg);
 		}
 
 		@keyframes floatIn {
@@ -188,6 +191,27 @@
 
 			50% {
 				transform: translateY(-20px);
+			}
+		}
+
+		/* حركة عائمة راقية للشعار */
+		@keyframes gentleFloat {
+
+			0%,
+			100% {
+				transform: translateY(0px) rotate(0deg);
+			}
+
+			25% {
+				transform: translateY(-10px) rotate(1deg);
+			}
+
+			50% {
+				transform: translateY(-5px) rotate(-1deg);
+			}
+
+			75% {
+				transform: translateY(-12px) rotate(0.5deg);
 			}
 		}
 
