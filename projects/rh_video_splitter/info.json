@@ -30,7 +30,7 @@
             "type": "direct",
             "label": "ملف APK",
             "url": "#",
-            "icon": "fas fa-download",
+            "icon": "fab fa-android",
             "available": false,
             "comingSoon": true
         }
