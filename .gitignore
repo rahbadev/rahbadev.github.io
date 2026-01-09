@@ -1,33 +1,10 @@
-# Node modules (if you add dependencies later)
+# النظام والمحررات
 node_modules/
-
-# Generated files
-projects.json
-projects/*/index.html
-
-# OS files
 .DS_Store
 Thumbs.db
-
-# IDE files
 .vscode/
 .idea/
-*.sublime-*
-
-# Temporary files
+*.log
 *.tmp
-*.log
 
-# APK files (optional - uncomment if you don't want to commit APK files)
-# *.apk
-node_modules/
-.DS_Store
-*.log
-
-# نتجاهل ملفات html المولدة داخل المشاريع لكي لا نرفع ملفات مكررة
-# السيرفر هو من سيقوم بتوليدها
-projects/*/index.html
-
-# لكن نحتفظ بالقالب الرئيسي
-!_templates/
-!index.html
+# (ملاحظة: لقد أزلنا projects.json و index.html من هنا لكي يتم رفعهم وتعمل الصفحة)
