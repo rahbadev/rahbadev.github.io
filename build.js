@@ -105,8 +105,19 @@ function build() {
             ? fs.readdirSync(path.join(pPath, 'screens')).filter(f => /\.(png|jpg|jpeg|webp)$/i.test(f))
             : [];
 
+        // icon للأيقونة داخل صفحة المشروع (دعم webp, png)
+        let icon = 'icon.png';
+        if (fs.existsSync(path.join(pPath, 'icon.webp'))) icon = 'icon.webp';
+        else if (fs.existsSync(path.join(pPath, 'icon.png'))) icon = 'icon.png';
+        else if (fs.existsSync(path.join(pPath, 'logo.webp'))) icon = 'logo.webp';
+        else if (fs.existsSync(path.join(pPath, 'logo.png'))) icon = 'logo.png';
+
+        // logo للصورة في الصفحة الرئيسية (دعم webp, png)
         let logo = 'logo.png';
-        if (fs.existsSync(path.join(pPath, 'icon.png'))) logo = 'icon.png';
+        if (fs.existsSync(path.join(pPath, 'logo.webp'))) logo = 'logo.webp';
+        else if (fs.existsSync(path.join(pPath, 'logo.png'))) logo = 'logo.png';
+        else if (fs.existsSync(path.join(pPath, 'icon.webp'))) logo = 'icon.webp';
+        else if (fs.existsSync(path.join(pPath, 'icon.png'))) logo = 'icon.png';
 
         const primary = (info.colors && info.colors.primary) ? info.colors.primary : '#6366f1'; // Default match main site
         const primaryRgb = hexToRgb(primary);
@@ -115,7 +126,7 @@ function build() {
             .replace(/{{TITLE}}/g, info.title)
             .replace(/{{TAGLINE}}/g, info.tagline || '')
             .replace(/{{DESC}}/g, info.description)
-            .replace(/{{LOGO_PATH}}/g, logo)
+            .replace(/{{LOGO_PATH}}/g, icon)
             .replace(/{{PRIMARY_COLOR}}/g, primary)
             .replace(/{{PRIMARY_RGB}}/g, primaryRgb)
             .replace(/{{FEATURES_HTML}}/g, generateFeaturesHTML(info.features))
@@ -132,7 +143,7 @@ function build() {
         if (info.privacy && privacyTemplate) {
             const pHtml = privacyTemplate
                 .replace(/{{TITLE}}/g, info.title)
-                .replace(/{{LOGO_PATH}}/g, logo)
+                .replace(/{{LOGO_PATH}}/g, icon)
                 .replace(/{{PRIMARY_COLOR}}/g, primary)
                 .replace(/{{PRIMARY_RGB}}/g, primaryRgb)
                 .replace(/{{PRIVACY_CONTENT}}/g, `<p>${info.privacy.text || 'No text provided.'}</p>`);

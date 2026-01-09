@@ -3,7 +3,7 @@
     "id": "alqayimm_app",
     "title": "تطبيق الدين القيم",
     "description": "التطبيق الرسمي لمعهد الدين القيم للعلوم الشرعية",
-    "icon": "icon.png",
+    "icon": "logo.webp",
     "link": "projects/alqayimm_app/",
     "status": "available"
   },
@@ -11,7 +11,7 @@
     "id": "rh_video_splitter",
     "title": "RH Video Splitter - Story Trim",
     "description": "قص ومشاركة مقاطع الفيديو بسهولة وإبداع",
-    "icon": "icon.png",
+    "icon": "logo.webp",
     "link": "projects/rh_video_splitter/",
     "status": "available"
   }
