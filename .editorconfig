@@ -1,0 +1,16 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+
+# Ignore formatting in templates
+[_templates/**]
+indent_style = ignore
+indent_size = ignore
+trim_trailing_whitespace = false
+
+[projects/**/index.html]
+indent_style = ignore
+trim_trailing_whitespace = false
