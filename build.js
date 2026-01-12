@@ -26,6 +26,36 @@ function hexToRgb(hex) {
     return `${r}, ${g}, ${b}`;
 }
 
+function generateSecondaryColor(hex) {
+    hex = hex.replace(/^#/, '');
+    if (hex.length === 3) hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    let r = parseInt(hex.substring(0, 2), 16);
+    let g = parseInt(hex.substring(2, 4), 16);
+    let b = parseInt(hex.substring(4, 6), 16);
+
+    // Shift hue slightly (simple approximation)
+    r = Math.min(255, Math.floor(r * 1.1));
+    g = Math.min(255, Math.floor(g * 0.9));
+    b = Math.min(255, Math.floor(b * 1.05));
+
+    return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
+}
+
+function generateAccentColor(hex) {
+    hex = hex.replace(/^#/, '');
+    if (hex.length === 3) hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    let r = parseInt(hex.substring(0, 2), 16);
+    let g = parseInt(hex.substring(2, 4), 16);
+    let b = parseInt(hex.substring(4, 6), 16);
+
+    // Lighter version
+    r = Math.min(255, Math.floor(r + (255 - r) * 0.3));
+    g = Math.min(255, Math.floor(g + (255 - g) * 0.3));
+    b = Math.min(255, Math.floor(b + (255 - b) * 0.3));
+
+    return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
+}
+
 function generateFeaturesHTML(features) {
     if (!features || !features.length) return '';
     return features.map(f => `
@@ -120,7 +150,10 @@ function build() {
         else if (fs.existsSync(path.join(pPath, 'icon.png'))) logo = 'icon.png';
 
         const primary = (info.colors && info.colors.primary) ? info.colors.primary : '#6366f1'; // Default match main site
+        const secondary = (info.colors && info.colors.secondary) ? info.colors.secondary : generateSecondaryColor(primary);
+        const accent = (info.colors && info.colors.accent) ? info.colors.accent : generateAccentColor(primary);
         const primaryRgb = hexToRgb(primary);
+        const secondaryRgb = hexToRgb(secondary);
 
         let html = template
             .replace(/{{TITLE}}/g, info.title)
@@ -131,7 +164,8 @@ function build() {
             .replace(/{{PRIMARY_RGB}}/g, primaryRgb)
             .replace(/{{FEATURES_HTML}}/g, generateFeaturesHTML(info.features))
             .replace(/{{DOWNLOAD_BUTTONS}}/g, generateDownloadButtonsHTML(info.downloads, apkFile))
-            .replace(/{{SCREENSHOTS_HTML}}/g, generateScreenshotsHTML(screens));
+            .replace(/{{SCREENSHOTS_HTML}}/g, generateScreenshotsHTML(screens))
+            .replace(/{{PRIVACY_BUTTON}}/g, (info.privacyPolicy ? `<a href="privacy-policy.html" class="btn-back privacy-btn"><i class="fa-solid fa-shield-halved"></i> سياسة الخصوصية</a>` : ''));
 
         let ver = info.version ? `الإصدار: ${info.version}` : '';
         let size = apkFile ? getFileSize(path.join(pPath, apkFile)) : '';
@@ -140,14 +174,41 @@ function build() {
         fs.writeFileSync(path.join(pPath, 'index.html'), html);
         console.log(`✅ Built: ${folder} (${primary})`);
 
-        if (info.privacy && privacyTemplate) {
+        if (info.privacyPolicy && privacyTemplate) {
+            // Generate Arabic content
+            let arContent = '';
+            if (info.privacyPolicy.ar && info.privacyPolicy.ar.sections) {
+                arContent = info.privacyPolicy.ar.sections.map(section => `
+                    <div class="policy-section">
+                        <h2>${section.title}</h2>
+                        ${section.content}
+                    </div>
+                `).join('');
+            }
+
+            // Generate English content
+            let enContent = '';
+            if (info.privacyPolicy.en && info.privacyPolicy.en.sections) {
+                enContent = info.privacyPolicy.en.sections.map(section => `
+                    <div class="policy-section">
+                        <h2>${section.title}</h2>
+                        ${section.content}
+                    </div>
+                `).join('');
+            }
+
             const pHtml = privacyTemplate
                 .replace(/{{TITLE}}/g, info.title)
                 .replace(/{{LOGO_PATH}}/g, icon)
                 .replace(/{{PRIMARY_COLOR}}/g, primary)
+                .replace(/{{SECONDARY_COLOR}}/g, secondary)
+                .replace(/{{ACCENT_COLOR}}/g, accent)
                 .replace(/{{PRIMARY_RGB}}/g, primaryRgb)
-                .replace(/{{PRIVACY_CONTENT}}/g, `<p>${info.privacy.text || 'No text provided.'}</p>`);
+                .replace(/{{SECONDARY_RGB}}/g, secondaryRgb)
+                .replace(/{{PRIVACY_CONTENT_AR}}/g, arContent)
+                .replace(/{{PRIVACY_CONTENT_EN}}/g, enContent);
             fs.writeFileSync(path.join(pPath, 'privacy-policy.html'), pHtml);
+            console.log(`   📄 Privacy policy generated (AR + EN)`);
         }
 
         allProjects.push({
