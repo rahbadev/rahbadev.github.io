@@ -67,7 +67,7 @@
                 },
                 {
                     "title": "اتصل بنا",
-                    "content": "<p>إذا كان لديك أي أسئلة أو اقتراحات حول سياسة الخصوصية الخاصة بنا، لا تتردد في الاتصال بنا rahbadev@gmail.com</p>"
+                    "content": "<p>إذا كان لديك أي أسئلة أو اقتراحات حول سياسة الخصوصية الخاصة بنا، لا تتردد في الاتصال بنا:</p><div style='text-align:center;margin:20px 0;'><a href='mailto:rahbadev@gmail.com' class='btn btn-primary' style='margin:10px;padding:12px 25px;border-radius:8px;text-decoration:none;display:inline-block;'><i class='fa-solid fa-envelope'></i> rahbadev@gmail.com</a></div>"
                 }
             ]
         },
@@ -95,7 +95,7 @@
                 },
                 {
                     "title": "Contact Us",
-                    "content": "<p>If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us.</p>"
+                    "content": "<p>If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us:</p><div style='text-align:center;margin:20px 0;'><a href='mailto:rahbadev@gmail.com' class='btn btn-primary' style='margin:10px;padding:12px 25px;border-radius:8px;text-decoration:none;display:inline-block;'><i class='fa-solid fa-envelope'></i> rahbadev@gmail.com</a></div>"
                 }
             ]
         }
