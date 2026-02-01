@@ -7,7 +7,7 @@
         "description": "متجر إلكتروني عصري بتصميم احترافي مع سلة تسوق وربط واتساب مباشر",
         "image": "assets/images/projects/store_demo.webp",
         "link": "assets/demo/store-demo.html",
-        "badge": "معاينة حية",
+        "badge": "عرض تجريبي",
         "technologies": [
             "Tailwind CSS",
             "Alpine.js",
@@ -29,9 +29,7 @@
             "Laravel",
             "MySQL",
             "Bootstrap"
-        ],
-        "users": "500+",
-        "courses": "30+"
+        ]
     },
     {
         "id": "brand_identity_2",
