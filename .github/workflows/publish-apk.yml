@@ -3,7 +3,7 @@ name: 🚀 Publish APK & Update Info
 on:
   push:
     paths:
-      - 'projects/**/*.apk' # يعمل فقط عند تغيير ملف APK
+      - 'projects/**/*.apk'
 
 permissions:
   contents: write
@@ -36,8 +36,7 @@ jobs:
           PROJECT_NAME=$(basename "$PROJECT_DIR")
           FILENAME=$(basename "$CHANGED_FILE")
           
-          # استخراج الإصدار من الاسم (مثال: app_5.0.0.apk -> 5.0.0)
-          # يفترض أن الاسم بصيغة app_VERSION.apk أو مشابه
+          # استخراج الإصدار من الاسم
           VERSION_RAW="${FILENAME#app_}"
           VERSION="${VERSION_RAW%.apk}"
           
@@ -54,14 +53,12 @@ jobs:
           INFO_FILE="$PROJECT_DIR/info.json"
           DOWNLOAD_URL="https://github.com/${{ github.repository }}/releases/download/$TAG_NAME/$FIXED_NAME"
           
-          # نستخدم Node.js لتحديث JSON بدقة (أفضل من jq في بعض البيئات)
           node -e "
             const fs = require('fs');
             const file = '$INFO_FILE';
             const data = JSON.parse(fs.readFileSync(file));
             data.version = '$VERSION';
             
-            // تحديث رابط التحميل المباشر
             const directIdx = data.downloads.findIndex(d => d.type === 'direct');
             if (directIdx !== -1) {
                 data.downloads[directIdx].url = '$DOWNLOAD_URL';

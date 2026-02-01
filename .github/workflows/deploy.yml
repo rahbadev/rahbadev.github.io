@@ -3,7 +3,7 @@ name: Deploy Website
 on:
   push:
     branches:
-      - main # أو master حسب اسم الفرع الرئيسي عندك
+      - main
 
 permissions:
   contents: write
@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: '20'
 
-      - name: 🔨 Build Site
+      - name: 🔨 Build Programming Projects
         run: node build.js
 
       - name: 🚀 Deploy to GitHub Pages
