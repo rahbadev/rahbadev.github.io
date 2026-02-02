@@ -210,16 +210,13 @@ function adjustColor(color, percent) {
 
 async function loadServices() {
     try {
-        console.log('Loading services...');
         const response = await fetch('data/services.json');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log('Services data loaded:', data);
 
         const container = document.getElementById('servicesContainer');
-        console.log('Container element:', container);
 
         if (!container) {
             console.error('servicesContainer not found!');
@@ -313,7 +310,7 @@ async function loadFAQ() {
     if (!container) return;
 
     container.innerHTML = faqData.map((item, index) => `
-    < div class="accordion-item" >
+        <div class="accordion-item">
             <h2 class="accordion-header" id="faqHeading${index}">
                 <button class="accordion-button ${index !== 0 ? 'collapsed' : ''}" 
                         type="button" 
@@ -332,7 +329,7 @@ async function loadFAQ() {
                     ${item.answer}
                 </div>
             </div>
-        </div >
+        </div>
     `).join('');
 }
 
