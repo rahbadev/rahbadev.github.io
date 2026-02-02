@@ -79,7 +79,7 @@ const ProjectsApp = {
                         <img src="${project.image}" 
                              alt="${project.title}" 
                              class="project-image"
-                             onerror="this.src='https://via.placeholder.com/400x300/6366f1/ffffff?text=${encodeURIComponent(project.title)}'">
+                             onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'400\\' height=\\'300\\'%3E%3Crect fill=\\'%236366f1\\' width=\\'400\\' height=\\'300\\'/%3E%3Ctext fill=\\'%23ffffff\\' font-family=\\'Cairo, Arial\\' font-size=\\'20\\' x=\\'50%25\\' y=\\'50%25\\' text-anchor=\\'middle\\' dy=\\'.3em\\'%3E${encodeURIComponent(project.title)}%3C/text%3E%3C/svg%3E'">
                         ${project.badge ? `<span class="project-badge">${project.badge}</span>` : ''}
                     </div>
                     <div class="project-content">
