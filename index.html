@@ -1,1050 +1,449 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="ar">
+<html dir="rtl" lang="ar" class="scroll-smooth">
 
 <head>
-	<meta charset="utf-8">
-	<title>رحبة التطوير - تطوير تطبيقات الجوال</title>
-	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" href="images/icon.ico" type="image/x-icon">
-
-	<!-- Bootstrap 5 RTL -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
-	<!-- Font Awesome -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-	<!-- Google Font -->
-	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
-	<style>
-		:root {
-			--primary-color: #6366f1;
-			--secondary-color: #8b5cf6;
-			--accent-color: #06b6d4;
-			--dark-bg: #0f172a;
-			--card-bg: #1e293b;
-			--text-color: #e2e8f0;
-			--text-secondary: #94a3b8;
-		}
-
-		/* Light Mode Colors */
-		[data-theme="light"] {
-			--dark-bg: #f8fafc;
-			--card-bg: #ffffff;
-			--text-color: #1e293b;
-			--text-secondary: #475569;
-		}
-
-		/* Theme Toggle Button */
-		.theme-toggle {
-			position: fixed;
-			top: 30px;
-			left: 30px;
-			z-index: 1000;
-			background: var(--card-bg);
-			border: 2px solid rgba(var(--primary-rgb), 0.3);
-			width: 60px;
-			height: 60px;
-			border-radius: 50%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			cursor: pointer;
-			color: var(--accent-color);
-			font-size: 1.5rem;
-			transition: all 0.3s ease;
-			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-			backdrop-filter: blur(10px);
-		}
-
-		.theme-toggle:hover {
-			transform: scale(1.1) rotate(15deg);
-			box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
-			border-color: var(--primary-color);
-		}
-
-		* {
-			font-family: 'Cairo', sans-serif;
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-		}
-
-		body {
-			background: var(--dark-bg);
-			min-height: 100vh;
-			position: relative;
-			overflow-x: hidden;
-			color: var(--text-color);
-			transition: background 0.3s ease, color 0.3s ease;
-		}
-
-		/* خلفية شبكة متحركة */
-		body::before {
-			content: '';
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background-image:
-				linear-gradient(rgba(99, 102, 241, 0.1) 1px, transparent 1px),
-				linear-gradient(90deg, rgba(99, 102, 241, 0.1) 1px, transparent 1px);
-			background-size: 50px 50px;
-			animation: gridMove 20s linear infinite;
-			pointer-events: none;
-			z-index: 0;
-		}
-
-		@keyframes gridMove {
-			0% {
-				transform: translate(0, 0);
-			}
-
-			100% {
-				transform: translate(50px, 50px);
-			}
-		}
-
-		/* Animated gradient orbs */
-		body::after {
-			content: '';
-			position: fixed;
-			top: -50%;
-			right: -50%;
-			width: 100%;
-			height: 100%;
-			background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
-			animation: float 15s ease-in-out infinite;
-			pointer-events: none;
-			z-index: 0;
-		}
-
-		@keyframes float {
-
-			0%,
-			100% {
-				transform: translate(0, 0) rotate(0deg);
-			}
-
-			33% {
-				transform: translate(30px, -30px) rotate(120deg);
-			}
-
-			66% {
-				transform: translate(-20px, 20px) rotate(240deg);
-			}
-		}
-
-		/* Header Section - Modern Hero */
-		.header-section {
-			min-height: 100vh;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			color: white;
-			text-align: center;
-			padding: 60px 20px;
-			position: relative;
-			z-index: 1;
-		}
-
-		.hero-content {
-			max-width: 900px;
-			margin: 0 auto;
-		}
-
-		.brand-logo {
-			max-width: 200px;
-			height: auto;
-			margin-bottom: 40px;
-			animation: floatIn 1s ease-out, gentleFloat 6s ease-in-out infinite;
-			filter: drop-shadow(0 15px 35px rgba(99, 102, 241, 0.4));
-			border-radius: 30px;
-			transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-			position: relative;
-		}
-
-		.brand-logo:hover {
-			animation: bounce 0.8s ease-in-out, gentleFloat 6s ease-in-out infinite;
-			filter: drop-shadow(0 20px 40px rgba(99, 102, 241, 0.6)) drop-shadow(0 0 60px rgba(99, 102, 241, 0.3));
-			transform: scale(1.05) rotate(3deg);
-		}
-
-		@keyframes floatIn {
-			0% {
-				opacity: 0;
-				transform: translateY(-50px) scale(0.8);
-			}
-
-			100% {
-				opacity: 1;
-				transform: translateY(0) scale(1);
-			}
-		}
-
-		@keyframes bounce {
-
-			0%,
-			100% {
-				transform: translateY(0);
-			}
-
-			50% {
-				transform: translateY(-20px);
-			}
-		}
-
-		/* حركة عائمة راقية للشعار */
-		@keyframes gentleFloat {
-
-			0%,
-			100% {
-				transform: translateY(0px) rotate(0deg);
-			}
-
-			25% {
-				transform: translateY(-10px) rotate(1deg);
-			}
-
-			50% {
-				transform: translateY(-5px) rotate(-1deg);
-			}
-
-			75% {
-				transform: translateY(-12px) rotate(0.5deg);
-			}
-		}
-
-		.hero-title {
-			font-size: 3.5rem;
-			font-weight: 800;
-			margin-bottom: 20px;
-			background: linear-gradient(135deg, #fff, var(--accent-color));
-			background-clip: text;
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			animation: fadeInDown 0.8s ease;
-			letter-spacing: -1px;
-		}
-
-		@keyframes fadeInDown {
-			from {
-				opacity: 0;
-				transform: translateY(-30px);
-			}
-
-			to {
-				opacity: 1;
-				transform: translateY(0);
-			}
-		}
-
-		.tagline {
-			font-size: 1.5rem;
-			font-weight: 400;
-			margin-bottom: 25px;
-			color: var(--text-secondary);
-			animation: fadeIn 1.2s ease-in;
-			line-height: 1.8;
-		}
-
-		.rotating-text {
-			font-size: 1.3rem;
-			font-weight: 500;
-			margin: 35px 0;
-			min-height: 60px;
-			color: var(--text-secondary);
-			animation: fadeIn 1.5s ease-in;
-			line-height: 1.6;
-		}
-
-		.tech-stack {
-			display: flex;
-			justify-content: center;
-			gap: 15px;
-			flex-wrap: wrap;
-			margin: 40px 0;
-			animation: fadeIn 2s ease-in;
-		}
-
-		.tech-badge {
-			background: rgba(99, 102, 241, 0.1);
-			border: 1px solid rgba(99, 102, 241, 0.3);
-			color: var(--accent-color);
-			padding: 8px 20px;
-			border-radius: 20px;
-			font-size: 0.9rem;
-			font-weight: 600;
-			transition: all 0.3s ease;
-			backdrop-filter: blur(10px);
-		}
-
-		.tech-badge:hover {
-			background: rgba(99, 102, 241, 0.2);
-			transform: translateY(-3px);
-			box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
-		}
-
-		.cta-buttons {
-			display: flex;
-			gap: 20px;
-			justify-content: center;
-			flex-wrap: wrap;
-			margin-top: 50px;
-		}
-
-		.cta-button {
-			background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-			color: white;
-			padding: 16px 40px;
-			border-radius: 12px;
-			text-decoration: none;
-			font-weight: 700;
-			font-size: 1.1rem;
-			display: inline-flex;
-			align-items: center;
-			gap: 10px;
-			transition: all 0.3s ease;
-			box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
-			animation: fadeIn 2.5s ease-in;
-			position: relative;
-			overflow: hidden;
-		}
-
-		.cta-button::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: -100%;
-			width: 100%;
-			height: 100%;
-			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-			transition: left 0.5s ease;
-		}
-
-		.cta-button:hover::before {
-			left: 100%;
-		}
-
-		.cta-button:hover {
-			transform: translateY(-3px);
-			box-shadow: 0 15px 40px rgba(99, 102, 241, 0.5);
-		}
-
-		.cta-button.secondary {
-			background: transparent;
-			border: 2px solid rgba(99, 102, 241, 0.5);
-			color: var(--accent-color);
-		}
-
-		.cta-button.secondary:hover {
-			background: rgba(99, 102, 241, 0.1);
-			border-color: var(--primary-color);
-		}
-
-		@keyframes fadeIn {
-			from {
-				opacity: 0;
-				transform: translateY(20px);
-			}
-
-			to {
-				opacity: 1;
-				transform: translateY(0);
-			}
-		}
-
-		/* Projects Section */
-		.projects-section {
-			background: var(--dark-bg);
-			padding: 120px 20px;
-			min-height: 100vh;
-			position: relative;
-			z-index: 1;
-		}
-
-		.section-header {
-			text-align: center;
-			max-width: 800px;
-			margin: 0 auto 80px;
-		}
-
-		.section-title {
-			text-align: center;
-			font-size: 3.5rem;
-			font-weight: 800;
-			color: var(--text-color);
-			margin-bottom: 20px;
-			position: relative;
-			animation: slideInUp 0.8s ease-out;
-		}
-
-		.section-title span {
-			background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-			background-clip: text;
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-		}
-
-		.section-subtitle {
-			text-align: center;
-			color: var(--text-secondary);
-			font-size: 1.25rem;
-			margin-bottom: 20px;
-			animation: slideInUp 1s ease-out;
-			font-weight: 400;
-			line-height: 1.8;
-		}
-
-		.section-title::after {
-			content: '';
-			display: block;
-			width: 80px;
-			height: 4px;
-			background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-			margin: 25px auto 0;
-			border-radius: 10px;
-			animation: expandWidth 1s ease-out;
-		}
-
-		@keyframes slideInUp {
-			from {
-				opacity: 0;
-				transform: translateY(30px);
-			}
-
-			to {
-				opacity: 1;
-				transform: translateY(0);
-			}
-		}
-
-		@keyframes expandWidth {
-			from {
-				width: 0;
-			}
-
-			to {
-				width: 100px;
-			}
-		}
-
-		.projects-container {
-			display: grid;
-			grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-			gap: 30px;
-			max-width: 1400px;
-			margin: 0 auto;
-		}
-
-		.project-card {
-			background: var(--card-bg);
-			border-radius: 20px;
-			overflow: hidden;
-			box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-			transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-			text-decoration: none;
-			color: inherit;
-			display: block;
-			position: relative;
-			transform-origin: center;
-			border: 1px solid rgba(99, 102, 241, 0.1);
-		}
-
-		.project-card::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
-			opacity: 0;
-			transition: opacity 0.4s ease;
-			z-index: 0;
-			pointer-events: none;
-		}
-
-		.project-card:hover::before {
-			opacity: 1;
-		}
-
-		.project-card:hover {
-			transform: translateY(-10px);
-			box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
-			border-color: rgba(99, 102, 241, 0.3);
-		}
-
-		.project-image {
-			width: 100%;
-			height: 220px;
-			object-fit: cover;
-			position: relative;
-			transition: transform 0.6s ease;
-		}
-
-		.project-card:hover .project-image {
-			transform: scale(1.05);
-		}
-
-		.project-image-wrapper {
-			overflow: hidden;
-			position: relative;
-			background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
-		}
-
-		.coming-soon-badge {
-			position: absolute;
-			top: 15px;
-			right: 15px;
-			background: linear-gradient(135deg, #f59e0b, #ef4444);
-			color: white;
-			padding: 8px 20px;
-			border-radius: 20px;
-			font-size: 0.85rem;
-			font-weight: 700;
-			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-			z-index: 2;
-			animation: pulse 2s ease-in-out infinite;
-			backdrop-filter: blur(10px);
-		}
-
-		@keyframes pulse {
-
-			0%,
-			100% {
-				transform: scale(1);
-			}
-
-			50% {
-				transform: scale(1.05);
-			}
-		}
-
-		.project-content {
-			padding: 25px;
-			position: relative;
-			z-index: 1;
-		}
-
-		.project-title {
-			font-size: 1.5rem;
-			font-weight: 700;
-			color: var(--text-color);
-			margin-bottom: 12px;
-			transition: all 0.3s ease;
-		}
-
-		.project-card:hover .project-title {
-			color: var(--accent-color);
-			transform: translateX(-5px);
-		}
-
-		.project-description {
-			color: var(--text-secondary);
-			font-size: 1rem;
-			line-height: 1.7;
-			margin-bottom: 20px;
-		}
-
-		.project-link-arrow {
-			display: inline-flex;
-			align-items: center;
-			gap: 8px;
-			color: var(--primary-color);
-			font-weight: 600;
-			font-size: 0.95rem;
-			opacity: 0;
-			transform: translateX(-10px);
-			transition: all 0.3s ease;
-		}
-
-		.project-card:hover .project-link-arrow {
-			opacity: 1;
-			transform: translateX(0);
-		}
-
-		/* Contact Section - Social Media Grid */
-		.contact-section {
-			background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-			padding: 100px 20px;
-			color: white;
-			position: relative;
-			overflow: hidden;
-		}
-
-		.social-grid {
-			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-			gap: 30px;
-			max-width: 1200px;
-			margin: 0 auto;
-		}
-
-		.social-card {
-			background: rgba(255, 255, 255, 0.1);
-			backdrop-filter: blur(10px);
-			border-radius: 20px;
-			padding: 40px 30px;
-			text-align: center;
-			transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-			text-decoration: none;
-			color: white;
-			border: 2px solid rgba(255, 255, 255, 0.2);
-			position: relative;
-			overflow: hidden;
-		}
-
-		.social-card::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: -100%;
-			width: 100%;
-			height: 100%;
-			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-			transition: left 0.6s ease;
-		}
-
-		.social-card:hover::before {
-			left: 100%;
-		}
-
-		.social-card:hover {
-			transform: translateY(-10px) scale(1.05);
-			box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-			border-color: rgba(255, 255, 255, 0.4);
-		}
-
-		.social-icon {
-			width: 80px;
-			height: 80px;
-			border-radius: 20px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			margin: 0 auto 25px;
-			font-size: 2.5rem;
-			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-			transition: all 0.3s ease;
-		}
-
-		.social-card:hover .social-icon {
-			transform: scale(1.15) rotate(5deg);
-			box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-		}
-
-		.social-card h3 {
-			font-size: 1.5rem;
-			font-weight: 700;
-			margin-bottom: 10px;
-		}
-
-		.social-card p {
-			font-size: 1rem;
-			opacity: 0.9;
-			margin: 0;
-		}
-
-		.contact-section::before {
-			content: '';
-			position: absolute;
-			top: -50%;
-			right: -10%;
-			width: 500px;
-			height: 500px;
-			background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-			border-radius: 50%;
-			animation: float 10s ease-in-out infinite;
-		}
-
-		@keyframes float {
-
-			0%,
-			100% {
-				transform: translate(0, 0);
-			}
-
-			50% {
-				transform: translate(-30px, 30px);
-			}
-		}
-
-		/* Footer */
-		.footer {
-			background: rgba(0, 0, 0, 0.3);
-			padding: 60px 20px;
-			text-align: center;
-			color: white;
-			backdrop-filter: blur(10px);
-		}
-
-		.social-links {
-			margin: 30px 0;
-			display: flex;
-			justify-content: center;
-			gap: 20px;
-			flex-wrap: wrap;
-		}
-
-		.social-links a {
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			width: 70px;
-			height: 70px;
-			color: white;
-			color: white;
-			border-radius: 50%;
-			transition: all 0.4s ease;
-			text-decoration: none;
-			font-size: 1.3rem;
-			position: relative;
-			overflow: hidden;
-		}
-
-		.social-links a::before {
-			content: '';
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			width: 0;
-			height: 0;
-			background: white;
-			border-radius: 50%;
-			transform: translate(-50%, -50%);
-			transition: width 0.5s, height 0.5s;
-		}
-
-		.social-links a:hover::before {
-			width: 100px;
-			height: 100px;
-		}
-
-		.social-links a i {
-			position: relative;
-			z-index: 1;
-			transition: color 0.3s ease;
-		}
-
-		.social-links a:hover {
-			transform: translateY(-8px) rotate(360deg);
-			box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
-		}
-
-		.social-links a:hover i {
-			animation: bounce 0.6s ease;
-		}
-
-		/* Loading State */
-		.loading {
-			text-align: center;
-			padding: 60px 20px;
-			color: #999;
-		}
-
-		@media (max-width: 768px) {
-			.hero-title {
-				font-size: 2.5rem;
-			}
-
-			.rotating-text {
-				font-size: 1.2rem;
-			}
-
-			.section-title {
-				font-size: 2.5rem;
-			}
-
-			.projects-container {
-				grid-template-columns: 1fr;
-				gap: 25px;
-			}
-
-			.social-grid {
-				grid-template-columns: 1fr;
-			}
-
-			.brand-logo {
-				max-width: 180px;
-			}
-
-			.cta-buttons {
-				flex-direction: column;
-			}
-
-			.cta-button {
-				width: 100%;
-			}
-
-			.tech-stack {
-				gap: 10px;
-			}
-
-			.theme-toggle {
-				width: 50px;
-				height: 50px;
-				top: 20px;
-				left: 20px;
-			}
-
-			.social-links a {
-				width: 60px;
-				height: 60px;
-				font-size: 1.5rem;
-			}
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>رحبة التطوير | تطوير تطبيقات ومواقع وحلول رقمية متكاملة</title>
+    <meta name="description"
+        content="رحبة التطوير - شركة متخصصة في تطوير تطبيقات الجوال، المواقع الإلكترونية، المتاجر، الهويات البصرية، وأتمتة الأعمال">
+    <link rel="icon" href="assets/images/icon.ico" type="image/x-icon">
+
+    <!-- Bootstrap 5 RTL -->
+    <link href="assets/vendor/bootstrap.rtl.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="assets/vendor/fontawesome/all.min.css">
+    <!-- Google Font -->
+    <link href="assets/vendor/fonts/cairo.css" rel="stylesheet">
+    <!-- Tippy.js for Tooltips -->
+    <link rel="stylesheet" href="assets/vendor/tippy.css" />
+    <link rel="stylesheet" href="assets/vendor/tippy-light.css" />
+
+    <link rel="stylesheet" href="assets/css/main.css?v=2.0">
 </head>
 
 <body>
+    <!-- Progress Bar -->
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
 
-	<body>
-		<!-- Theme Toggle Button (Hidden) -->
-		<!-- <button class="theme-toggle" id="themeToggle" aria-label="تبديل الوضع">
-			<i class="fas fa-moon"></i>
-		</button> -->
+    <!-- Fixed Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <img src="assets/images/brand.webp" alt="رحبة التطوير" class="brand-logo-nav">
+                <span class="brand-text">رحبة<span class="text-primary">التطوير</span></span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">الرئيسية</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">من نحن</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">الخدمات</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#projects">المشاريع</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#calculator">احسب مشروعك</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#faq">الأسئلة الشائعة</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">تواصل معنا</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-		<!-- Header Section -->
-		<section class="header-section">
-			<div class="hero-content">
-				<img src="./images/brand.png" alt="رحبة التطوير" class="brand-logo">
-				<h1 class="hero-title">نجعل الفكرة واقعًا</h1>
-				<p class="tagline">
-					متخصصون في تصميم وتطوير تطبيقات الجوال عالية الجودة التي تلبي احتياجات عملائنا.
-				</p>
-				<div class="tech-stack">
-					<span class="tech-badge">Android <i class="fab fa-android"></i></span>
-					<span class="tech-badge">Java <i class="fab fa-java"></i></span>
-					<span class="tech-badge">Kotlin <i class="fas fa-code"></i></span>
-					<span class="tech-badge">Flutter <svg
-							style="width: 1em; height: 1em; display: inline-block; vertical-align: middle;"
-							viewBox="0 0 24 24" fill="currentColor">
-							<path
-								d="M14.314 0L2.3 12 6 15.7 21.684.013h-7.357zm.014 11.072L7.857 17.53l6.47 6.47H21.7l-6.46-6.468 6.46-6.46h-7.37z" />
-						</svg></span>
-					<span class="tech-badge">Mobile Dev <i class="fas fa-mobile-alt"></i></span>
-				</div>
-				<div class="rotating-text" id="rotatingText">
-					تصميم وتطوير تطبيقات جوال بجودة عالية
-				</div>
-				<div class="cta-buttons">
-					<a href="#projects" class="cta-button">
-						<i class="fas fa-rocket"></i>
-						<span>استكشف المشاريع</span>
-					</a>
-					<a href="#contact" class="cta-button secondary">
-						<i class="fas fa-envelope"></i>
-						<span>تواصل معنا</span>
-					</a>
-				</div>
-			</div>
-		</section>
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="hero-bg-animation"></div>
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-8 col-xl-7 hero-content">
+                    <div class="text-center">
+                        <div class="hero-brand-logo mb-4">
+                            <img src="assets/images/logo.webp" alt="رحبة التطوير">
+                        </div>
+                    </div>
+                    <h1 class="hero-title text-center">
+                        نحول أفكارك إلى<br>
+                        <span class="gradient-text">واقع رقمي</span>
+                    </h1>
+                    <p class="hero-subtitle text-center">
+                        <span class="hero-subtitle-highlight">نقدم حلولاً رقمية
+                            متكاملة تنمّي مشروعك وتوفّر وقتك.</span>
+                    </p>
+                    <div class="hero-buttons text-center">
+                        <a href="#calculator" class="btn btn-primary btn-lg px-4 py-3 me-2 mb-3">
+                            <i class="fas fa-calculator ms-2"></i>
+                            احسب تكلفة مشروعك
+                        </a>
+                        <a href="#projects" class="btn btn-outline-light btn-lg px-4 py-3 mb-3">
+                            <i class="fas fa-briefcase ms-2"></i>
+                            شاهد أعمالنا
+                        </a>
+                    </div>
 
-		<!-- Projects Section -->
-		<section class="projects-section" id="projects">
-			<div class="container">
-				<div class="section-header">
-					<h2 class="section-title">
-						<span>مشاريعنا المميزة</span>
-					</h2>
-					<p class="section-subtitle">
-						اكتشف مجموعة من التطبيقات المبتكرة التي صممتها وطورتها بعناية
-					</p>
-				</div>
-				<div class="projects-container" id="projectsContainer">
-					<div class="loading">
-						<i class="fas fa-spinner fa-spin fa-3x mb-3"></i>
-						<p>جاري تحميل المشاريع...</p>
-					</div>
-				</div>
-			</div>
-		</section>
+                    <!-- Tech Stack Badges -->
+                    <div class="tech-stack">
+                        <span class="tech-badge" data-tippy-content="تطوير تطبيقات Android أصلية">
+                            <i class="fab fa-android ms-2"></i> Android
+                        </span>
+                        <span class="tech-badge" data-tippy-content="تطبيقات متعددة المنصات">
+                            <i class="fas fa-mobile-alt ms-2"></i> Flutter
+                        </span>
+                        <span class="tech-badge" data-tippy-content="تطوير مواقع حديثة وسريعة">
+                            <i class="fas fa-code ms-2"></i> Web Dev
+                        </span>
+                        <span class="tech-badge" data-tippy-content="تصميم هويات بصرية احترافية">
+                            <i class="fas fa-palette ms-2"></i> Design
+                        </span>
+                        <span class="tech-badge" data-tippy-content="أتمتة العمليات والجداول">
+                            <i class="fas fa-robot ms-2"></i> Automation
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-		<!-- Social Media Section -->
-		<section class="contact-section" id="contact">
-			<div class="container">
-				<h2 class="section-title text-white">تواصل معنا</h2>
-				<p class="section-subtitle text-white" style="font-size: 1.3rem; margin-bottom: 50px; opacity: 0.95;">
-					نسعد بالتواصل معك عبر منصاتنا الاجتماعية</p>
-				<div class="social-grid">
-					<a href="https://www.facebook.com/rahbadev/" target="_blank" class="social-card">
-						<div class="social-icon" style="background: linear-gradient(135deg, #1877f2, #0c63d4);">
-							<i class="fab fa-facebook-f"></i>
-						</div>
-						<h3>Facebook</h3>
-						<p>تابعنا على فيسبوك</p>
-					</a>
-					<a href="https://twitter.com/rahbadev" target="_blank" class="social-card">
-						<div class="social-icon" style="background: linear-gradient(135deg, #1da1f2, #0d8bd9);">
-							<i class="fab fa-twitter"></i>
-						</div>
-						<h3>Twitter</h3>
-						<p>تابع آخر الأخبار</p>
-					</a>
-					<a href="https://t.me/rahbadev" target="_blank" class="social-card">
-						<div class="social-icon" style="background: linear-gradient(135deg, #0088cc, #006ba3);">
-							<i class="fab fa-telegram-plane"></i>
-						</div>
-						<h3>Telegram</h3>
-						<p>انضم لقناتنا</p>
-					</a>
-					<a href="https://github.com/rahbadev" target="_blank" class="social-card">
-						<div class="social-icon" style="background: linear-gradient(135deg, #24292e, #1a1e22);">
-							<i class="fab fa-github"></i>
-						</div>
-						<h3>GitHub</h3>
-						<p>تصفح المشاريع</p>
-					</a>
-					<a href="https://play.google.com/store/apps/dev?id=6736668226615202750" target="_blank"
-						class="social-card">
-						<div class="social-icon" style="background: linear-gradient(135deg, #34a853, #0f9d58);">
-							<i class="fab fa-google-play"></i>
-						</div>
-						<h3>Google Play</h3>
-						<p>حمّل تطبيقاتنا</p>
-					</a>
-					<a href="mailto:rahbadev@gmail.com" class="social-card">
-						<div class="social-icon" style="background: linear-gradient(135deg, #ea4335, #c5221f);">
-							<i class="fas fa-envelope"></i>
-						</div>
-						<h3>Email</h3>
-						<p>راسلنا مباشرة</p>
-					</a>
-				</div>
-			</div>
-		</section>
+    <!-- About Section -->
+    <section id="about" class="section-padding bg-dark-alt">
+        <div class="container">
+            <div class="text-center mb-5">
+                <div class="section-header">
+                    <span class="section-badge">من نحن</span>
+                    <h2 class="section-title">رحبة التطوير</h2>
+                    <div class="section-divider mx-auto"></div>
+                    <p class="section-subtitle">شريكك في بناء مستقبل رقمي مبتكر</p>
+                </div>
+            </div>
 
-		<!-- Footer -->
-		<footer class="footer">
-			<div class="container">
-				<h3 style="font-size: 1.8rem; margin-bottom: 30px; color: var(--text-color);">تابعنا على</h3>
-				<div class="social-links">
-					<a href="https://www.facebook.com/rahbadev/" target="_blank" title="Facebook"
-						style="background: #1877f2;">
-						<i class="fab fa-facebook-f"></i>
-					</a>
-					<a href="https://twitter.com/rahbadev" target="_blank" title="Twitter" style="background: #1da1f2;">
-						<i class="fab fa-twitter"></i>
-					</a>
-					<a href="https://t.me/rahbadev" target="_blank" title="Telegram" style="background: #0088cc;">
-						<i class="fab fa-telegram-plane"></i>
-					</a>
-					<a href="https://github.com/rahbadev" target="_blank" title="GitHub" style="background: #24292e;">
-						<i class="fab fa-github"></i>
-					</a>
-					<a href="https://play.google.com/store/apps/dev?id=6736668226615202750" target="_blank"
-						title="Google Play" style="background: #34a853;">
-						<i class="fab fa-google-play"></i>
-					</a>
-					<a href="mailto:rahbadev@gmail.com" title="Email" style="background: #ea4335;">
-						<i class="fas fa-envelope"></i>
-					</a>
-				</div>
-				<p style="color: var(--text-secondary); margin-top: 30px;">© 2026 رحبة التطوير - جميع الحقوق محفوظة</p>
-			</div>
-		</footer>
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-10 col-xl-9">
+                    <div class="about-intro-card">
+                        <p class="lead text-center mb-0">
+                            نقدّم <span class="text-gradient">حلول رقمية متكاملة</span> تجمع بين
+                            الإبداع والتقنية.
+                            لأن كل مشروع يستحق لمسة فريدة تعكس هويته وتحقق أهدافه.
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-		<!-- Bootstrap JS -->
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+            <!-- لماذا تختارنا -->
+            <div class="row justify-content-center">
+                <div class="col-lg-11">
+                    <h3 class="text-center text-white mb-5 section-subtitle-heading">
+                        <span class="text-gradient-alt">لماذا تختار</span> رحبة التطوير ؟
+                    </h3>
+                    <div class="row g-4">
+                        <div class="col-md-6 col-lg-3">
+                            <div class="feature-card-modern">
+                                <div class="feature-card-icon bg-gradient-success">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <h4 class="feature-card-title">جودة عالية</h4>
+                                <p class="feature-card-desc">نهتم بالتفاصيل لضمان منتج نهائي احترافي</p>
+                                <div class="feature-card-glow glow-success"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="feature-card-modern">
+                                <div class="feature-card-icon bg-gradient-warning">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <h4 class="feature-card-title">تسليم سريع</h4>
+                                <p class="feature-card-desc">نلتزم بالمواعيد المتفق عليها ونحترم وقتك</p>
+                                <div class="feature-card-glow glow-warning"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="feature-card-modern">
+                                <div class="feature-card-icon bg-gradient-info">
+                                    <i class="fas fa-headset"></i>
+                                </div>
+                                <h4 class="feature-card-title">دعم مستمر</h4>
+                                <p class="feature-card-desc">نبقى معك حتى بعد التسليم والإطلاق بدعم شامل</p>
+                                <div class="feature-card-glow glow-info"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="feature-card-modern">
+                                <div class="feature-card-icon bg-gradient-danger">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                                <h4 class="feature-card-title">أسعار مناسبة</h4>
+                                <p class="feature-card-desc">جودة عالية بتكلفة معقولة ومناسبة لجميع الميزانيات</p>
+                                <div class="feature-card-glow glow-danger"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-		<script>
-			// Dark Mode Only (Theme Toggle Removed)
-			document.documentElement.setAttribute('data-theme', 'dark');
+    <!-- Services Section -->
+    <section id="services" class="section-padding">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <span class="section-badge">خدماتنا</span>
+                <h2 class="section-title">ما هي خدماتنا؟</h2>
+                <div class="section-divider mx-auto"></div>
+                <p class="section-subtitle">نقدم حلول بسيطة وعملية لكل احتياجاتك الرقمية</p>
+            </div>
 
-			// Rotating text animation
-			const texts = [
-				'تصميم وتطوير تطبيقات جوال بجودة عالية',
-				'تحقيق رؤيتك من خلال التطبيقات المتميزة',
-				'تطوير التطبيقات لإثراء تجارب المستخدم'
-			];
-			let currentIndex = 0;
-			const rotatingElement = document.getElementById('rotatingText');
+            <div class="row g-4" id="servicesContainer">
+                <!-- Services will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
 
-			function rotateText() {
-				rotatingElement.style.opacity = '0';
-				setTimeout(() => {
-					currentIndex = (currentIndex + 1) % texts.length;
-					rotatingElement.textContent = texts[currentIndex];
-					rotatingElement.style.opacity = '1';
-				}, 500);
-			}
+    <!-- Projects Section -->
+    <section id="projects" class="section-padding bg-dark-alt">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <span class="section-badge">أعمالنا</span>
+                <h2 class="section-title">مشاريعنا المميزة</h2>
+                <div class="section-divider mx-auto"></div>
+                <p class="section-subtitle">تصفح مجموعة من المشاريع التي أنجزناها بنجاح</p>
+            </div>
 
-			rotatingElement.style.transition = 'opacity 0.5s ease';
-			setInterval(rotateText, 4000);
+            <!-- Project Categories Filter -->
+            <div class="project-filters mb-5">
+                <button class="filter-btn active" data-filter="all">
+                    <i class="fas fa-th me-2"></i>الكل
+                </button>
+                <button class="filter-btn" data-filter="apps">
+                    <i class="fas fa-mobile-alt me-2"></i>تطبيقات
+                </button>
+                <button class="filter-btn" data-filter="websites">
+                    <i class="fas fa-globe me-2"></i>مواقع
+                </button>
+                <button class="filter-btn" data-filter="stores">
+                    <i class="fas fa-shopping-cart me-2"></i>متاجر
+                </button>
+                <button class="filter-btn" data-filter="branding">
+                    <i class="fas fa-palette me-2"></i>هويات بصرية
+                </button>
+                <button class="filter-btn" data-filter="sheets">
+                    <i class="fas fa-table me-2"></i>جداول بيانات
+                </button>
+            </div>
 
-			// Smooth scroll
-			document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-				anchor.addEventListener('click', function (e) {
-					e.preventDefault();
-					const target = document.querySelector(this.getAttribute('href'));
-					if (target) {
-						target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-					}
-				});
-			});
+            <div class="row g-4" id="projectsContainer">
+                <!-- Projects will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
 
-			// Load projects
-			(function () {
-				fetch('projects.json')
-					.then(response => {
-						if (!response.ok) throw new Error('Failed to load projects');
-						return response.json();
-					})
-					.then(projects => {
-						renderProjects(projects);
-					})
-					.catch(error => {
-						console.error('Error loading projects:', error);
-						document.getElementById('projectsContainer').innerHTML =
-							'<div class="loading"><p style="color: #999;">فشل تحميل المشاريع. يرجى المحاولة لاحقاً.</p></div>';
-					});
+    <!-- Calculator Section -->
+    <section id="calculator" class="section-padding">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <span class="section-badge">حاسبة ذكية</span>
+                <h2 class="section-title">احسب تكلفة مشروعك</h2>
+                <div class="section-divider mx-auto"></div>
+                <p class="section-subtitle">
+                    اختر الخدمات اللي تحتاجها وشوف التكلفة فوراً
+                </p>
+            </div>
 
-				function renderProjects(projects) {
-					const container = document.getElementById('projectsContainer');
+            <div class="row">
+                <div class="col-lg-8">
+                    <div id="servicesGrid">
+                        <!-- Services will be loaded here by JavaScript -->
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">جاري التحميل...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-					if (!projects || projects.length === 0) {
-						container.innerHTML = '<div class="loading"><p>لا توجد مشاريع متاحة حالياً.</p></div>';
-						return;
-					}
+                <div class="col-lg-4">
+                    <div class="calculator-summary">
+                        <h4>
+                            <i class="fas fa-receipt"></i>
+                            ملخص مشروعك
+                        </h4>
+                        <div id="selectedServicesList">
+                            <div class="empty-summary">
+                                <i class="fas fa-info-circle"></i>
+                                اختر الخدمات لعرض التكلفة
+                            </div>
+                        </div>
+                        <div class="summary-total">
+                            <span class="summary-total-label">الإجمالي</span>
+                            <span id="totalPrice">0$</span>
+                        </div>
+                        <div class="calculator-actions">
+                            <button id="resetCalc">
+                                <i class="fas fa-redo"></i> إعادة تعيين
+                            </button>
+                            <button id="requestQuote">
+                                <i class="fab fa-whatsapp"></i> إرسال الطلب
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-					container.innerHTML = '';
+    <!-- FAQ Section -->
+    <section id="faq" class="section-padding bg-dark-alt">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <span class="section-badge">أسئلة شائعة</span>
+                <h2 class="section-title">إجابات لأسئلتك</h2>
+                <div class="section-divider mx-auto"></div>
+                <p class="section-subtitle">كل ما تحتاج معرفته قبل البدء بمشروعك</p>
+            </div>
 
-					projects.forEach(project => {
-						const card = createProjectCard(project);
-						container.innerHTML += card;
-					});
-				}
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="accordion faq-accordion" id="faqAccordion">
+                        <!-- FAQ items will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-				function createProjectCard(project) {
-					const thumbnail = project.icon
-						? project.link + project.icon
-						: (project.thumbnail ? project.link + project.thumbnail : './images/brand.png');
+    <!-- Contact Section -->
+    <section id="contact" class="section-padding">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <span class="section-badge">تواصل معنا</span>
+                <h2 class="section-title">ابدأ مشروعك الآن</h2>
+                <div class="section-divider mx-auto"></div>
+                <p class="section-subtitle">نسعد بالتواصل معك عبر قنواتنا المختلفة</p>
+            </div>
 
-					const isComingSoon = project.status === 'coming-soon';
-					const comingSoonBadge = isComingSoon ? '<span class="coming-soon-badge">قريباً...</span>' : '';
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <a href="https://wa.me/963000000000" target="_blank" class="contact-card">
+                        <div class="contact-icon whatsapp">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <h4>واتساب</h4>
+                        <p>تواصل مباشر وسريع</p>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="mailto:rahbadev@gmail.com" class="contact-card">
+                        <div class="contact-icon email">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h4>البريد الإلكتروني</h4>
+                        <p>rahbadev@gmail.com</p>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="https://t.me/rahbadev" target="_blank" class="contact-card">
+                        <div class="contact-icon telegram">
+                            <i class="fab fa-telegram-plane"></i>
+                        </div>
+                        <h4>تيليجرام</h4>
+                        <p>@rahbadev</p>
+                    </a>
+                </div>
+            </div>
 
-					return `
-					<a href="${project.link}" class="project-card">
-						<div class="project-image-wrapper">
-							<img src="${thumbnail}" alt="${project.title}" class="project-image" 
-								 onerror="this.src='./images/brand.png'">
-							${comingSoonBadge}
-						</div>
-						<div class="project-content">
-							<h3 class="project-title">${project.title}</h3>
-							<p class="project-description">${project.tagline || project.description || ''}</p>
-							<span class="project-link-arrow">
-								<span>اكتشف المزيد</span>
-								<i class="fas fa-arrow-left"></i>
-							</span>
-						</div>
-					</a>
-				`;
-				}
-			})();
-		</script>
+            <div class="social-links-section mt-5">
+                <h4 class="text-center mb-4">تابعنا على</h4>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/rahbadev/" target="_blank" class="social-link facebook"
+                        data-tippy-content="فيسبوك">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://twitter.com/rahbadev" target="_blank" class="social-link twitter"
+                        data-tippy-content="تويتر">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://github.com/rahbadev" target="_blank" class="social-link github"
+                        data-tippy-content="جيت هاب">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://play.google.com/store/apps/dev?id=6736668226615202750" target="_blank"
+                        class="social-link playstore" data-tippy-content="متجر جوجل بلاي">
+                        <i class="fab fa-google-play"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-	</body>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <div class="footer-brand mb-3">
+                        <img src="assets/images/brand.webp" alt="رحبة التطوير" class="footer-logo">
+                        <h5>رحبة التطوير</h5>
+                    </div>
+                    <p class="text-muted">
+                        نحول أفكارك إلى واقع رقمي. متخصصون في تطوير التطبيقات، المواقع، والحلول الرقمية المتكاملة.
+                    </p>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-lg-0">
+                    <h6 class="footer-title">روابط سريعة</h6>
+                    <ul class="footer-links">
+                        <li><a href="#home">الرئيسية</a></li>
+                        <li><a href="#about">من نحن</a></li>
+                        <li><a href="#services">الخدمات</a></li>
+                        <li><a href="#projects">المشاريع</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-lg-0">
+                    <h6 class="footer-title">الخدمات</h6>
+                    <ul class="footer-links">
+                        <li><a href="#calculator">تطبيقات الجوال</a></li>
+                        <li><a href="#calculator">تطوير مواقع</a></li>
+                        <li><a href="#calculator">هويات بصرية</a></li>
+                        <li><a href="#calculator">أتمتة الأعمال</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <h6 class="footer-title">معلومات التواصل</h6>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-envelope me-2"></i>
+                            <a href="mailto:rahbadev@gmail.com">rahbadev@gmail.com</a>
+                        </li>
+                        <li>
+                            <i class="fab fa-whatsapp me-2"></i>
+                            <a href="https://wa.me/963000000000">واتساب</a>
+                        </li>
+                        <li>
+                            <i class="fab fa-telegram-plane me-2"></i>
+                            <a href="https://t.me/rahbadev">@rahbadev</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="footer-bottom">
+                <p class="mb-0">&copy; 2026 رحبة التطوير. جميع الحقوق محفوظة.</p>
+                <p class="mb-0 text-muted small">صُنع بـ <i class="fas fa-heart text-danger"></i> في سوريا</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollTop" class="scroll-top-btn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="assets/vendor/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/popper.min.js"></script>
+    <script src="assets/vendor/tippy.min.js"></script>
+    <script src="assets/js/app.js?v=2.0"></script>
+    <script src="assets/js/calculator-new.js"></script>
+    <script src="assets/js/projects.js"></script>
+</body>
 
 </html>
