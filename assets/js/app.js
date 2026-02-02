@@ -210,45 +210,63 @@ function adjustColor(color, percent) {
 
 async function loadServices() {
     try {
+        console.log('Loading services...');
         const response = await fetch('data/services.json');
-        const services = await response.json();
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log('Services data loaded:', data);
+
         const container = document.getElementById('servicesContainer');
+        console.log('Container element:', container);
 
-        if (!container) return;
+        if (!container) {
+            console.error('servicesContainer not found!');
+            return;
+        }
 
-        container.innerHTML = services.map(service => `
-            <div class="col-lg-4 col-md-6">
-                <div class="service-card">
-                    <div class="service-icon" style="background: linear-gradient(135deg, ${service.color}, ${adjustColor(service.color, -20)});">
-                        <i class="${service.icon}"></i>
+        container.innerHTML = data.categories.map(category => `
+            <div class="col-12 mb-5">
+                <div class="service-category-section">
+                    <div class="category-header">
+                        <div class="category-icon-badge" style="background: linear-gradient(135deg, ${category.color}, ${adjustColor(category.color, -20)});">
+                            <i class="${category.icon}"></i>
+                        </div>
+                        <div class="category-text">
+                            <h3 class="category-title">${category.title}</h3>
+                            <p class="category-description">${category.description}</p>
+                        </div>
                     </div>
-                    <h3>${service.title}</h3>
-                    ${service.targetAudience ? `
-                    <div class="target-audience">
-                        <i class="fas fa-users me-2"></i>
-                        <small><strong>لمن مقدمة؟</strong> ${service.targetAudience}</small>
-                    </div>
-                    ` : ''}
-                    <p>${service.description}</p>
-                    <ul class="service-features">
-                        ${service.features.map(feature => `
-                            <li><i class="fas fa-check-circle"></i> ${feature}</li>
+                    
+                    <div class="row g-3 mt-2 justify-content-center">
+                        ${category.services.map(service => `
+                            <div class="col-lg-3 col-md-6">
+                                <div class="service-card-simple">
+                                    <div class="service-icon-simple" style="color: ${category.color};">
+                                        <i class="${service.icon}"></i>
+                                    </div>
+                                    <h4 class="service-title-simple">${service.title}</h4>
+                                    <p class="service-desc-simple">${service.description}</p>
+                                    <div class="service-price-simple">
+                                        <span class="price-label-simple">${service.priceLabel}</span>
+                                        ${service.price > 0 ? `<span class="price-value-simple" style="color: ${category.color};">${service.price}$</span>` : ''}
+                                    </div>
+                                    ${service.exampleUrl ? `
+                                        <a href="${service.exampleUrl}" class="btn-view-example">
+                                            <i class="fas fa-eye"></i> مثال
+                                        </a>
+                                    ` : `<div class="btn-placeholder"></div>`}
+                                </div>
+                            </div>
                         `).join('')}
-                    </ul>
-                    <div class="service-price">
-                        <div class="price-tag">${service.priceNote}</div>
-                        <div class="price-value">${service.startingPrice > 0 ? service.startingPrice + service.currency : service.priceNote}</div>
                     </div>
                 </div>
             </div>
         `).join('');
 
     } catch (error) {
-        document.getElementById('servicesContainer').innerHTML = `
-            <div class="col-12 text-center">
-                <p class="text-muted">حدث خطأ في تحميل الخدمات. يرجى المحاولة لاحقاً.</p>
-            </div>
-        `;
+        console.error('Error loading services:', error);
     }
 }
 
@@ -295,7 +313,7 @@ async function loadFAQ() {
     if (!container) return;
 
     container.innerHTML = faqData.map((item, index) => `
-        <div class="accordion-item">
+    < div class="accordion-item" >
             <h2 class="accordion-header" id="faqHeading${index}">
                 <button class="accordion-button ${index !== 0 ? 'collapsed' : ''}" 
                         type="button" 
@@ -314,7 +332,7 @@ async function loadFAQ() {
                     ${item.answer}
                 </div>
             </div>
-        </div>
+        </div >
     `).join('');
 }
 
@@ -377,7 +395,7 @@ function showNotification(message, type = 'info') {
 
 // Format currency
 function formatCurrency(amount, currency = '$') {
-    return `${amount}${currency}`;
+    return `${amount}${currency} `;
 }
 
 // Validate email

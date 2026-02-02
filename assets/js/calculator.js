@@ -1,417 +1,297 @@
 // =========================================
-// Smart Calculator for Project Pricing
+// Smart Calculator - Simple & Modern
 // =========================================
 
-const CalculatorApp = {
-    // Calculator State
+const SmartCalculator = {
+    // Current State
     state: {
-        currentTab: 'apps',
-        selections: {
-            apps: { type: null, addons: [] },
-            web: { type: null, addons: [] },
-            store: { type: null, addons: [] },
-            branding: { type: null, addons: [] },
-            automation: { type: null, addons: [] }
-        }
+        activeTab: 'design',
+        selectedServices: []
     },
 
-    // Pricing Data
-    pricingData: {
-        apps: {
-            title: 'تطبيقات الجوال',
-            icon: 'fas fa-mobile-alt',
-            color: '#6366f1',
-            options: [
-                { id: 'simple', name: 'تطبيق بسيط', price: 300, desc: 'تطبيق بوظائف أساسية (3-5 صفحات)' },
-                { id: 'medium', name: 'تطبيق متوسط', price: 600, desc: 'تطبيق متكامل مع قاعدة بيانات (8-12 صفحة)' },
-                { id: 'advanced', name: 'تطبيق متقدم', price: 1200, desc: 'تطبيق معقد مع مميزات متقدمة' }
-            ],
-            addons: [
-                { id: 'backend', name: 'خادم خلفي (Backend)', price: 200 },
-                { id: 'admin', name: 'لوحة تحكم إدارية', price: 150 },
-                { id: 'notifications', name: 'نظام إشعارات Push', price: 100 },
-                { id: 'maps', name: 'خرائط وموقع جغرافي', price: 80 }
-            ]
-        },
-        web: {
-            title: 'المواقع الإلكترونية',
-            icon: 'fas fa-globe',
-            color: '#10b981',
-            options: [
-                { id: 'landing', name: 'صفحة هبوط (Landing)', price: 150, desc: 'صفحة واحدة احترافية' },
-                { id: 'personal', name: 'موقع شخصي', price: 250, desc: 'موقع متعدد الصفحات (5-8 صفحات)' },
-                { id: 'corporate', name: 'موقع شركة', price: 500, desc: 'موقع متكامل مع لوحة تحكم' }
-            ],
-            addons: [
-                { id: 'domain', name: 'حجز نطاق واستضافة (سنة)', price: 50 },
-                { id: 'seo', name: 'تحسين محركات البحث SEO', price: 100 },
-                { id: 'content', name: 'كتابة المحتوى', price: 80 },
-                { id: 'multilang', name: 'دعم متعدد اللغات', price: 120 }
-            ]
-        },
-        store: {
-            title: 'المتاجر الإلكترونية',
-            icon: 'fas fa-shopping-cart',
-            color: '#f59e0b',
-            options: [
-                { id: 'basic', name: 'متجر أساسي', price: 400, desc: 'متجر جاهز بـ 20 منتج' },
-                { id: 'standard', name: 'متجر قياسي', price: 700, desc: 'متجر متكامل بـ 100 منتج' },
-                { id: 'premium', name: 'متجر احترافي', price: 1200, desc: 'متجر مخصص بالكامل' }
-            ],
-            addons: [
-                { id: 'payment', name: 'ربط بوابات الدفع', price: 150 },
-                { id: 'shipping', name: 'نظام الشحن والتوصيل', price: 100 },
-                { id: 'multi_vendor', name: 'نظام البائعين المتعددين', price: 300 },
-                { id: 'inventory', name: 'إدارة المخزون المتقدمة', price: 150 }
-            ]
-        },
-        branding: {
-            title: 'الهوية البصرية',
-            icon: 'fas fa-palette',
-            color: '#ec4899',
-            options: [
-                { id: 'logo_only', name: 'شعار فقط', price: 50, desc: 'تصميم شعار احترافي (3 خيارات)' },
-                { id: 'basic_identity', name: 'هوية أساسية', price: 120, desc: 'شعار + بطاقات أعمال' },
-                { id: 'full_identity', name: 'هوية متكاملة', price: 250, desc: 'شعار + دليل هوية + مطبوعات' }
-            ],
-            addons: [
-                { id: 'social_media', name: 'تصاميم سوشيال ميديا', price: 80 },
-                { id: 'print', name: 'تصاميم المطبوعات', price: 60 },
-                { id: 'packaging', name: 'تصميم التغليف', price: 100 },
-                { id: 'source_files', name: 'ملفات مفتوحة المصدر', price: 30 }
-            ]
-        },
-        automation: {
-            title: 'أتمتة الأعمال',
-            icon: 'fas fa-robot',
-            color: '#8b5cf6',
-            options: [
-                { id: 'organize', name: 'تنظيم وتنسيق', price: 80, desc: 'ترتيب البيانات والصيغ' },
-                { id: 'dashboard', name: 'لوحة قيادة', price: 150, desc: 'رسوم بيانية وتقارير' },
-                { id: 'full_automation', name: 'أتمتة كاملة', price: 300, desc: 'Apps Script + ربط APIs' }
-            ],
-            addons: [
-                { id: 'email_automation', name: 'أتمتة البريد الإلكتروني', price: 80 },
-                { id: 'alerts', name: 'نظام التنبيهات التلقائية', price: 60 },
-                { id: 'integration', name: 'ربط مع خدمات خارجية', price: 120 }
-            ]
-        }
+    // Services Data
+    services: {
+        design: [
+            { id: 'logo', name: 'تصميم شعار احترافي', price: 50, icon: 'fa-palette' },
+            { id: 'business-card', name: 'تصميم بطاقة أعمال', price: 20, icon: 'fa-id-card' },
+            { id: 'brand-identity', name: 'هوية بصرية متكاملة', price: 150, icon: 'fa-copyright' },
+            { id: 'social-media', name: 'تصاميم سوشيال ميديا', price: 80, icon: 'fa-share-alt' },
+            { id: 'brochure', name: 'تصميم بروشور / فلاير', price: 30, icon: 'fa-file-alt' },
+            { id: 'packaging', name: 'تصميم تغليف منتج', price: 100, icon: 'fa-box-open' }
+        ],
+        web: [
+            { id: 'landing-page', name: 'صفحة هبوط احترافية', price: 150, icon: 'fa-pager' },
+            { id: 'personal-site', name: 'موقع شخصي / سيرة ذاتية', price: 100, icon: 'fa-user-circle' },
+            { id: 'portfolio', name: 'موقع معرض أعمال', price: 200, icon: 'fa-briefcase' },
+            { id: 'corporate', name: 'موقع شركة متكامل', price: 500, icon: 'fa-building' },
+            { id: 'blog', name: 'موقع مدونة', price: 120, icon: 'fa-blog' },
+            { id: 'linktree', name: 'صفحة روابط (Linktree)', price: 50, icon: 'fa-link' }
+        ],
+        apps: [
+            { id: 'simple-app', name: 'تطبيق بسيط (3-5 صفحات)', price: 300, icon: 'fa-mobile-alt' },
+            { id: 'medium-app', name: 'تطبيق متوسط (8-12 صفحة)', price: 600, icon: 'fa-mobile-screen' },
+            { id: 'advanced-app', name: 'تطبيق متقدم ومعقد', price: 1200, icon: 'fa-rocket' },
+            { id: 'store-app', name: 'تطبيق متجر إلكتروني', price: 800, icon: 'fa-shopping-bag' },
+            { id: 'app-store', name: 'نشر على App Store', price: 500, icon: 'fa-app-store-ios' },
+            { id: 'play-store', name: 'نشر على Google Play', price: 200, icon: 'fa-google-play' }
+        ],
+        sheets: [
+            { id: 'organize-data', name: 'تنظيم وترتيب البيانات', price: 40, icon: 'fa-table' },
+            { id: 'dashboard', name: 'لوحة قيادة ورسوم بيانية', price: 80, icon: 'fa-chart-line' },
+            { id: 'automation', name: 'أتمتة كاملة مع Apps Script', price: 150, icon: 'fa-robot' },
+            { id: 'inventory', name: 'نظام إدارة مخزون', price: 120, icon: 'fa-warehouse' },
+            { id: 'crm', name: 'نظام إدارة عملاء (CRM)', price: 100, icon: 'fa-users' },
+            { id: 'api-integration', name: 'ربط مع APIs خارجية', price: 80, icon: 'fa-plug' }
+        ]
     },
 
-    // Initialize Calculator
+    // Initialize
     init() {
-        this.renderCalculator();
-        this.attachEventListeners();
+        console.log('SmartCalculator: Initializing...');
+        const gridElement = document.getElementById('servicesGrid');
+        if (!gridElement) {
+            console.error('SmartCalculator: servicesGrid element not found!');
+            return;
+        }
+        console.log('SmartCalculator: servicesGrid found');
+        this.renderServices();
+        this.attachEvents();
+        console.log('SmartCalculator: Initialization complete');
     },
 
-    // Render Calculator HTML
-    renderCalculator() {
-        const container = document.getElementById('calculatorApp');
-        if (!container) return;
+    // Render Services for Active Tab
+    renderServices() {
+        console.log('renderServices called for tab:', this.state.activeTab);
+        const container = document.getElementById('servicesGrid');
+        if (!container) {
+            console.error('servicesGrid container not found!');
+            return;
+        }
 
-        container.innerHTML = `
-            <div class="calculator-tabs">
-                ${this.renderTabs()}
-            </div>
-            
-            <div class="calculator-body">
-                ${Object.keys(this.pricingData).map(tabId => `
-                    <div class="calculator-content ${tabId === this.state.currentTab ? 'active' : ''}" id="calc-${tabId}">
-                        ${this.renderTabContent(tabId)}
-                    </div>
-                `).join('')}
-            </div>
-            
-            <div class="calculator-summary">
-                ${this.renderSummary()}
-            </div>
-        `;
-    },
+        const services = this.services[this.state.activeTab];
+        console.log('Services to render:', services);
 
-    // Render Tabs
-    renderTabs() {
-        return Object.keys(this.pricingData).map(tabId => {
-            const data = this.pricingData[tabId];
-            return `
-                <button class="calculator-tab ${tabId === this.state.currentTab ? 'active' : ''}" 
-                        data-tab="${tabId}">
-                    <i class="${data.icon} me-2"></i>
-                    ${data.title}
+        if (!services || services.length === 0) {
+            console.error('No services found for tab:', this.state.activeTab);
+            return;
+        }
+
+        const html = services.map(service => `
+            <div class="service-card" data-service="${service.id}" data-price="${service.price}">
+                <div class="service-card-icon">
+                    <i class="fas ${service.icon}"></i>
+                </div>
+                <h5 class="service-card-title">${service.name}</h5>
+                <div class="service-card-price">${service.price}$</div>
+                <button class="btn-add-service">
+                    <i class="fas fa-plus"></i>
+                    إضافة
                 </button>
-            `;
-        }).join('');
-    },
-
-    // Render Tab Content
-    renderTabContent(tabId) {
-        const data = this.pricingData[tabId];
-
-        return `
-            <div class="mb-4">
-                <h4 class="mb-4">
-                    <i class="${data.icon} me-2" style="color: ${data.color}"></i>
-                    اختر نوع ${data.title}
-                </h4>
-                ${data.options.map(option => `
-                    <div class="option-card ${this.state.selections[tabId].type === option.id ? 'selected' : ''}" 
-                         data-category="${tabId}" 
-                         data-option="${option.id}">
-                        <div class="option-info">
-                            <h5>${option.name}</h5>
-                            <p>${option.desc}</p>
-                        </div>
-                        <div class="option-price">${option.price}$</div>
-                    </div>
-                `).join('')}
             </div>
-            
-            ${data.addons.length > 0 ? `
-                <div class="addons-section">
-                    <h5 class="mb-3">
-                        <i class="fas fa-plus-circle me-2"></i>
-                        إضافات اختيارية
-                    </h5>
-                    ${data.addons.map(addon => `
-                        <label class="addon-checkbox">
-                            <input type="checkbox" 
-                                   data-category="${tabId}" 
-                                   data-addon="${addon.id}"
-                                   ${this.state.selections[tabId].addons.includes(addon.id) ? 'checked' : ''}>
-                            <div class="flex-grow-1">
-                                <strong>${addon.name}</strong>
-                            </div>
-                            <span class="text-primary">+${addon.price}$</span>
-                        </label>
-                    `).join('')}
-                </div>
-            ` : ''}
-        `;
-    },
+        `).join('');
 
-    // Render Summary
-    renderSummary() {
-        const items = this.getSelectedItems();
-        const total = this.calculateTotal();
-
-        return `
-            <div class="summary-title">
-                <i class="fas fa-receipt me-2"></i>
-                ملخص الطلب
-            </div>
-            
-            ${items.length === 0 ? `
-                <div class="text-center text-muted py-4">
-                    <i class="fas fa-info-circle fa-2x mb-3 d-block"></i>
-                    اختر الخدمات التي تحتاجها لعرض التكلفة
-                </div>
-            ` : `
-                <div class="summary-items">
-                    ${items.map(item => `
-                        <div class="summary-item">
-                            <span>${item.name}</span>
-                            <strong>${item.price}$</strong>
-                        </div>
-                    `).join('')}
-                </div>
-                
-                <div class="summary-total">
-                    <div class="total-label">الإجمالي</div>
-                    <div class="total-value">${total}$</div>
-                </div>
-                
-                <div class="text-center text-muted mt-3 small">
-                    الدفعة المقدمة (50%): <strong>${total / 2}$</strong>
-                </div>
-                
-                <button class="btn-checkout" onclick="CalculatorApp.checkout()">
-                    <i class="fab fa-whatsapp me-2"></i>
-                    إرسال الطلب عبر واتساب
-                </button>
-            `}
-        `;
+        container.innerHTML = html;
+        console.log('Services rendered successfully. Cards count:', services.length);
     },
 
     // Attach Event Listeners
-    attachEventListeners() {
+    attachEvents() {
         // Tab switching
-        document.querySelectorAll('.calculator-tab').forEach(tab => {
-            tab.addEventListener('click', (e) => {
-                this.switchTab(e.target.closest('.calculator-tab').dataset.tab);
+        document.querySelectorAll('.calc-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.dataset.tab;
+                this.switchTab(tabId);
             });
         });
 
-        // Option selection
-        document.querySelectorAll('.option-card').forEach(card => {
-            card.addEventListener('click', (e) => {
-                const category = card.dataset.category;
-                const option = card.dataset.option;
-                this.selectOption(category, option);
-            });
+        // Service selection (delegated)
+        document.getElementById('servicesGrid').addEventListener('click', (e) => {
+            const card = e.target.closest('.service-card');
+            if (card && e.target.closest('.btn-add-service')) {
+                this.toggleService(card);
+            }
         });
 
-        // Addon selection
-        document.querySelectorAll('.addon-checkbox input').forEach(checkbox => {
-            checkbox.addEventListener('change', (e) => {
-                const category = checkbox.dataset.category;
-                const addon = checkbox.dataset.addon;
-                this.toggleAddon(category, addon, checkbox.checked);
-            });
+        // Reset button
+        document.getElementById('resetCalc').addEventListener('click', () => {
+            this.reset();
+        });
+
+        // Request quote button
+        document.getElementById('requestQuote').addEventListener('click', () => {
+            this.sendToWhatsApp();
         });
     },
 
     // Switch Tab
     switchTab(tabId) {
-        this.state.currentTab = tabId;
+        // Update state
+        this.state.activeTab = tabId;
 
         // Update tab buttons
-        document.querySelectorAll('.calculator-tab').forEach(tab => {
-            tab.classList.remove('active');
-            if (tab.dataset.tab === tabId) {
-                tab.classList.add('active');
-            }
+        document.querySelectorAll('.calc-tab').forEach(tab => {
+            tab.classList.toggle('active', tab.dataset.tab === tabId);
         });
 
-        // Update content
-        document.querySelectorAll('.calculator-content').forEach(content => {
-            content.classList.remove('active');
-            if (content.id === `calc-${tabId}`) {
-                content.classList.add('active');
-            }
-        });
+        // Render new services
+        this.renderServices();
+
+        // Update selected cards
+        this.updateSelectedCards();
     },
 
-    // Select Option
-    selectOption(category, optionId) {
-        this.state.selections[category].type = optionId;
-        this.updateUI();
-    },
+    // Toggle Service Selection
+    toggleService(card) {
+        const serviceId = card.dataset.service;
+        const price = parseFloat(card.dataset.price);
+        const serviceName = card.querySelector('.service-card-title').textContent;
+        const category = this.state.activeTab;
 
-    // Toggle Addon
-    toggleAddon(category, addonId, checked) {
-        const addons = this.state.selections[category].addons;
+        // Check if already selected
+        const index = this.state.selectedServices.findIndex(s => s.id === serviceId);
 
-        if (checked) {
-            if (!addons.includes(addonId)) {
-                addons.push(addonId);
-            }
+        if (index > -1) {
+            // Remove service
+            this.state.selectedServices.splice(index, 1);
+            card.classList.remove('selected');
+            card.querySelector('.btn-add-service').innerHTML = '<i class="fas fa-plus"></i> إضافة';
         } else {
-            const index = addons.indexOf(addonId);
-            if (index > -1) {
-                addons.splice(index, 1);
-            }
-        }
-
-        this.updateUI();
-    },
-
-    // Update UI
-    updateUI() {
-        // Update option cards
-        document.querySelectorAll('.option-card').forEach(card => {
-            const category = card.dataset.category;
-            const option = card.dataset.option;
-
-            if (this.state.selections[category].type === option) {
-                card.classList.add('selected');
-            } else {
-                card.classList.remove('selected');
-            }
-        });
-
-        // Update summary
-        const summaryContainer = document.querySelector('.calculator-summary');
-        if (summaryContainer) {
-            summaryContainer.innerHTML = this.renderSummary();
-        }
-    },
-
-    // Get Selected Items
-    getSelectedItems() {
-        const items = [];
-
-        Object.keys(this.state.selections).forEach(category => {
-            const selection = this.state.selections[category];
-            const data = this.pricingData[category];
-
-            // Add main option
-            if (selection.type) {
-                const option = data.options.find(o => o.id === selection.type);
-                if (option) {
-                    items.push({
-                        category: data.title,
-                        name: option.name,
-                        price: option.price
-                    });
-                }
-            }
-
-            // Add addons
-            selection.addons.forEach(addonId => {
-                const addon = data.addons.find(a => a.id === addonId);
-                if (addon) {
-                    items.push({
-                        category: data.title,
-                        name: `+ ${addon.name}`,
-                        price: addon.price
-                    });
-                }
+            // Add service
+            this.state.selectedServices.push({
+                id: serviceId,
+                name: serviceName,
+                price: price,
+                category: category
             });
+            card.classList.add('selected');
+            card.querySelector('.btn-add-service').innerHTML = '<i class="fas fa-check"></i> مضاف';
+        }
+
+        this.updateSummary();
+    },
+
+    // Update Selected Cards (when switching tabs)
+    updateSelectedCards() {
+        document.querySelectorAll('.service-card').forEach(card => {
+            const serviceId = card.dataset.service;
+            const isSelected = this.state.selectedServices.some(s => s.id === serviceId);
+
+            if (isSelected) {
+                card.classList.add('selected');
+                card.querySelector('.btn-add-service').innerHTML = '<i class="fas fa-check"></i> مضاف';
+            }
         });
-
-        return items;
     },
 
-    // Calculate Total
-    calculateTotal() {
-        const items = this.getSelectedItems();
-        return items.reduce((sum, item) => sum + item.price, 0);
+    // Update Summary
+    updateSummary() {
+        const summaryList = document.getElementById('selectedServicesList');
+        const totalElement = document.getElementById('totalPrice');
+
+        // Calculate total
+        const total = this.state.selectedServices.reduce((sum, service) => sum + service.price, 0);
+
+        // Update services list
+        if (this.state.selectedServices.length === 0) {
+            summaryList.innerHTML = '<div class="empty-summary"><i class="fas fa-info-circle"></i> لم تختر أي خدمة بعد</div>';
+        } else {
+            summaryList.innerHTML = this.state.selectedServices.map(service => `
+                <div class="summary-service-item">
+                    <span>${service.name}</span>
+                    <strong>${service.price}$</strong>
+                    <button class="btn-remove-service" data-service="${service.id}">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `).join('');
+
+            // Attach remove buttons
+            summaryList.querySelectorAll('.btn-remove-service').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    this.removeService(btn.dataset.service);
+                });
+            });
+        }
+
+        // Update total
+        totalElement.textContent = `${total}$`;
     },
 
-    // Checkout (Send to WhatsApp)
-    checkout() {
-        const items = this.getSelectedItems();
-        const total = this.calculateTotal();
+    // Remove Service
+    removeService(serviceId) {
+        const index = this.state.selectedServices.findIndex(s => s.id === serviceId);
+        if (index > -1) {
+            this.state.selectedServices.splice(index, 1);
 
-        if (items.length === 0) {
+            // Update card if visible
+            const card = document.querySelector(`.service-card[data-service="${serviceId}"]`);
+            if (card) {
+                card.classList.remove('selected');
+                card.querySelector('.btn-add-service').innerHTML = '<i class="fas fa-plus"></i> إضافة';
+            }
+
+            this.updateSummary();
+        }
+    },
+
+    // Reset Calculator
+    reset() {
+        this.state.selectedServices = [];
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.classList.remove('selected');
+            card.querySelector('.btn-add-service').innerHTML = '<i class="fas fa-plus"></i> إضافة';
+        });
+        this.updateSummary();
+    },
+
+    // Send to WhatsApp
+    sendToWhatsApp() {
+        if (this.state.selectedServices.length === 0) {
             alert('الرجاء اختيار خدمة واحدة على الأقل');
             return;
         }
 
-        // Build WhatsApp message
+        const total = this.state.selectedServices.reduce((sum, s) => sum + s.price, 0);
+
+        // Build message
         let message = 'مرحباً! أرغب في طلب الخدمات التالية:%0a%0a';
 
-        // Group items by category
+        // Group by category
+        const categories = {
+            design: 'التصميم',
+            web: 'المواقع الإلكترونية',
+            apps: 'تطبيقات الجوال',
+            sheets: 'الجداول الذكية'
+        };
+
         const grouped = {};
-        items.forEach(item => {
-            if (!grouped[item.category]) {
-                grouped[item.category] = [];
+        this.state.selectedServices.forEach(service => {
+            if (!grouped[service.category]) {
+                grouped[service.category] = [];
             }
-            grouped[item.category].push(item);
+            grouped[service.category].push(service);
         });
 
-        // Format message
         Object.keys(grouped).forEach(category => {
-            message += `*${category}:*%0a`;
-            grouped[category].forEach(item => {
-                message += `  • ${item.name} (${item.price}$)%0a`;
+            message += `*${categories[category]}:*%0a`;
+            grouped[category].forEach(service => {
+                message += `  • ${service.name} (${service.price}$)%0a`;
             });
             message += '%0a';
         });
 
         message += `*الإجمالي: ${total}$*%0a`;
-        message += `الدفعة المقدمة المقترحة (50%): ${total / 2}$`;
+        message += `الدفعة المقدمة (50%): ${total / 2}$`;
 
-        // Open WhatsApp
-        const phoneNumber = '963000000000'; // استبدل برقم واتساب حقيقي
-        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+        // Replace with your WhatsApp number
+        const phoneNumber = '963000000000';
+        const url = `https://wa.me/${phoneNumber}?text=${message}`;
 
-        window.open(whatsappUrl, '_blank');
+        window.open(url, '_blank');
     }
 };
 
-// Initialize calculator when DOM is ready
+// Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        CalculatorApp.init();
-    }, 500);
+    SmartCalculator.init();
 });

@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="assets/vendor/tippy.css" />
     <link rel="stylesheet" href="assets/vendor/tippy-light.css" />
 
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/main.css?v=2.0">
 </head>
 
 <body>
@@ -188,9 +188,9 @@
         <div class="container">
             <div class="section-header text-center mb-5">
                 <span class="section-badge">خدماتنا</span>
-                <h2 class="section-title">ما هي الخدمات التي نقدمها؟</h2>
+                <h2 class="section-title">ما هي خدماتنا؟</h2>
                 <div class="section-divider mx-auto"></div>
-                <p class="section-subtitle">نساعدك في تحويل فكرتك إلى واقع رقمي - بكل بساطة وسهولة</p>
+                <p class="section-subtitle">نقدم حلول بسيطة وعملية لكل احتياجاتك الرقمية</p>
             </div>
 
             <div class="row g-4" id="servicesContainer">
@@ -245,58 +245,48 @@
                 <h2 class="section-title">احسب تكلفة مشروعك</h2>
                 <div class="section-divider mx-auto"></div>
                 <p class="section-subtitle">
-                    اختر الخدمات التي تحتاجها واحصل على تقدير فوري للتكلفة
-                    <i class="fas fa-info-circle ms-2 text-primary"
-                        data-tippy-content="الأسعار تقديرية وقد تختلف حسب تفاصيل المشروع. تواصل معنا للحصول على سعر دقيق"></i>
+                    اختر الخدمات اللي تحتاجها وشوف التكلفة فوراً
                 </p>
             </div>
 
-            <!-- Preview Demo Cards -->
-            <div class="row g-4 mb-5">
-                <div class="col-md-6 col-lg-3">
-                    <a href="previews/website-preview.html" class="preview-demo-card" target="_blank">
-                        <div class="preview-demo-icon">
-                            <i class="fas fa-desktop"></i>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div id="servicesGrid">
+                        <!-- Services will be loaded here by JavaScript -->
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">جاري التحميل...</span>
+                            </div>
                         </div>
-                        <h4>جرب موقعك</h4>
-                        <p class="mb-0">شاهد كيف سيبدو موقعك</p>
-                        <span class="preview-badge">تجربة تفاعلية</span>
-                    </a>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="preview-demo-card coming-soon">
-                        <div class="preview-demo-icon">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                        <h4>جرب متجرك</h4>
-                        <p class="mb-0">شاهد متجرك الإلكتروني</p>
-                        <span class="preview-badge coming">قريباً</span>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="preview-demo-card coming-soon">
-                        <div class="preview-demo-icon">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                        <h4>جرب تطبيقك</h4>
-                        <p class="mb-0">شاهد واجهة تطبيقك</p>
-                        <span class="preview-badge coming">قريباً</span>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="preview-demo-card coming-soon">
-                        <div class="preview-demo-icon">
-                            <i class="fas fa-palette"></i>
-                        </div>
-                        <h4>جرب شعارك</h4>
-                        <p class="mb-0">استكشف تصاميم الهوية</p>
-                        <span class="preview-badge coming">قريباً</span>
-                    </div>
-                </div>
-            </div>
 
-            <div class="calculator-wrapper" id="calculatorApp">
-                <!-- Calculator will be loaded dynamically -->
+                <div class="col-lg-4">
+                    <div class="calculator-summary">
+                        <h4>
+                            <i class="fas fa-receipt"></i>
+                            ملخص مشروعك
+                        </h4>
+                        <div id="selectedServicesList">
+                            <div class="empty-summary">
+                                <i class="fas fa-info-circle"></i>
+                                اختر الخدمات لعرض التكلفة
+                            </div>
+                        </div>
+                        <div class="summary-total">
+                            <span class="summary-total-label">الإجمالي</span>
+                            <span id="totalPrice">0$</span>
+                        </div>
+                        <div class="calculator-actions">
+                            <button id="resetCalc">
+                                <i class="fas fa-redo"></i> إعادة تعيين
+                            </button>
+                            <button id="requestQuote">
+                                <i class="fab fa-whatsapp"></i> إرسال الطلب
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -451,8 +441,8 @@
     <script src="assets/vendor/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/popper.min.js"></script>
     <script src="assets/vendor/tippy.min.js"></script>
-    <script src="assets/js/app.js"></script>
-    <script src="assets/js/calculator.js"></script>
+    <script src="assets/js/app.js?v=2.0"></script>
+    <script src="assets/js/calculator-new.js"></script>
     <script src="assets/js/projects.js"></script>
 </body>
 
