@@ -25,9 +25,6 @@ bower_components/
 # Build outputs
 apps/node_modules/
 
-# Generated projects landing pages - Built by GitHub Actions
-projects/
-
 # Environment variables
 .env
 .env.local
