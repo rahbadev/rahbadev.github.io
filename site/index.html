@@ -323,9 +323,9 @@
                 <p class="section-subtitle">نسعد بالتواصل معك عبر قنواتنا المختلفة</p>
             </div>
 
-            <div class="row g-4">
+            <div class="row g-4" id="contactCards">
                 <div class="col-md-4">
-                    <a href="https://wa.me/963000000000" target="_blank" class="contact-card">
+                    <a href="https://wa.me/963000000000" target="_blank" class="contact-card" id="whatsappCard">
                         <div class="contact-icon whatsapp">
                             <i class="fab fa-whatsapp"></i>
                         </div>
@@ -334,44 +334,29 @@
                     </a>
                 </div>
                 <div class="col-md-4">
-                    <a href="mailto:rahbadev@gmail.com" class="contact-card">
+                    <a href="mailto:rahbadev@gmail.com" class="contact-card" id="emailCard">
                         <div class="contact-icon email">
                             <i class="fas fa-envelope"></i>
                         </div>
                         <h4>البريد الإلكتروني</h4>
-                        <p>rahbadev@gmail.com</p>
+                        <p id="emailText">rahbadev@gmail.com</p>
                     </a>
                 </div>
                 <div class="col-md-4">
-                    <a href="https://t.me/rahbadev" target="_blank" class="contact-card">
+                    <a href="https://t.me/rahbadev" target="_blank" class="contact-card" id="telegramCard">
                         <div class="contact-icon telegram">
                             <i class="fab fa-telegram-plane"></i>
                         </div>
                         <h4>تيليجرام</h4>
-                        <p>@rahbadev</p>
+                        <p id="telegramText">@rahbadev</p>
                     </a>
                 </div>
             </div>
 
             <div class="social-links-section mt-5">
                 <h4 class="text-center mb-4">تابعنا على</h4>
-                <div class="social-links">
-                    <a href="https://www.facebook.com/rahbadev/" target="_blank" class="social-link facebook"
-                        data-tippy-content="فيسبوك">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="https://twitter.com/rahbadev" target="_blank" class="social-link twitter"
-                        data-tippy-content="تويتر">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="https://github.com/rahbadev" target="_blank" class="social-link github"
-                        data-tippy-content="جيت هاب">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="https://play.google.com/store/apps/dev?id=6736668226615202750" target="_blank"
-                        class="social-link playstore" data-tippy-content="متجر جوجل بلاي">
-                        <i class="fab fa-google-play"></i>
-                    </a>
+                <div class="social-links" id="socialLinks">
+                    <!-- Will be populated dynamically -->
                 </div>
             </div>
         </div>
@@ -429,7 +414,6 @@
             <hr class="footer-divider">
             <div class="footer-bottom">
                 <p class="mb-0">&copy; 2026 رحبة التطوير. جميع الحقوق محفوظة.</p>
-                <p class="mb-0 text-muted small">صُنع بـ <i class="fas fa-heart text-danger"></i> في سوريا</p>
             </div>
         </div>
     </footer>
@@ -446,6 +430,56 @@
     <script defer src="assets/js/app.js?v=3.2"></script>
     <script defer src="assets/js/calculator-new.js"></script>
     <script defer src="assets/js/projects.js"></script>
+    
+    <!-- Load Company Info -->
+    <script>
+        // Load and update company contact info
+        fetch('../shared/data/company-info.json')
+            .then(res => res.json())
+            .then(data => {
+                // Update contact cards
+                const whatsappCard = document.getElementById('whatsappCard');
+                const emailCard = document.getElementById('emailCard');
+                const telegramCard = document.getElementById('telegramCard');
+                
+                if (whatsappCard) whatsappCard.href = data.contact.whatsappLink;
+                if (emailCard) {
+                    emailCard.href = `mailto:${data.contact.email}`;
+                    document.getElementById('emailText').textContent = data.contact.email;
+                }
+                if (telegramCard) {
+                    telegramCard.href = data.contact.telegramLink;
+                    document.getElementById('telegramText').textContent = data.contact.telegram;
+                }
+                
+                // Update social links
+                const socialLinks = document.getElementById('socialLinks');
+                if (socialLinks) {
+                    const links = [];
+                    if (data.social.facebook) links.push(`<a href="${data.social.facebook}" target="_blank" class="social-link facebook" data-tippy-content="فيسبوك"><i class="fab fa-facebook-f"></i></a>`);
+                    if (data.social.twitter) links.push(`<a href="${data.social.twitter}" target="_blank" class="social-link twitter" data-tippy-content="تويتر"><i class="fab fa-twitter"></i></a>`);
+                    if (data.social.github) links.push(`<a href="${data.social.github}" target="_blank" class="social-link github" data-tippy-content="جيت هاب"><i class="fab fa-github"></i></a>`);
+                    if (data.social.playstore) links.push(`<a href="${data.social.playstore}" target="_blank" class="social-link playstore" data-tippy-content="متجر جوجل بلاي"><i class="fab fa-google-play"></i></a>`);
+                    socialLinks.innerHTML = links.join('');
+                }
+                
+                // Update footer email
+                const footerEmail = document.querySelector('.footer-contact a[href^="mailto:"]');
+                if (footerEmail) {
+                    footerEmail.href = `mailto:${data.contact.email}`;
+                    footerEmail.textContent = data.contact.email;
+                }
+                
+                // Update footer WhatsApp
+                const footerWhatsapp = document.querySelector('.footer-contact a[href^="https://wa.me"]');
+                if (footerWhatsapp) footerWhatsapp.href = data.contact.whatsappLink;
+                
+                // Update footer Telegram
+                const footerTelegram = document.querySelector('.footer-contact a[href^="https://t.me"]');
+                if (footerTelegram) footerTelegram.href = data.contact.telegramLink;
+            })
+            .catch(err => console.error('Error loading company info:', err));
+    </script>
 </body>
 
 </html>

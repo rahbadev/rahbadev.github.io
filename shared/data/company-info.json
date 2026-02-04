@@ -1,34 +1,70 @@
 {
-    "name": "رحبة للتطوير",
-    "nameEn": "Rehba Dev",
-    "tagline": "نحول أفكارك لواقع رقمي",
-    "description": "تصميم | برمجة | هويات بصرية",
-    "descriptionLong": "شركة متخصصة في البرمجة والحلول الرقمية",
-    "logo": "../shared/images/brand.webp",
-    "established": "2024",
-    "location": {
-        "country": "سوريا",
-        "city": ""
+    "company": {
+        "name": "رحبة التطوير",
+        "nameEn": "Rehba Dev",
+        "brandName": "رحبة",
+        "brandNameEn": "Rehba",
+        "tagline": "نحول أفكارك إلى واقع رقمي",
+        "taglineEn": "Transforming Ideas into Digital Reality",
+        "description": "حلول رقمية متكاملة لتنمية مشروعك",
+        "descriptionLong": "شركة متخصصة في تطوير تطبيقات الجوال، المواقع الإلكترونية، المتاجر، الهويات البصرية، وأتمتة الأعمال",
+        "established": "2024",
+        "location": {
+            "country": "سوريا",
+            "countryEn": "Syria",
+            "city": ""
+        }
     },
     "contact": {
         "email": "rahbadev@gmail.com",
-        "phone": "963000000000",
+        "phone": "+963000000000",
+        "phoneDisplay": "963000000000",
         "whatsapp": "963000000000",
-        "telegram": "https://t.me/rahbadev"
+        "whatsappLink": "https://wa.me/963000000000",
+        "telegram": "@rahbadev",
+        "telegramLink": "https://t.me/rahbadev"
     },
     "social": {
         "facebook": "https://www.facebook.com/rahbadev/",
         "twitter": "https://twitter.com/rahbadev",
         "github": "https://github.com/rahbadev",
         "playstore": "https://play.google.com/store/apps/dev?id=6736668226615202750",
-        "instagram": ""
+        "instagram": "",
+        "linkedin": ""
     },
+    "assets": {
+        "logo": "../shared/images/logo.webp",
+        "brand": "../shared/images/brand.webp",
+        "icon": "../shared/images/icon.ico"
+    },
+    "services": [
+        {
+            "id": "mobile-apps",
+            "icon": "fa-mobile-alt",
+            "title": "تطبيقات الجوال",
+            "description": "تطبيقات Android & iOS احترافية"
+        },
+        {
+            "id": "websites",
+            "icon": "fa-globe",
+            "title": "المواقع الإلكترونية",
+            "description": "مواقع سريعة ومتجاوبة"
+        },
+        {
+            "id": "design",
+            "icon": "fa-palette",
+            "title": "الهويات البصرية",
+            "description": "تصاميم احترافية تعبر عن هويتك"
+        },
+        {
+            "id": "automation",
+            "icon": "fa-robot",
+            "title": "أتمتة الأعمال",
+            "description": "جداول ذكية وسكربتات أتمتة"
+        }
+    ],
     "navigation": {
         "mainSite": "../site/index.html",
-        "bioPage": "../bio/index.html",
-        "projectsSection": "#projects",
-        "servicesSection": "#services",
-        "calculatorSection": "#calculator",
-        "examplesSection": "#examples"
+        "bioPage": "../bio/index.html"
     }
 }
