@@ -297,7 +297,7 @@ async function loadServices() {
             <div class="col-12 mb-4">
                 <div class="service-category-modern">
                     <div class="category-header-modern">
-                        <div class="category-badge" style="background: ${category.color}15; border-right: 4px solid ${category.color};">
+                        <div class="category-badge">
                             <i class="${category.icon}" style="color: ${category.color};"></i>
                             <div class="category-info">
                                 <h3 class="category-title-modern">${category.title}</h3>
@@ -312,18 +312,24 @@ async function loadServices() {
                                     <div class="service-icon-modern" style="color: ${category.color};">
                                         <i class="${service.icon}"></i>
                                     </div>
-                                    ${service.price > 0 ? `<span class="service-price-badge" style="background: ${category.color}20; color: ${category.color};">${service.price}$</span>` : ''}
+                                    ${service.price > 0 ? `
+                                        <div class="service-price-wrapper">
+                                            <span class="price-from">${service.priceLabel}</span>
+                                            <span class="service-price-badge" style="background: ${category.color}20; color: ${category.color};">${service.price}$</span>
+                                        </div>
+                                    ` : `
+                                        <div class="service-price-wrapper">
+                                            <span class="service-price-badge" style="background: ${category.color}20; color: ${category.color};">${service.priceLabel}</span>
+                                        </div>
+                                    `}
                                 </div>
                                 <h4 class="service-title-modern">${service.title}</h4>
                                 <p class="service-desc-modern">${service.description}</p>
-                                <div class="service-footer-modern">
-                                    <span class="price-from">${service.priceLabel}</span>
-                                    ${service.exampleUrl ? `
-                                        <a href="${service.exampleUrl}" target="_blank" class="btn-example-modern" style="color: ${category.color};">
-                                            <i class="fas fa-external-link-alt"></i> مثال
-                                        </a>
-                                    ` : ''}
-                                </div>
+                                ${service.exampleUrl ? `
+                                    <a href="${service.exampleUrl}" target="_blank" class="btn-example-modern" style="color: ${category.color};">
+                                        <i class="fas fa-external-link-alt"></i> شاهد مثال
+                                    </a>
+                                ` : '<div class="btn-placeholder"></div>'}
                             </div>
                         `).join('')}
                     </div>
