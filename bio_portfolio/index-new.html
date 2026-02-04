@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رحبة للتطوير | Rehba Dev</title>
+    <meta name="description" content="نحول أفكارك لواقع رقمي - تصميم، برمجة، هويات بصرية">
+
+    <!-- Shared Resources -->
+    <link href="../shared_core/fonts/cairo.css" rel="stylesheet">
+    <link rel="stylesheet" href="../shared_core/css/variables.css">
+    <link rel="stylesheet" href="../shared_core/css/components.css">
+    <link rel="stylesheet" href="assets/vendor/fontawesome/all.min.css">
+
+    <style>
+        /* =========================================
+           Bio Page - Minimal Custom Styles
+           Most styles inherited from shared_core
+           ========================================= */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a2332 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .bio-container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Profile Section */
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            padding: 4px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--card-bg);
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .profile-bio {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .profile-description {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin: 30px 0;
+            animation: fadeInUp 0.6s ease-out 0.2s both;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px 16px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .service-card:hover {
+            background: var(--card-hover);
+            border-color: var(--primary-color);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .service-card i {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .service-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .service-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Links Container */
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 40px 0;
+            animation: fadeInUp 0.6s ease-out 0.4s both;
+        }
+
+        .link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .link-btn:hover {
+            background: var(--card-hover);
+            border-color: var(--primary-color);
+            transform: translateX(-4px);
+        }
+
+        .link-btn.primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border: none;
+            box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+        }
+
+        .link-btn.primary:hover {
+            transform: translateX(-4px) translateY(-2px);
+            box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.4);
+        }
+
+        .link-btn.success {
+            background: var(--success-color);
+            border: none;
+            box-shadow: 0 4px 12px rgba(var(--success-rgb), 0.3);
+        }
+
+        .link-btn.success:hover {
+            transform: translateX(-4px) translateY(-2px);
+            box-shadow: 0 8px 20px rgba(var(--success-rgb), 0.4);
+        }
+
+        .link-btn i:first-child {
+            font-size: 1.2rem;
+        }
+
+        .link-btn i:last-child {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .link-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            animation: fadeIn 0.6s ease-out 0.6s both;
+        }
+
+        .footer p {
+            margin: 8px 0;
+        }
+
+        .made-with i {
+            color: #ef4444;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .bio-container {
+                padding: 20px 10px;
+            }
+
+            .profile-name {
+                font-size: 1.75rem;
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .service-card {
+                padding: 20px 12px;
+            }
+
+            .link-btn {
+                padding: 14px 16px;
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bio-container">
+        <!-- Profile Section -->
+        <header class="profile-header">
+            <div class="profile-avatar">
+                <img src="../shared_core/images/brand.webp" alt="Rehba Dev Logo" id="avatar">
+            </div>
+            <h1 class="profile-name text-gradient" id="companyName">رحبة للتطوير</h1>
+            <p class="profile-bio" id="tagline">نحول أفكارك لواقع رقمي 🚀</p>
+            <p class="profile-description" id="description">تصميم | برمجة | هويات بصرية</p>
+        </header>
+
+        <!-- Social Links -->
+        <div class="social-links" id="socialLinks">
+            <!-- Will be populated by JavaScript -->
+        </div>
+
+        <!-- Services Section -->
+        <div class="section-title">
+            <i class="fas fa-briefcase"></i>
+            <h2>ماذا نقدم</h2>
+        </div>
+
+        <div class="services-grid" id="servicesGrid">
+            <!-- Will be populated by JavaScript -->
+        </div>
+
+        <!-- Main Links -->
+        <div class="links-container">
+            <a href="../main_site/index.html#projects" class="link-btn primary">
+                <div class="link-content">
+                    <i class="fas fa-folder-open"></i>
+                    <span>المشاريع</span>
+                </div>
+                <i class="fas fa-chevron-left"></i>
+            </a>
+
+            <a href="../main_site/index.html#calculator" class="link-btn">
+                <div class="link-content">
+                    <i class="fas fa-calculator"></i>
+                    <span>احسب تكلفة مشروعك</span>
+                </div>
+                <i class="fas fa-chevron-left"></i>
+            </a>
+
+            <a href="../main_site/index.html#services" class="link-btn">
+                <div class="link-content">
+                    <i class="fas fa-images"></i>
+                    <span>خدماتنا التفصيلية</span>
+                </div>
+                <i class="fas fa-chevron-left"></i>
+            </a>
+
+            <a href="../main_site/index.html" class="link-btn">
+                <div class="link-content">
+                    <i class="fas fa-globe"></i>
+                    <span>الموقع الكامل</span>
+                </div>
+                <i class="fas fa-external-link-alt"></i>
+            </a>
+
+            <a href="#" class="link-btn success" id="whatsappBtn">
+                <div class="link-content">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>تواصل معنا عبر واتساب</span>
+                </div>
+                <i class="fas fa-chevron-left"></i>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>جميع الحقوق محفوظة © 2026 رحبة للتطوير</p>
+            <p class="made-with">صُنع بـ <i class="fas fa-heart"></i> في السعودية</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../shared_core/js/data-loader.js"></script>
+    <script>
+        // =========================================
+        // Bio Page App - Data-Driven
+        // =========================================
+
+        const dataLoader = new DataLoader();
+
+        // Initialize page
+        async function initPage() {
+            try {
+                // Load company info
+                const companyInfo = await dataLoader.getCompanyInfo();
+                if (companyInfo) {
+                    populateCompanyInfo(companyInfo);
+                }
+
+                // Load services
+                const services = await dataLoader.getServicesForBio();
+                if (services) {
+                    populateServices(services);
+                }
+
+            } catch (error) {
+                console.error('Error initializing page:', error);
+            }
+        }
+
+        // Populate company information
+        function populateCompanyInfo(info) {
+            // Update texts
+            document.getElementById('companyName').textContent = info.name;
+            document.getElementById('tagline').textContent = info.tagline;
+            document.getElementById('description').textContent = info.description;
+
+            // Update logo
+            const avatar = document.getElementById('avatar');
+            if (avatar && info.logo) {
+                avatar.src = info.logo;
+                avatar.alt = info.name;
+            }
+
+            // Update social links
+            populateSocialLinks(info);
+
+            // Update WhatsApp button
+            const whatsappBtn = document.getElementById('whatsappBtn');
+            if (whatsappBtn && info.contact.whatsapp) {
+                whatsappBtn.href = `https://wa.me/${info.contact.whatsapp}?text=مرحباً، أريد الاستفسار عن خدماتكم`;
+            }
+        }
+
+        // Populate social links
+        function populateSocialLinks(info) {
+            const container = document.getElementById('socialLinks');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            // WhatsApp
+            if (info.contact.whatsapp) {
+                container.innerHTML += `
+                    <a href="https://wa.me/${info.contact.whatsapp}" class="social-btn whatsapp" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                `;
+            }
+
+            // Twitter
+            if (info.social.twitter) {
+                container.innerHTML += `
+                    <a href="${info.social.twitter}" class="social-btn twitter" target="_blank">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                `;
+            }
+
+            // GitHub
+            if (info.social.github) {
+                container.innerHTML += `
+                    <a href="${info.social.github}" class="social-btn github" target="_blank">
+                        <i class="fab fa-github"></i>
+                    </a>
+                `;
+            }
+
+            // Email
+            if (info.contact.email) {
+                container.innerHTML += `
+                    <a href="mailto:${info.contact.email}" class="social-btn email" target="_blank">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                `;
+            }
+
+            // LinkedIn (if available)
+            if (info.social.linkedin) {
+                container.innerHTML += `
+                    <a href="${info.social.linkedin}" class="social-btn linkedin" target="_blank">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                `;
+            }
+        }
+
+        // Populate services
+        function populateServices(services) {
+            const container = document.getElementById('servicesGrid');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            services.forEach(service => {
+                const card = document.createElement('div');
+                card.className = 'service-card';
+                card.innerHTML = `
+                    <i class="${service.icon}"></i>
+                    <h3>${service.titleShort || service.title}</h3>
+                    <p>${service.description}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', initPage);
+    </script>
+</body>
+</html>
