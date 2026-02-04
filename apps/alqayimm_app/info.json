@@ -1,0 +1,103 @@
+{
+    "title": "تطبيق الدين القيم",
+    "tagline": "التطبيق الرسمي لمعهد الدين القيم للعلوم الشرعية",
+    "description": "يسرنا أن نعلن عن إطلاق الإصدار الجديد من تطبيق الدين القيم (5.0) بتصميم عصري ومزايا متنوعة لطلبة العلم، يجمع دروس وكتب معهد الدين القيم وفتاوى الشيخ علي الرملي، مع دعم القراءة والاستماع دون إنترنت.",
+    "features": [
+        "استماع مباشر أو تحميل للدروس (أوفلاين) 🎧",
+        "قراءة وتحميل جميع الكتب 📚",
+        "إضافة الملاحظات والعلامات المرجعية أثناء القراءة أو الاستماع 🔖",
+        "تصفح أرشيف الفتاوى كاملاً دون إنترنت ⚖️",
+        "وضع علامة إكمال على الدروس ✅",
+        "قائمة مفضلة للدروس والكتب ⭐️"
+    ],
+    "thumbnail": "screens/1.png",
+    "status": "available",
+    "colors": {
+        "primary": "#0877bc"
+    },
+    "downloads": [
+        {
+            "type": "playstore",
+            "label": "Google Play",
+            "url": "https://play.google.com/store/apps/details?id=com.alqayim.btech&hl=ar",
+            "icon": "fab fa-google-play",
+            "available": true
+        },
+        {
+            "type": "direct",
+            "label": "ملف APK",
+            "url": "app_5.0.0(41).apk",
+            "icon": "fas fa-download",
+            "available": true
+        },
+        {
+            "type": "appstore",
+            "label": "App Store",
+            "url": "#",
+            "icon": "fab fa-apple",
+            "available": false,
+            "comingSoon": true
+        }
+    ],
+    "version": "5.0.0",
+    "versionCode": 41,
+    "lastUpdated": "2025-12-15",
+    "privacyPolicy": {
+        "ar": {
+            "sections": [
+                {
+                    "title": "مقدمة",
+                    "content": "<p>نحن في تطبيق <strong>الدين القيم</strong> نلتزم بحماية خصوصيتك واحترامها. تشرح سياسة الخصوصية هذه كيفية جمعنا واستخدامنا وحمايتنا للمعلومات عند استخدامك لتطبيقنا.</p>"
+                },
+                {
+                    "title": "البيانات التي نجمعها",
+                    "content": "<p>نحن لا نجمع أي بيانات تعريف شخصية (مثل الاسم أو رقم الهاتف) بشكل مباشر. ومع ذلك، قد نجمع بعض المعلومات التقنية لتحسين أداء التطبيق:</p><ul><li><strong>سجلات الأعطال (Crashlytics):</strong> نستخدم خدمة Firebase Crashlytics لمعرفة أسباب توقف التطبيق عن العمل، وهذا يشمل نوع الجهاز ونظام التشغيل.</li><li><strong>بيانات الاستخدام:</strong> إحصائيات عامة غير معرفة للمستخدم لتحسين التجربة.</li></ul>"
+                },
+                {
+                    "title": "الصلاحيات المطلوبة",
+                    "content": "<p>لكي يعمل التطبيق بشكل صحيح، نطلب الصلاحيات التالية:</p><ul><li><strong>الإنترنت (Internet):</strong> للوصول إلى المحتوى وتحديث البيانات.</li><li><strong>التخزين (Storage):</strong> لحفظ الملفات الصوتية والكتب (PDF) التي تقوم بتحميلها لتعمل دون إنترنت.</li><li><strong>حالة الشبكة (Network State):</strong> للتحقق من الاتصال قبل بدء التحميل.</li></ul>"
+                },
+                {
+                    "title": "خدمات الطرف الثالث",
+                    "content": "<p>يستخدم التطبيق خدمات طرف ثالث قد تجمع معلومات لتحديد هويتك:</p><ul><li>Google Play Services</li><li>Firebase Crashlytics</li></ul>"
+                },
+                {
+                    "title": "الأمان",
+                    "content": "<p>نحن نقدر ثقتك في تزويدنا بمعلوماتك، ونسعى جاهدين لاستخدام وسائل مقبولة تجاريًا لحمايتها. لكن تذكر أنه لا توجد وسيلة نقل عبر الإنترنت أو طريقة تخزين إلكتروني آمنة وموثوقة بنسبة 100%.</p>"
+                },
+                {
+                    "title": "اتصل بنا",
+                    "content": "<p>إذا كان لديك أي أسئلة أو اقتراحات حول سياسة الخصوصية الخاصة بنا، لا تتردد في الاتصال بنا:</p><div style='text-align:center;margin:20px 0;'><a href='mailto:rahbadev@gmail.com' class='btn btn-primary' style='margin:10px;padding:12px 25px;border-radius:8px;text-decoration:none;display:inline-block;'><i class='fa-solid fa-envelope'></i> rahbadev@gmail.com</a></div>"
+                }
+            ]
+        },
+        "en": {
+            "sections": [
+                {
+                    "title": "Introduction",
+                    "content": "<p>At <strong>Al-Din Al-Qayyim</strong> app, we are committed to protecting and respecting your privacy. This Privacy Policy explains how we collect, use, and safeguard information when you use our application.</p>"
+                },
+                {
+                    "title": "Data We Collect",
+                    "content": "<p>We do not collect any personally identifiable information (such as name or phone number) directly. However, we may collect some technical information to improve app performance:</p><ul><li><strong>Crash Logs (Crashlytics):</strong> We use Firebase Crashlytics to understand why the app crashes, which includes device type and operating system.</li><li><strong>Usage Data:</strong> General, non-identifiable statistics to improve user experience.</li></ul>"
+                },
+                {
+                    "title": "Required Permissions",
+                    "content": "<p>For the app to function correctly, we require the following permissions:</p><ul><li><strong>Internet:</strong> To access content and update data.</li><li><strong>Storage:</strong> To save audio files and books (PDF) you download for offline access.</li><li><strong>Network State:</strong> To check connectivity before starting downloads.</li></ul>"
+                },
+                {
+                    "title": "Third-Party Services",
+                    "content": "<p>The app uses third-party services that may collect information used to identify you:</p><ul><li>Google Play Services</li><li>Firebase Crashlytics</li></ul>"
+                },
+                {
+                    "title": "Security",
+                    "content": "<p>We value your trust in providing us your Personal Information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable.</p>"
+                },
+                {
+                    "title": "Contact Us",
+                    "content": "<p>If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us:</p><div style='text-align:center;margin:20px 0;'><a href='mailto:rahbadev@gmail.com' class='btn btn-primary' style='margin:10px;padding:12px 25px;border-radius:8px;text-decoration:none;display:inline-block;'><i class='fa-solid fa-envelope'></i> rahbadev@gmail.com</a></div>"
+                }
+            ]
+        }
+    }
+}

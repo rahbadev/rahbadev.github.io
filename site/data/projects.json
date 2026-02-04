@@ -3,16 +3,16 @@
     "id": "alqayimm_app",
     "title": "تطبيق الدين القيم",
     "description": "التطبيق الرسمي لمعهد الدين القيم للعلوم الشرعية",
-    "icon": "logo.webp",
-    "link": "projects/alqayimm_app/",
+    "icon": "apps/alqayimm_app/logo.webp",
+    "link": "apps/alqayimm_app/",
     "status": "available"
   },
   {
     "id": "rh_video_splitter",
     "title": "RH Video Splitter - Story Trim",
     "description": "قص ومشاركة مقاطع الفيديو بسهولة وإبداع",
-    "icon": "logo.webp",
-    "link": "projects/rh_video_splitter/",
+    "icon": "apps/rh_video_splitter/logo.webp",
+    "link": "apps/rh_video_splitter/",
     "status": "available"
   }
 ]
