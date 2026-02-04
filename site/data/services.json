@@ -9,7 +9,7 @@
             "services": [
                 {
                     "title": "تصميم شعار",
-                    "description": "شعار احترافي (3 خيارات للاختيار)",
+                    "description": "شعار احترافي لمشروعك أو شركتك",
                     "icon": "fas fa-star",
                     "price": 20,
                     "priceLabel": "تبدأ من",
@@ -19,7 +19,7 @@
                     "title": "تصميمات متنوعة",
                     "description": "ترويسة، كرت عمل، منشورات سوشيال ميديا",
                     "icon": "fas fa-images",
-                    "price": 5,
+                    "price": 10,
                     "priceLabel": "تبدأ من"
                 },
                 {
@@ -56,7 +56,7 @@
                 },
                 {
                     "title": "متجر إلكتروني",
-                    "description": "متجر لعرض وبيع منتجاتك على الإنترنت",
+                    "description": "متجر بسيط لعرض وبيع منتجاتك على الإنترنت",
                     "icon": "fas fa-shopping-cart",
                     "price": 300,
                     "priceLabel": "تبدأ من"
@@ -71,27 +71,25 @@
             "description": "تطبيقات أندرويد و iOS لمشروعك",
             "services": [
                 {
-                    "title": "تطبيق بسيط",
-                    "description": "تطبيق (1-3 صفحات) لعرض معلومات أو خدمات",
-                    "icon": "fas fa-mobile-alt",
-                    "price": 400,
-                    "priceLabel": "تبدأ من",
-                    "exampleUrl": "#projects"
+                    "title": "تحويل موقع لتطبيق",
+                    "description": "تحويل موقعك الحالي إلى تطبيق جوال (Web-to-App) بلمسة احترافية",
+                    "icon": "fas fa-window-restore",
+                    "price": 150,
+                    "priceLabel": "تبدأ من"
                 },
                 {
-                    "title": "تطبيق متوسط",
-                    "description": "تطبيق (4-5 صفحات) مع مميزات متقدمة",
-                    "icon": "fas fa-mobile-screen",
-                    "price": 700,
-                    "priceLabel": "تبدأ من",
-                    "exampleUrl": "#projects"
+                    "title": "تطبيق بسيط",
+                    "description": "تطبيق (1-3 صفحات) لعرض معلومات أو خدمات بـ Flutter",
+                    "icon": "fas fa-mobile-alt",
+                    "price": 400,
+                    "priceLabel": "تبدأ من"
                 },
                 {
                     "title": "تطبيق احترافي",
-                    "description": "تطبيق متقدم بتصميم ومميزات مخصصة",
+                    "description": "تطبيق متقدم بمميزات مخصصة وأنظمة برمجية متكاملة",
                     "icon": "fas fa-rocket",
-                    "price": 0,
-                    "priceLabel": "سعر مخصص"
+                    "price": 1500,
+                    "priceLabel": "تبدأ من"
                 }
             ]
         },
@@ -110,17 +108,10 @@
                     "priceLabel": "تبدأ من"
                 },
                 {
-                    "title": "لوحة قيادة",
-                    "description": "رسوم بيانية وتقارير تفاعلية",
-                    "icon": "fas fa-chart-line",
-                    "price": 80,
-                    "priceLabel": "تبدأ من"
-                },
-                {
                     "title": "أتمتة متقدمة",
                     "description": "أتمتة كاملة باستخدام Apps Script",
                     "icon": "fas fa-robot",
-                    "price": 150,
+                    "price": 100,
                     "priceLabel": "تبدأ من"
                 }
             ]

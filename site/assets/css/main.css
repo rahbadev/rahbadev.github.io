@@ -2739,317 +2739,316 @@ p.text-muted strong,
 }
 
 /* =========================================
-   15. Smart Calculator - Modern Design
+   15. Calculator - Simplified & Clean
    ========================================= */
 
-.calculator-modern {
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.8));
-    border: 2px solid rgba(45, 106, 200, 0.15);
-    border-radius: 24px;
-    padding: 3rem;
-    backdrop-filter: blur(10px);
-}
-
-/* Calculator Tabs */
-.calc-tabs {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 3rem;
-    padding: 8px;
-    background: rgba(15, 23, 42, 0.6);
-    border-radius: 16px;
-    border: 1px solid rgba(45, 106, 200, 0.1);
-}
-
-.calc-tab {
-    flex: 1;
-    padding: 1rem 1.5rem;
-    background: transparent;
-    border: 2px solid transparent;
-    border-radius: 12px;
-    color: var(--text-secondary);
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-}
-
-.calc-tab:hover {
-    background: rgba(45, 106, 200, 0.1);
-    color: var(--text-primary);
-}
-
-.calc-tab.active {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    border-color: transparent;
-    color: white;
-    box-shadow: 0 4px 20px rgba(45, 106, 200, 0.3);
-}
-
-.calc-tab i {
-    font-size: 1.2rem;
-}
-
-/* Services Grid */
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
+/* Calculator Categories */
+.calc-category {
     margin-bottom: 2rem;
 }
 
-/* Service Card */
-.service-card {
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.7));
-    border: 2px solid rgba(45, 106, 200, 0.2);
-    border-radius: 16px;
-    padding: 1.8rem;
-    text-align: center;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-
-.service-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(45, 106, 200, 0.1), transparent);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.service-card:hover::before {
-    opacity: 1;
-}
-
-.service-card:hover {
-    border-color: var(--primary-color);
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(45, 106, 200, 0.2);
-}
-
-.service-card.selected {
-    border-color: var(--accent-color);
-    background: linear-gradient(135deg, rgba(45, 106, 200, 0.15), rgba(244, 114, 182, 0.1));
-}
-
-.service-card.selected::after {
-    content: '\f00c';
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 28px;
-    height: 28px;
-    background: linear-gradient(135deg, var(--accent-color), #f472b6);
-    border-radius: 50%;
+.calc-cat-header {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 0.75rem;
-    color: white;
-    box-shadow: 0 2px 10px rgba(244, 114, 182, 0.4);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid rgba(45, 106, 200, 0.2);
 }
 
-.service-card-icon {
-    width: 70px;
-    height: 70px;
-    margin: 0 auto 1.2rem;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    color: white;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(45, 106, 200, 0.3);
-}
-
-.service-card:hover .service-card-icon {
-    transform: scale(1.1) rotate(5deg);
-}
-
-.service-card.selected .service-card-icon {
-    background: linear-gradient(135deg, var(--accent-color), #f472b6);
-    box-shadow: 0 4px 20px rgba(244, 114, 182, 0.4);
-}
-
-.service-card-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.8rem;
-    line-height: 1.4;
-}
-
-.service-card-price {
-    font-size: 1.8rem;
-    font-weight: 800;
+.calc-cat-header i {
+    font-size: 1.5rem;
     background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 1rem;
 }
 
-.btn-add-service {
-    width: 100%;
-    padding: 0.75rem;
-    background: linear-gradient(135deg, rgba(45, 106, 200, 0.2), rgba(45, 106, 200, 0.1));
-    border: 2px solid var(--primary-color);
-    border-radius: 10px;
-    color: var(--primary-color);
-    font-weight: 600;
-    font-size: 0.95rem;
-    cursor: pointer;
+.calc-cat-header h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+/* Services List */
+.calc-services {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* Service Item */
+.calc-service {
+    background: rgba(30, 41, 59, 0.4);
+    border: 2px solid rgba(45, 106, 200, 0.15);
+    border-radius: 12px;
+    padding: 1rem;
     transition: all 0.3s ease;
+}
+
+.calc-service:hover {
+    border-color: var(--primary-color);
+    background: rgba(30, 41, 59, 0.6);
+}
+
+.calc-service.active {
+    border-color: var(--accent-color);
+    background: linear-gradient(135deg, rgba(45, 106, 200, 0.1), rgba(244, 114, 182, 0.05));
+}
+
+/* Service Main Row */
+.calc-svc-main {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 1rem;
+}
+
+/* Custom Checkbox */
+.calc-checkbox {
+    position: relative;
+    cursor: pointer;
+    display: block;
+    flex-shrink: 0;
+}
+
+.calc-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.calc-checkbox .checkmark {
+    width: 24px;
+    height: 24px;
+    background: rgba(45, 106, 200, 0.2);
+    border: 2px solid var(--primary-color);
+    border-radius: 6px;
+    display: block;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.calc-checkbox input:checked ~ .checkmark {
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+    border-color: transparent;
+}
+
+.calc-checkbox .checkmark::after {
+    content: '\f00c';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    color: white;
+    font-size: 0.7rem;
+    transition: transform 0.2s ease;
+}
+
+.calc-checkbox input:checked ~ .checkmark::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Service Info */
+.calc-svc-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.calc-svc-info i {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    flex-shrink: 0;
+}
+
+.calc-svc-info > div {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.calc-svc-info strong {
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.calc-price {
+    color: var(--accent-color);
+    font-weight: 700;
+    font-size: 1.1rem;
+    white-space: nowrap;
+}
+
+/* Service Options (Addons) */
+.calc-options {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(45, 106, 200, 0.15);
+    display: flex;
+    flex-direction: column;
     gap: 0.5rem;
 }
 
-.btn-add-service:hover {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(45, 106, 200, 0.3);
+.calc-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(15, 23, 42, 0.4);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-.service-card.selected .btn-add-service {
-    background: linear-gradient(135deg, var(--accent-color), #f472b6);
-    border-color: var(--accent-color);
-    color: white;
+.calc-option:hover {
+    background: rgba(15, 23, 42, 0.6);
+}
+
+.calc-option input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+.calc-option span {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.calc-option small {
+    color: var(--accent-color);
+    font-weight: 600;
 }
 
 /* Calculator Summary */
 .calculator-summary {
     background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.6));
     border: 2px solid rgba(45, 106, 200, 0.2);
-    border-radius: 20px;
-    padding: 2rem;
+    border-radius: 16px;
+    padding: 1.5rem;
     position: sticky;
     top: 100px;
 }
 
 .calculator-summary h4 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 700;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
     color: var(--text-primary);
 }
 
 .calculator-summary h4 i {
-    background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--primary-color);
 }
 
-#selectedServicesList {
-    margin-bottom: 1.5rem;
-    min-height: 100px;
-}
-
+/* Empty State */
 .empty-summary {
     text-align: center;
     padding: 2rem 1rem;
     color: var(--text-muted);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
 
 .empty-summary i {
     display: block;
     font-size: 2.5rem;
-    margin-bottom: 1rem;
-    opacity: 0.5;
+    margin-bottom: 0.75rem;
+    opacity: 0.4;
 }
 
-.summary-service-item {
+/* Summary Items */
+.summary-item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 1rem;
+    gap: 0.75rem;
+    padding: 0.75rem;
     background: rgba(30, 41, 59, 0.4);
     border: 1px solid rgba(45, 106, 200, 0.15);
-    border-radius: 10px;
-    margin-bottom: 0.75rem;
-    gap: 0.75rem;
-    transition: all 0.3s ease;
-}
-
-.summary-service-item:hover {
-    background: rgba(30, 41, 59, 0.6);
-    border-color: var(--primary-color);
-}
-
-.summary-service-item span {
-    flex: 1;
-    color: var(--text-primary);
-    font-size: 0.95rem;
-}
-
-.summary-service-item strong {
-    color: var(--accent-color);
-    font-size: 1.1rem;
-    font-weight: 700;
-}
-
-.btn-remove-service {
-    width: 32px;
-    height: 32px;
-    background: rgba(239, 68, 68, 0.2);
-    border: 1px solid rgba(239, 68, 68, 0.3);
     border-radius: 8px;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.summary-item:hover {
+    background: rgba(30, 41, 59, 0.6);
+}
+
+.summary-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.summary-item-info strong {
+    display: block;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+}
+
+.summary-item-info small {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+.summary-item-price {
+    color: var(--accent-color);
+    font-weight: 700;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.summary-remove {
+    width: 28px;
+    height: 28px;
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 6px;
     color: #ef4444;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
 }
 
-.btn-remove-service:hover {
+.summary-remove:hover {
     background: #ef4444;
     color: white;
-    transform: scale(1.1);
 }
 
-/* Total Section */
+/* Total */
 .summary-total {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem;
+    padding: 1rem;
     background: linear-gradient(135deg, rgba(45, 106, 200, 0.15), rgba(244, 114, 182, 0.1));
     border: 2px solid rgba(45, 106, 200, 0.3);
-    border-radius: 12px;
-    margin: 1.5rem 0;
+    border-radius: 10px;
+    margin: 1rem 0;
 }
 
 .summary-total-label {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: var(--text-secondary);
 }
 
 #totalPrice {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     font-weight: 800;
     background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
     -webkit-background-clip: text;
@@ -3060,43 +3059,66 @@ p.text-muted strong,
 /* Action Buttons */
 .calculator-actions {
     display: flex;
-    gap: 1rem;
+    gap: 0.75rem;
 }
 
 #resetCalc {
     flex: 1;
-    padding: 1rem;
+    padding: 0.75rem;
     background: rgba(239, 68, 68, 0.1);
     border: 2px solid rgba(239, 68, 68, 0.3);
-    border-radius: 12px;
+    border-radius: 10px;
     color: #ef4444;
     font-weight: 600;
+    font-size: 0.9rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 #resetCalc:hover {
     background: rgba(239, 68, 68, 0.2);
-    border-color: #ef4444;
     transform: translateY(-2px);
 }
 
 #requestQuote {
     flex: 2;
-    padding: 1rem 1.5rem;
+    padding: 0.75rem 1rem;
     background: linear-gradient(135deg, #25D366, #128C7E);
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     color: white;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.95rem;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
-    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+    gap: 0.5rem;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.25);
+}
+
+#requestQuote:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .calc-svc-info > div {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .calculator-summary {
+        position: static;
+        margin-top: 2rem;
+    }
 }
 
 #requestQuote:hover {

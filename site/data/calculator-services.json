@@ -1,177 +1,123 @@
 {
-    "services": [
+    "categories": [
         {
-            "id": "logo",
-            "category": "design",
-            "name": "تصميم الشعار",
-            "description": "تصميم شعار احترافي (3 خيارات للاختيار)",
-            "icon": "fa-star",
-            "basePrice": 20,
-            "delivery": {
-                "normal": "3-5 أسابيع",
-                "urgent": "1-2 أسابيع",
-                "urgentFee": 10
-            },
-            "addons": [
+            "id": "design",
+            "title": "التصميم",
+            "icon": "fas fa-palette",
+            "services": [
                 {
-                    "id": "editable-file",
-                    "name": "الملف القابل للتعديل",
-                    "price": 15
+                    "id": "logo",
+                    "name": "تصميم شعار",
+                    "icon": "fas fa-star",
+                    "price": 20,
+                    "urgent": 15,
+                    "addons": [
+                        { "name": "ملف مصدري (AI/PSD)", "price": 15 },
+                        { "name": "تجهيز لمنصات التواصل", "price": 5 }
+                    ]
                 },
                 {
-                    "id": "mockup",
-                    "name": "تصميم موكاب بروفايل",
-                    "price": 5
-                }
-            ],
-            "exampleUrl": "#projects"
-        },
-        {
-            "id": "designs",
-            "category": "design",
-            "name": "التصميمات",
-            "description": "اختر واحدة أو أكثر",
-            "icon": "fa-palette",
-            "basePrice": 0,
-            "isMultiSelect": true,
-            "delivery": {
-                "normal": "3-5 أسابيع",
-                "urgent": "1-2 أسابيع",
-                "urgentFee": 5
-            },
-            "options": [
-                {
-                    "id": "header",
-                    "name": "تصميم ترويسة",
-                    "price": 5
+                    "id": "designs",
+                    "name": "تصاميم متنوعة",
+                    "icon": "fas fa-images",
+                    "price": 10,
+                    "urgent": 5
                 },
                 {
-                    "id": "business-card",
-                    "name": "كرت عمل",
-                    "price": 10
-                },
-                {
-                    "id": "social-post",
-                    "name": "قالب منشور وسائل التواصل",
-                    "price": 15
+                    "id": "full-identity",
+                    "name": "هوية بصرية كاملة",
+                    "icon": "fas fa-copyright",
+                    "price": 100,
+                    "urgent": 40
                 }
             ]
         },
         {
-            "id": "project-page",
-            "category": "web",
-            "name": "صفحة لمشروعك",
-            "description": "صفحة واحدة + 4 أقسام + QR + متوافقة مع جميع الأجهزة",
-            "icon": "fa-pager",
-            "basePrice": 60,
-            "delivery": {
-                "normal": "3-5 أسابيع",
-                "urgent": "1-2 أسابيع",
-                "urgentFee": 20
-            },
-            "addons": [
+            "id": "websites",
+            "title": "المواقع",
+            "icon": "fas fa-globe",
+            "services": [
                 {
-                    "id": "custom-link",
-                    "name": "رابط خاص بك",
-                    "price": 50
+                    "id": "bio-page",
+                    "name": "صفحة بايو",
+                    "icon": "fas fa-link",
+                    "price": 20,
+                    "urgent": 10,
+                    "addons": [
+                        { "name": "روابط غير محدودة", "price": 10 }
+                    ]
                 },
                 {
-                    "id": "multilang",
-                    "name": "دعم اللغة العربية والإنجليزية والوضع المظلم",
-                    "price": 10
+                    "id": "landing-page",
+                    "name": "صفحة لمشروعك",
+                    "icon": "fas fa-pager",
+                    "price": 60,
+                    "urgent": 30,
+                    "addons": [
+                        { "name": "دعم لغتين", "price": 20 },
+                        { "name": "وضع مظلم", "price": 10 }
+                    ]
                 },
                 {
-                    "id": "extra-page",
-                    "name": "إضافة صفحة أخرى بسيطة",
-                    "price": 10
-                },
-                {
-                    "id": "products",
-                    "name": "عرض خدمات أو منتجات (1-10 منتجات)",
-                    "price": 30
-                },
-                {
-                    "id": "source-files",
-                    "name": "الملفات المصدرية للموقع",
-                    "price": 50
+                    "id": "store",
+                    "name": "متجر إلكتروني",
+                    "icon": "fas fa-shopping-cart",
+                    "price": 300,
+                    "urgent": 100
                 }
-            ],
-            "exampleUrl": "#projects"
+            ]
         },
         {
-            "id": "bio-page",
-            "category": "web",
-            "name": "صفحة البايو",
-            "description": "صفحة لعرض روابطك الشخصية (شعار + اسم + 3 روابط + QR)",
-            "icon": "fa-link",
-            "basePrice": 20,
-            "delivery": {
-                "normal": "3-5 أسابيع",
-                "urgent": "1-2 أسابيع",
-                "urgentFee": 10
-            },
-            "addons": [
+            "id": "apps",
+            "title": "التطبيقات",
+            "icon": "fas fa-mobile-alt",
+            "services": [
                 {
-                    "id": "extra-link",
-                    "name": "إضافة رابط آخر",
-                    "price": 10,
-                    "repeatable": true
+                    "id": "web-to-app",
+                    "name": "تحويل موقع لتطبيق",
+                    "icon": "fas fa-window-restore",
+                    "price": 150,
+                    "urgent": 50,
+                    "addons": [
+                        { "name": "إشعارات push", "price": 30 }
+                    ]
                 },
                 {
-                    "id": "custom-links",
-                    "name": "رابط مخصص باسمك + روابط مخصصة",
-                    "price": 30
+                    "id": "simple-app",
+                    "name": "تطبيق بسيط",
+                    "icon": "fas fa-mobile-alt",
+                    "price": 400,
+                    "urgent": 150
                 },
                 {
-                    "id": "promo-cards",
-                    "name": "وضع 3 بطاقات دعائية",
-                    "price": 10
+                    "id": "pro-app",
+                    "name": "تطبيق احترافي",
+                    "icon": "fas fa-rocket",
+                    "price": 1500,
+                    "custom": true
                 }
-            ],
-            "exampleUrl": "https://linktr.ee"
+            ]
         },
         {
-            "id": "simple-app",
-            "category": "apps",
-            "name": "تطبيق بسيط",
-            "description": "تطبيق (1-3 صفحات)",
-            "icon": "fa-mobile-alt",
-            "basePrice": 400,
-            "delivery": {
-                "normal": "4-5 أسابيع",
-                "urgent": "2 أسابيع",
-                "urgentFee": 100
-            },
-            "addons": []
-        },
-        {
-            "id": "medium-app",
-            "category": "apps",
-            "name": "تطبيق متوسط",
-            "description": "تطبيق (4-5 صفحات)",
-            "icon": "fa-mobile-screen",
-            "basePrice": 700,
-            "delivery": {
-                "normal": "4-5 أسابيع",
-                "urgent": "2 أسابيع",
-                "urgentFee": 150
-            },
-            "addons": []
-        },
-        {
-            "id": "advanced-app",
-            "category": "apps",
-            "name": "تطبيق احترافي",
-            "description": "سعر مخصص حسب المتطلبات",
-            "icon": "fa-rocket",
-            "basePrice": 0,
-            "isCustomPrice": true,
-            "delivery": {
-                "normal": "حسب المتطلبات",
-                "urgent": "حسب الاتفاق",
-                "urgentFee": 0
-            },
-            "addons": []
+            "id": "sheets",
+            "title": "الجداول",
+            "icon": "fas fa-table",
+            "services": [
+                {
+                    "id": "sheets-basic",
+                    "name": "تنظيم بيانات",
+                    "icon": "fas fa-list",
+                    "price": 40,
+                    "urgent": 20
+                },
+                {
+                    "id": "sheets-auto",
+                    "name": "أتمتة متقدمة",
+                    "icon": "fas fa-robot",
+                    "price": 100,
+                    "urgent": 40
+                }
+            ]
         }
     ]
 }
