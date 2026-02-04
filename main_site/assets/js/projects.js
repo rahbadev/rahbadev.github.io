@@ -19,10 +19,10 @@ const ProjectsApp = {
             const response1 = await fetch('data/projects.json');
             const regularProjects = await response1.json();
 
-            // تحميل المشاريع البرمجية من projects.json (المولدة من build.js)
+            // تحميل المشاريع البرمجية من apps_factory/dist/projects.json (المولدة من build.js)
             let programmingProjects = [];
             try {
-                const response2 = await fetch('projects.json');
+                const response2 = await fetch('../apps_factory/dist/projects.json');
                 const buildProjects = await response2.json();
                 // تحويل المشاريع البرمجية إلى الصيغة المتوافقة
                 programmingProjects = buildProjects.map(proj => ({
@@ -31,8 +31,8 @@ const ProjectsApp = {
                     description: proj.description,
                     category: 'apps',
                     categoryName: 'تطبيقات',
-                    image: `projects/${proj.id}/${proj.icon}`,
-                    link: proj.link,
+                    image: `../apps_factory/dist/projects/${proj.id}/${proj.icon}`,
+                    link: `../${proj.link}`,
                     badge: proj.status === 'available' ? 'متوفر' : 'قيد التطوير',
                     technologies: [],
                     isProgrammingProject: true // علامة للمشاريع البرمجية

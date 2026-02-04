@@ -11,11 +11,9 @@ const Calculator = {
 
     // Initialize
     async init() {
-        console.log('Calculator: Loading...');
         await this.loadServices();
         this.renderServices();
         this.attachEvents();
-        console.log('Calculator: Ready!');
     },
 
     // Load services from JSON
@@ -24,7 +22,6 @@ const Calculator = {
             const response = await fetch('data/calculator-services.json');
             const data = await response.json();
             this.state.services = data.services;
-            console.log('Loaded services:', this.state.services.length);
         } catch (error) {
             console.error('Error loading services:', error);
         }

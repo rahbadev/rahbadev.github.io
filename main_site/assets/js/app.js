@@ -250,7 +250,7 @@ async function loadServices() {
                                         ${service.price > 0 ? `<span class="price-value-simple" style="color: ${category.color};">${service.price}$</span>` : ''}
                                     </div>
                                     ${service.exampleUrl ? `
-                                        <a href="${service.exampleUrl}" class="btn-view-example">
+                                        <a href="${service.exampleUrl}" target="_blank" class="btn-view-example">
                                             <i class="fas fa-eye"></i> مثال
                                         </a>
                                     ` : `<div class="btn-placeholder"></div>`}

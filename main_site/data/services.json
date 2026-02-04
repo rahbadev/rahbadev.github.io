@@ -13,7 +13,7 @@
                     "icon": "fas fa-star",
                     "price": 20,
                     "priceLabel": "تبدأ من",
-                    "exampleUrl": "#projects"
+                    "exampleUrl": "assets/demo/logo-demo.html"
                 },
                 {
                     "title": "تصميمات متنوعة",

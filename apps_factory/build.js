@@ -1,10 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 
-const PROJECTS_DIR = path.join(__dirname, 'projects');
-const TEMPLATE_PATH = path.join(__dirname, '_templates', 'project-template.html');
-const PRIVACY_TEMPLATE_PATH = path.join(__dirname, '_templates', 'privacy-policy-template.html');
-const OUTPUT_JSON = path.join(__dirname, 'projects.json');
+const PROJECTS_DIR = path.join(__dirname, 'projects_source');
+const TEMPLATE_PATH = path.join(__dirname, 'templates', 'project-template.html');
+const PRIVACY_TEMPLATE_PATH = path.join(__dirname, 'templates', 'privacy-policy-template.html');
+const OUTPUT_JSON = path.join(__dirname, 'dist', 'projects.json');
+const OUTPUT_DIR = path.join(__dirname, 'dist', 'projects');
 
 function getFileSize(filePath) {
     try {
@@ -116,6 +117,11 @@ function build() {
     if (!fs.existsSync(PROJECTS_DIR)) return console.error('❌ Projects dir missing');
     if (!fs.existsSync(TEMPLATE_PATH)) return console.error('❌ Template missing');
 
+    // Create dist/projects directory if it doesn't exist
+    if (!fs.existsSync(OUTPUT_DIR)) {
+        fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+    }
+
     const template = fs.readFileSync(TEMPLATE_PATH, 'utf8');
     let privacyTemplate = '';
     try { privacyTemplate = fs.readFileSync(PRIVACY_TEMPLATE_PATH, 'utf8'); } catch (e) { }
@@ -171,7 +177,40 @@ function build() {
         let size = apkFile ? getFileSize(path.join(pPath, apkFile)) : '';
         html = html.replace('{{VERSION_INFO}}', ver).replace('{{FILE_SIZE}}', size);
 
-        fs.writeFileSync(path.join(pPath, 'index.html'), html);
+        // Write to dist/projects directory
+        const outputProjectDir = path.join(OUTPUT_DIR, folder);
+        if (!fs.existsSync(outputProjectDir)) {
+            fs.mkdirSync(outputProjectDir, { recursive: true });
+        }
+
+        // Copy project files to dist
+        fs.writeFileSync(path.join(outputProjectDir, 'index.html'), html);
+
+        // Copy icon/logo
+        const iconSource = path.join(pPath, icon);
+        if (fs.existsSync(iconSource)) {
+            fs.copyFileSync(iconSource, path.join(outputProjectDir, icon));
+        }
+
+        // Copy screens folder
+        if (screens.length > 0) {
+            const screensDir = path.join(outputProjectDir, 'screens');
+            if (!fs.existsSync(screensDir)) {
+                fs.mkdirSync(screensDir, { recursive: true });
+            }
+            screens.forEach(screen => {
+                fs.copyFileSync(
+                    path.join(pPath, 'screens', screen),
+                    path.join(screensDir, screen)
+                );
+            });
+        }
+
+        // Copy APK if exists
+        if (apkFile) {
+            fs.copyFileSync(path.join(pPath, apkFile), path.join(outputProjectDir, apkFile));
+        }
+
         console.log(`✅ Built: ${folder} (${primary})`);
 
         if (info.privacyPolicy && privacyTemplate) {
@@ -207,7 +246,7 @@ function build() {
                 .replace(/{{SECONDARY_RGB}}/g, secondaryRgb)
                 .replace(/{{PRIVACY_CONTENT_AR}}/g, arContent)
                 .replace(/{{PRIVACY_CONTENT_EN}}/g, enContent);
-            fs.writeFileSync(path.join(pPath, 'privacy-policy.html'), pHtml);
+            fs.writeFileSync(path.join(outputProjectDir, 'privacy-policy.html'), pHtml);
             console.log(`   📄 Privacy policy generated (AR + EN)`);
         }
 
