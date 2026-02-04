@@ -1,285 +1,133 @@
 // =========================================
-// Smart Calculator - Clean & Simple
+// Smart Calculator - Simplified & Clean
 // =========================================
 
 const Calculator = {
-    // State
     state: {
-        services: [],
-        selectedServices: []
+        data: null,
+        selected: new Map() // serviceId => { urgent: false, addons: Set() }
     },
 
-    // Initialize
     async init() {
-        await this.loadServices();
-        this.renderServices();
+        await this.loadData();
+        this.render();
         this.attachEvents();
     },
 
-    // Load services from JSON
-    async loadServices() {
+    async loadData() {
         try {
-            const response = await fetch('data/calculator-services.json');
-            const data = await response.json();
-            this.state.services = data.services;
-        } catch (error) {
-            console.error('Error loading services:', error);
+            const res = await fetch('data/calculator-services.json');
+            this.state.data = await res.json();
+        } catch (err) {
+            console.error('خطأ في تحميل البيانات:', err);
         }
     },
 
-    // Render all services
-    renderServices() {
+    render() {
         const container = document.getElementById('servicesGrid');
-        if (!container) return;
+        if (!container || !this.state.data) return;
 
-        const categories = {
-            design: { name: 'التصميم', services: [] },
-            web: { name: 'المواقع', services: [] },
-            apps: { name: 'التطبيقات', services: [] }
-        };
-
-        // Group services by category
-        this.state.services.forEach(service => {
-            if (categories[service.category]) {
-                categories[service.category].services.push(service);
-            }
-        });
-
-        // Render categories
-        let html = '';
-        for (const [catId, category] of Object.entries(categories)) {
-            if (category.services.length === 0) continue;
-
-            html += `
-                <div class="service-category">
-                    <h3 class="category-title">
-                        <i class="fas ${this.getCategoryIcon(catId)}"></i>
-                        ${category.name}
-                    </h3>
-                    <div class="services-list">
-                        ${category.services.map(s => this.renderServiceCard(s)).join('')}
-                    </div>
+        container.innerHTML = this.state.data.categories.map(cat => `
+            <div class="calc-category">
+                <div class="calc-cat-header">
+                    <i class="${cat.icon}"></i>
+                    <h3>${cat.title}</h3>
                 </div>
-            `;
-        }
+                <div class="calc-services">
+                    ${cat.services.map(svc => this.renderService(svc, cat.id)).join('')}
+                </div>
+            </div>
+        `).join('');
 
-        container.innerHTML = html;
+        this.updateSummary();
     },
 
-    // Render single service card
-    renderServiceCard(service) {
-        const isSelected = this.isServiceSelected(service.id);
-        const selection = this.getServiceSelection(service.id);
-
+    renderService(svc, catId) {
+        const sel = this.state.selected.get(svc.id);
+        const isActive = !!sel;
+        
         return `
-            <div class="service-item ${isSelected ? 'selected' : ''}" data-service-id="${service.id}">
-                <div class="service-header">
-                    <div class="service-icon">
-                        <i class="fas ${service.icon}"></i>
-                    </div>
-                    <div class="service-info">
-                        <h4>${service.name}</h4>
-                        <p>${service.description}</p>
-                    </div>
-                    <div class="service-price">
-                        ${service.isCustomPrice ?
-                '<span class="custom-price">سعر مخصص</span>' :
-                `<span class="price-amount">${service.basePrice}$</span>`
-            }
-                        ${!service.isCustomPrice ? '<span class="price-label">تبدأ من</span>' : ''}
+            <div class="calc-service ${isActive ? 'active' : ''}" data-id="${svc.id}">
+                <div class="calc-svc-main">
+                    <label class="calc-checkbox">
+                        <input type="checkbox" 
+                               ${isActive ? 'checked' : ''} 
+                               onchange="Calculator.toggle('${svc.id}')">
+                        <span class="checkmark"></span>
+                    </label>
+                    <div class="calc-svc-info">
+                        <i class="${svc.icon}"></i>
+                        <div>
+                            <strong>${svc.name}</strong>
+                            <span class="calc-price">${svc.custom ? 'حسب الطلب' : svc.price + '$'}</span>
+                        </div>
                     </div>
                 </div>
-
-                ${!service.isCustomPrice ? `
-                    <button class="btn-select-service" onclick="Calculator.toggleService('${service.id}')">
-                        <i class="fas ${isSelected ? 'fa-check' : 'fa-plus'}"></i>
-                        ${isSelected ? 'مُضاف' : 'اختيار'}
-                    </button>
-
-                    ${isSelected ? this.renderServiceOptions(service, selection) : ''}
-                ` : `
-                    <button class="btn-contact" onclick="window.location.href='#contact'">
-                        <i class="fas fa-comments"></i>
-                        تواصل معنا للتسعير
-                    </button>
-                `}
+                
+                ${isActive && !svc.custom ? `
+                    <div class="calc-options">
+                        ${svc.urgent ? `
+                            <label class="calc-option">
+                                <input type="checkbox" 
+                                       ${sel.urgent ? 'checked' : ''}
+                                       onchange="Calculator.toggleUrgent('${svc.id}')">
+                                <span>⚡ تسليم عاجل <small>(+${svc.urgent}$)</small></span>
+                            </label>
+                        ` : ''}
+                        
+                        ${(svc.addons || []).map((addon, i) => `
+                            <label class="calc-option">
+                                <input type="checkbox"
+                                       ${sel.addons.has(i) ? 'checked' : ''}
+                                       onchange="Calculator.toggleAddon('${svc.id}', ${i})">
+                                <span>${addon.name} <small>(+${addon.price}$)</small></span>
+                            </label>
+                        `).join('')}
+                    </div>
+                ` : ''}
             </div>
         `;
     },
 
-    // Render service options (addons & delivery)
-    renderServiceOptions(service, selection) {
-        let html = '<div class="service-options">';
-
-        // Multi-select options (for designs)
-        if (service.isMultiSelect && service.options) {
-            html += '<div class="options-group"><h5>اختر التصميمات:</h5>';
-            service.options.forEach(option => {
-                const checked = selection.options?.includes(option.id) ? 'checked' : '';
-                html += `
-                    <label class="option-checkbox">
-                        <input type="checkbox" 
-                               value="${option.id}" 
-                               ${checked}
-                               onchange="Calculator.updateServiceOption('${service.id}', '${option.id}', this.checked)">
-                        <span>${option.name} (+${option.price}$)</span>
-                    </label>
-                `;
-            });
-            html += '</div>';
-        }
-
-        // Addons
-        if (service.addons && service.addons.length > 0) {
-            html += '<div class="options-group"><h5>إضافات اختيارية:</h5>';
-            service.addons.forEach(addon => {
-                const checked = selection.addons?.includes(addon.id) ? 'checked' : '';
-                html += `
-                    <label class="option-checkbox">
-                        <input type="checkbox" 
-                               value="${addon.id}" 
-                               ${checked}
-                               onchange="Calculator.updateServiceAddon('${service.id}', '${addon.id}', this.checked)">
-                        <span>${addon.name} (+${addon.price}$)</span>
-                    </label>
-                `;
-            });
-            html += '</div>';
-        }
-
-        // Delivery options
-        if (service.delivery && service.delivery.urgentFee > 0) {
-            const checked = selection.urgent ? 'checked' : '';
-            html += `
-                <div class="options-group">
-                    <h5>وقت التسليم:</h5>
-                    <label class="option-checkbox delivery-option">
-                        <input type="checkbox" 
-                               ${checked}
-                               onchange="Calculator.updateServiceDelivery('${service.id}', this.checked)">
-                        <span>
-                            <strong>تسليم مستعجل</strong> 
-                            (${service.delivery.urgent} بدلاً من ${service.delivery.normal})
-                            <strong class="text-danger">+${service.delivery.urgentFee}$</strong>
-                        </span>
-                    </label>
-                </div>
-            `;
-        }
-
-        html += '</div>';
-        return html;
-    },
-
-    // Toggle service selection
-    toggleService(serviceId) {
-        const service = this.state.services.find(s => s.id === serviceId);
-        if (!service) return;
-
-        const index = this.state.selectedServices.findIndex(s => s.serviceId === serviceId);
-
-        if (index > -1) {
-            // Remove service
-            this.state.selectedServices.splice(index, 1);
+    toggle(id) {
+        if (this.state.selected.has(id)) {
+            this.state.selected.delete(id);
         } else {
-            // Add service
-            this.state.selectedServices.push({
-                serviceId: serviceId,
-                options: [],
-                addons: [],
-                urgent: false
-            });
+            this.state.selected.set(id, { urgent: false, addons: new Set() });
         }
-
-        this.renderServices();
-        this.updateSummary();
+        this.render();
     },
 
-    // Update service option (for multi-select)
-    updateServiceOption(serviceId, optionId, checked) {
-        const selection = this.getServiceSelection(serviceId);
-        if (!selection) return;
-
-        if (checked) {
-            if (!selection.options.includes(optionId)) {
-                selection.options.push(optionId);
-            }
-        } else {
-            selection.options = selection.options.filter(id => id !== optionId);
+    toggleUrgent(id) {
+        const sel = this.state.selected.get(id);
+        if (sel) {
+            sel.urgent = !sel.urgent;
+            this.updateSummary();
         }
-
-        this.updateSummary();
     },
 
-    // Update service addon
-    updateServiceAddon(serviceId, addonId, checked) {
-        const selection = this.getServiceSelection(serviceId);
-        if (!selection) return;
-
-        if (checked) {
-            if (!selection.addons.includes(addonId)) {
-                selection.addons.push(addonId);
+    toggleAddon(id, addonIndex) {
+        const sel = this.state.selected.get(id);
+        if (sel) {
+            if (sel.addons.has(addonIndex)) {
+                sel.addons.delete(addonIndex);
+            } else {
+                sel.addons.add(addonIndex);
             }
-        } else {
-            selection.addons = selection.addons.filter(id => id !== addonId);
+            this.updateSummary();
         }
-
-        this.updateSummary();
     },
 
-    // Update delivery option
-    updateServiceDelivery(serviceId, urgent) {
-        const selection = this.getServiceSelection(serviceId);
-        if (!selection) return;
-
-        selection.urgent = urgent;
-        this.updateSummary();
-    },
-
-    // Calculate total price
-    calculateTotal() {
-        let total = 0;
-
-        this.state.selectedServices.forEach(selection => {
-            const service = this.state.services.find(s => s.id === selection.serviceId);
-            if (!service || service.isCustomPrice) return;
-
-            // Base price
-            total += service.basePrice;
-
-            // Multi-select options
-            if (service.isMultiSelect && service.options) {
-                selection.options.forEach(optionId => {
-                    const option = service.options.find(o => o.id === optionId);
-                    if (option) total += option.price;
-                });
-            }
-
-            // Addons
-            if (service.addons) {
-                selection.addons.forEach(addonId => {
-                    const addon = service.addons.find(a => a.id === addonId);
-                    if (addon) total += addon.price;
-                });
-            }
-
-            // Urgent delivery
-            if (selection.urgent && service.delivery) {
-                total += service.delivery.urgentFee;
-            }
-        });
-
-        return total;
-    },
-
-    // Update summary sidebar
     updateSummary() {
         const listEl = document.getElementById('selectedServicesList');
         const totalEl = document.getElementById('totalPrice');
-
+        
         if (!listEl || !totalEl) return;
 
-        if (this.state.selectedServices.length === 0) {
+        let total = 0;
+        let html = '';
+
+        if (this.state.selected.size === 0) {
             listEl.innerHTML = `
                 <div class="empty-summary">
                     <i class="fas fa-info-circle"></i>
@@ -290,132 +138,124 @@ const Calculator = {
             return;
         }
 
-        // Build summary list
-        let html = '';
-        this.state.selectedServices.forEach(selection => {
-            const service = this.state.services.find(s => s.id === selection.serviceId);
-            if (!service) return;
+        this.state.selected.forEach((sel, id) => {
+            const svc = this.findService(id);
+            if (!svc || svc.custom) return;
+
+            let price = svc.price;
+            const extras = [];
+
+            if (sel.urgent && svc.urgent) {
+                price += svc.urgent;
+                extras.push('⚡ عاجل');
+            }
+
+            sel.addons.forEach(i => {
+                const addon = svc.addons[i];
+                if (addon) {
+                    price += addon.price;
+                    extras.push(addon.name);
+                }
+            });
+
+            total += price;
 
             html += `
                 <div class="summary-item">
-                    <strong>${service.name}</strong>
-                    <span>${service.basePrice}$</span>
-                    <button class="btn-remove" onclick="Calculator.toggleService('${service.id}')">
+                    <div class="summary-item-info">
+                        <strong>${svc.name}</strong>
+                        ${extras.length ? `<small>${extras.join(' • ')}</small>` : ''}
+                    </div>
+                    <span class="summary-item-price">${price}$</span>
+                    <button class="summary-remove" onclick="Calculator.toggle('${id}')">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
             `;
-
-            // Show selected options
-            if (service.isMultiSelect && selection.options.length > 0) {
-                selection.options.forEach(optionId => {
-                    const option = service.options.find(o => o.id === optionId);
-                    if (option) {
-                        html += `<div class="summary-sub-item">+ ${option.name} (${option.price}$)</div>`;
-                    }
-                });
-            }
-
-            // Show selected addons
-            selection.addons.forEach(addonId => {
-                const addon = service.addons.find(a => a.id === addonId);
-                if (addon) {
-                    html += `<div class="summary-sub-item">+ ${addon.name} (${addon.price}$)</div>`;
-                }
-            });
-
-            // Show urgent delivery
-            if (selection.urgent && service.delivery) {
-                html += `<div class="summary-sub-item text-danger">+ تسليم مستعجل (${service.delivery.urgentFee}$)</div>`;
-            }
         });
 
         listEl.innerHTML = html;
-        totalEl.textContent = this.calculateTotal() + '$';
+        totalEl.textContent = total + '$';
     },
 
-    // Reset calculator
-    reset() {
-        this.state.selectedServices = [];
-        this.renderServices();
-        this.updateSummary();
+    findService(id) {
+        for (const cat of this.state.data.categories) {
+            const svc = cat.services.find(s => s.id === id);
+            if (svc) return svc;
+        }
+        return null;
     },
 
-    // Send to WhatsApp
-    sendToWhatsApp() {
-        if (this.state.selectedServices.length === 0) {
-            alert('الرجاء اختيار خدمة واحدة على الأقل');
+    attachEvents() {
+        const resetBtn = document.getElementById('resetCalc');
+        const quoteBtn = document.getElementById('requestQuote');
+
+        if (resetBtn) {
+            resetBtn.onclick = () => {
+                this.state.selected.clear();
+                this.render();
+            };
+        }
+
+        if (quoteBtn) {
+            quoteBtn.onclick = () => this.sendQuote();
+        }
+    },
+
+    sendQuote() {
+        if (this.state.selected.size === 0) {
+            alert('⚠️ اختر خدمة واحدة على الأقل');
             return;
         }
 
-        let message = 'مرحباً! أرغب في طلب الخدمات التالية:%0a%0a';
+        let message = '🎯 *طلب عرض سعر*\n\n';
+        let total = 0;
 
-        this.state.selectedServices.forEach(selection => {
-            const service = this.state.services.find(s => s.id === selection.serviceId);
-            if (!service) return;
+        this.state.selected.forEach((sel, id) => {
+            const svc = this.findService(id);
+            if (!svc) return;
 
-            message += `📌 *${service.name}* (${service.basePrice}$)%0a`;
-
-            if (service.isMultiSelect && selection.options.length > 0) {
-                selection.options.forEach(optionId => {
-                    const option = service.options.find(o => o.id === optionId);
-                    if (option) message += `   ✓ ${option.name} (+${option.price}$)%0a`;
-                });
+            let price = svc.custom ? 0 : svc.price;
+            message += `▫️ *${svc.name}*`;
+            
+            if (svc.custom) {
+                message += ' (سعر حسب الطلب)\n';
+                return;
             }
 
-            selection.addons.forEach(addonId => {
-                const addon = service.addons.find(a => a.id === addonId);
-                if (addon) message += `   ✓ ${addon.name} (+${addon.price}$)%0a`;
+            const extras = [];
+            if (sel.urgent && svc.urgent) {
+                price += svc.urgent;
+                extras.push('⚡ تسليم عاجل');
+            }
+
+            sel.addons.forEach(i => {
+                const addon = svc.addons[i];
+                if (addon) {
+                    price += addon.price;
+                    extras.push('• ' + addon.name);
+                }
             });
 
-            if (selection.urgent && service.delivery) {
-                message += `   ⚡ تسليم مستعجل (+${service.delivery.urgentFee}$)%0a`;
+            if (extras.length) {
+                message += '\n  ' + extras.join('\n  ');
             }
 
-            message += '%0a';
+            message += `\n  💵 ${price}$\n\n`;
+            total += price;
         });
 
-        const total = this.calculateTotal();
-        message += `*الإجمالي: ${total}$*%0a`;
-        message += `الدفعة المقدمة (50%): ${total / 2}$`;
-
-        const phone = '963000000000';
-        window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
-    },
-
-    // Helper functions
-    isServiceSelected(serviceId) {
-        return this.state.selectedServices.some(s => s.serviceId === serviceId);
-    },
-
-    getServiceSelection(serviceId) {
-        return this.state.selectedServices.find(s => s.serviceId === serviceId);
-    },
-
-    getCategoryIcon(category) {
-        const icons = {
-            design: 'fa-palette',
-            web: 'fa-globe',
-            apps: 'fa-mobile-alt'
-        };
-        return icons[category] || 'fa-star';
-    },
-
-    // Attach events
-    attachEvents() {
-        const resetBtn = document.getElementById('resetCalc');
-        if (resetBtn) {
-            resetBtn.onclick = () => this.reset();
+        if (total > 0) {
+            message += `━━━━━━━━━━━━━━\n*الإجمالي:* ${total}$`;
         }
 
-        const quoteBtn = document.getElementById('requestQuote');
-        if (quoteBtn) {
-            quoteBtn.onclick = () => this.sendToWhatsApp();
-        }
+        const phone = '963000000000'; // تحديث رقم الواتساب
+        const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
     }
 };
 
-// Initialize when DOM is ready
+// Auto-init
 document.addEventListener('DOMContentLoaded', () => {
     Calculator.init();
 });

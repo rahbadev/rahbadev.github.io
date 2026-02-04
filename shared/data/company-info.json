@@ -3,11 +3,11 @@
     "nameEn": "Rehba Dev",
     "tagline": "نحول أفكارك لواقع رقمي",
     "description": "تصميم | برمجة | هويات بصرية",
-    "descriptionLong": "شرمتخصصة في التصميم والبرمجة وتطوير الحلول الرقمية",
+    "descriptionLong": "شركة متخصصة في البرمجة والحلول الرقمية",
     "logo": "../shared/images/brand.webp",
     "established": "2024",
     "location": {
-        "country": "السعودية",
+        "country": "سوريا",
         "city": ""
     },
     "contact": {
@@ -21,7 +21,6 @@
         "twitter": "https://twitter.com/rahbadev",
         "github": "https://github.com/rahbadev",
         "playstore": "https://play.google.com/store/apps/dev?id=6736668226615202750",
-        "linkedin": "",
         "instagram": ""
     },
     "navigation": {
