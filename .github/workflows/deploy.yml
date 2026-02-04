@@ -22,7 +22,7 @@ jobs:
           node-version: '20'
 
       - name: 🔨 Build Programming Projects
-        run: node build.js
+        run: node apps/build.js
 
       - name: 🚀 Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
