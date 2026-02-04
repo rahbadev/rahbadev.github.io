@@ -1,11 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 
-const PROJECTS_DIR = path.join(__dirname, 'projects_source');
+const PROJECTS_DIR = __dirname; // المشاريع في نفس المجلد (apps/)
 const TEMPLATE_PATH = path.join(__dirname, 'templates', 'project-template.html');
 const PRIVACY_TEMPLATE_PATH = path.join(__dirname, 'templates', 'privacy-policy-template.html');
 const OUTPUT_JSON = path.join(__dirname, '..', 'site', 'data', 'projects.json');
-const OUTPUT_DIR = path.join(__dirname, '..', 'projects');
 
 function getFileSize(filePath) {
     try {
@@ -117,16 +116,16 @@ function build() {
     if (!fs.existsSync(PROJECTS_DIR)) return console.error('❌ Projects dir missing');
     if (!fs.existsSync(TEMPLATE_PATH)) return console.error('❌ Template missing');
 
-    // Create dist/projects directory if it doesn't exist
-    if (!fs.existsSync(OUTPUT_DIR)) {
-        fs.mkdirSync(OUTPUT_DIR, { recursive: true });
-    }
-
     const template = fs.readFileSync(TEMPLATE_PATH, 'utf8');
     let privacyTemplate = '';
     try { privacyTemplate = fs.readFileSync(PRIVACY_TEMPLATE_PATH, 'utf8'); } catch (e) { }
 
-    const folders = fs.readdirSync(PROJECTS_DIR).filter(f => fs.statSync(path.join(PROJECTS_DIR, f)).isDirectory());
+    const folders = fs.readdirSync(PROJECTS_DIR).filter(f => {
+        const fullPath = path.join(PROJECTS_DIR, f);
+        return fs.statSync(fullPath).isDirectory() && 
+               f !== 'templates' && 
+               f !== 'node_modules';
+    });
     const allProjects = [];
 
     folders.forEach(folder => {
@@ -177,41 +176,10 @@ function build() {
         let size = apkFile ? getFileSize(path.join(pPath, apkFile)) : '';
         html = html.replace('{{VERSION_INFO}}', ver).replace('{{FILE_SIZE}}', size);
 
-        // Write to dist/projects directory
-        const outputProjectDir = path.join(OUTPUT_DIR, folder);
-        if (!fs.existsSync(outputProjectDir)) {
-            fs.mkdirSync(outputProjectDir, { recursive: true });
-        }
+        // Update index.html in the project's own directory
+        fs.writeFileSync(path.join(pPath, 'index.html'), html);
 
-        // Copy project files to dist
-        fs.writeFileSync(path.join(outputProjectDir, 'index.html'), html);
-
-        // Copy icon/logo
-        const iconSource = path.join(pPath, icon);
-        if (fs.existsSync(iconSource)) {
-            fs.copyFileSync(iconSource, path.join(outputProjectDir, icon));
-        }
-
-        // Copy screens folder
-        if (screens.length > 0) {
-            const screensDir = path.join(outputProjectDir, 'screens');
-            if (!fs.existsSync(screensDir)) {
-                fs.mkdirSync(screensDir, { recursive: true });
-            }
-            screens.forEach(screen => {
-                fs.copyFileSync(
-                    path.join(pPath, 'screens', screen),
-                    path.join(screensDir, screen)
-                );
-            });
-        }
-
-        // Copy APK if exists
-        if (apkFile) {
-            fs.copyFileSync(path.join(pPath, apkFile), path.join(outputProjectDir, apkFile));
-        }
-
-        console.log(`✅ Built: ${folder} (${primary})`);
+        console.log(`✅ Updated: ${folder} (${primary})`);
 
         if (info.privacyPolicy && privacyTemplate) {
             // Generate Arabic content
@@ -246,16 +214,16 @@ function build() {
                 .replace(/{{SECONDARY_RGB}}/g, secondaryRgb)
                 .replace(/{{PRIVACY_CONTENT_AR}}/g, arContent)
                 .replace(/{{PRIVACY_CONTENT_EN}}/g, enContent);
-            fs.writeFileSync(path.join(outputProjectDir, 'privacy-policy.html'), pHtml);
-            console.log(`   📄 Privacy policy generated (AR + EN)`);
+            fs.writeFileSync(path.join(pPath, 'privacy-policy.html'), pHtml);
+            console.log(`   📄 Privacy policy updated (AR + EN)`);
         }
 
         allProjects.push({
             id: folder,
             title: info.title,
             description: info.tagline,
-            icon: logo,
-            link: `projects/${folder}/`,
+            icon: `apps/${folder}/${logo}`,
+            link: `apps/${folder}/`,
             status: info.status || 'available'
         });
     });

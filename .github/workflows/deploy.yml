@@ -21,8 +21,8 @@ jobs:
         with:
           node-version: '20'
 
-      - name: 🔨 Build Projects Pages
-        run: node apps/build.js
+      - name: 🔨 Build Projects
+        run: node build.js
         
       - name: 📋 Verify Build Output
         run: |
