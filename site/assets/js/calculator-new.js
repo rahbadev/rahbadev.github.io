@@ -45,7 +45,7 @@ const Calculator = {
     renderService(svc, catId) {
         const sel = this.state.selected.get(svc.id);
         const isActive = !!sel;
-        
+
         return `
             <div class="calc-service ${isActive ? 'active' : ''}" data-id="${svc.id}">
                 <div class="calc-svc-main">
@@ -121,7 +121,7 @@ const Calculator = {
     updateSummary() {
         const listEl = document.getElementById('selectedServicesList');
         const totalEl = document.getElementById('totalPrice');
-        
+
         if (!listEl || !totalEl) return;
 
         let total = 0;
@@ -217,7 +217,7 @@ const Calculator = {
 
             let price = svc.custom ? 0 : svc.price;
             message += `▫️ *${svc.name}*`;
-            
+
             if (svc.custom) {
                 message += ' (سعر حسب الطلب)\n';
                 return;

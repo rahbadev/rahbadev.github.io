@@ -2829,7 +2829,7 @@ p.text-muted strong,
     position: relative;
 }
 
-.calc-checkbox input:checked ~ .checkmark {
+.calc-checkbox input:checked~.checkmark {
     background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
     border-color: transparent;
 }
@@ -2847,7 +2847,7 @@ p.text-muted strong,
     transition: transform 0.2s ease;
 }
 
-.calc-checkbox input:checked ~ .checkmark::after {
+.calc-checkbox input:checked~.checkmark::after {
     transform: translate(-50%, -50%) scale(1);
 }
 
@@ -2865,7 +2865,7 @@ p.text-muted strong,
     flex-shrink: 0;
 }
 
-.calc-svc-info > div {
+.calc-svc-info>div {
     flex: 1;
     display: flex;
     justify-content: space-between;
@@ -3109,12 +3109,12 @@ p.text-muted strong,
 
 /* Responsive */
 @media (max-width: 768px) {
-    .calc-svc-info > div {
+    .calc-svc-info>div {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
     }
-    
+
     .calculator-summary {
         position: static;
         margin-top: 2rem;
