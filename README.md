@@ -44,9 +44,9 @@ rehbadev-website/
 
 ## 🎯 البيانات المشتركة
 
-### shared/data/company-info.json
+### 1️⃣ `shared/data/company-info.json` - معلومات الشركة
 
-**المصدر الوحيد للحقيقة** - جميع معلومات الشركة مركزية هنا:
+**المصدر الوحيد** لمعلومات الشركة والتواصل:
 
 ```json
 {
@@ -70,17 +70,62 @@ rehbadev-website/
 }
 ```
 
+### 2️⃣ `site/data/services.json` - الخدمات المفصلة
+
+**المصدر الوحيد** لجميع الخدمات:
+
+```json
+{
+  "categories": [
+    {
+      "id": "design",
+      "title": "التصميم",
+      "icon": "fas fa-palette",
+      "color": "#ec4899",
+      "description": "...",
+      "services": [...]
+    }
+  ]
+}
+```
+
+### 📊 التكامل بين الصفحات
+
+| الصفحة | مصدر البيانات | الاستخدام |
+|--------|--------------|-----------|
+| **site/index.html** | `company-info.json` + `services.json` | معلومات التواصل + عرض الخدمات |
+| **bio/index.html** | `company-info.json` + `services.json` | الترويسة + ماذا نقدم (4 فئات) |
+| **calculator** | `services.json` | احسب تكلفة مشروعك |
+
+### 🎨 توحيد التصميم
+
+- **الألوان:** `shared/css/variables.css` (متغيرات CSS موحدة)
+- **الخطوط:** `shared/fonts/cairo.css`
+- **الأيقونات:** `shared/vendor/fontawesome/`
+
+جميع الصفحات تستخدم نفس الألوان من `--primary-color`, `--text-primary`, إلخ.
+
 ### كيفية الاستخدام
 
 **في أي صفحة HTML:**
 
 ```javascript
+// تحميل معلومات الشركة
 fetch('../shared/data/company-info.json')
   .then(res => res.json())
   .then(data => {
-    // استخدم البيانات
     document.getElementById('email').href = `mailto:${data.contact.email}`;
     document.getElementById('whatsapp').href = data.contact.whatsappLink;
+  });
+
+// تحميل الخدمات
+fetch('../site/data/services.json')
+  .then(res => res.json())
+  .then(data => {
+    // عرض الخدمات
+    data.categories.forEach(cat => {
+      console.log(cat.title, cat.color);
+    });
   });
 ```
 
