@@ -44,7 +44,7 @@
                     "icon": "fas fa-link",
                     "price": 20,
                     "priceLabel": "تبدأ من",
-                    "exampleUrl": "https://linktr.ee"
+                    "exampleUrl": "demos/bio-demo.html"
                 },
                 {
                     "title": "صفحة لمشروعك",
