@@ -1,0 +1,83 @@
+[
+    {
+        "id": "store_demo",
+        "title": "متجر الأناقة - نموذج تجريبي",
+        "category": "stores",
+        "categoryName": "متاجر",
+        "description": "متجر إلكتروني عصري بتصميم احترافي مع سلة تسوق وربط واتساب مباشر",
+        "image": "assets/images/projects/store_demo.webp",
+        "link": "assets/demo/store-demo.html",
+        "badge": "عرض تجريبي",
+        "technologies": [
+            "Tailwind CSS",
+            "Alpine.js",
+            "Font Awesome"
+        ],
+        "features": "سلة تسوق + قائمة أمنيات + ربط واتساب"
+    },
+    {
+        "id": "madarij_platform",
+        "title": "منصة مدارج العلم",
+        "category": "websites",
+        "categoryName": "مواقع",
+        "description": "منصة تعليمية متكاملة لإدارة الدورات والطلاب مع نظام دفع إلكتروني",
+        "image": "assets/images/projects/madarij_platform.webp",
+        "link": "https://madarj.manasah.org",
+        "badge": "مكتمل",
+        "technologies": [
+            "PHP",
+            "Laravel",
+            "MySQL",
+            "Bootstrap"
+        ]
+    },
+    {
+        "id": "brand_identity_2",
+        "title": "هوية بصرية - شركة",
+        "category": "branding",
+        "categoryName": "هويات بصرية",
+        "description": "هوية بصرية احترافية لشركة تقنية مع دليل استخدام الهوية",
+        "image": "https://via.placeholder.com/400x300/ec4899/ffffff?text=Tech+Company",
+        "link": "#",
+        "badge": "مكتمل",
+        "technologies": [
+            "Adobe Illustrator",
+            "InDesign"
+        ],
+        "deliverables": "شعار + دليل هوية + مطبوعات",
+        "colors": "5 ألوان أساسية"
+    },
+    {
+        "id": "sheets_automation_1",
+        "title": "نظام إدارة المخزون",
+        "category": "sheets",
+        "categoryName": "جداول بيانات",
+        "description": "تحويل جدول بيانات عادي إلى نظام مخزون ذكي مع تنبيهات تلقائية",
+        "image": "https://via.placeholder.com/400x300/8b5cf6/ffffff?text=Inventory+System",
+        "link": "#",
+        "badge": "مكتمل",
+        "technologies": [
+            "Google Apps Script",
+            "Google Sheets"
+        ],
+        "features": "تنبيهات + تقارير + رسوم بيانية",
+        "automation": "100%"
+    },
+    {
+        "id": "personal_portfolio",
+        "title": "موقع شخصي - Portfolio",
+        "category": "websites",
+        "categoryName": "مواقع",
+        "description": "موقع محفظة أعمال شخصي لمصمم جرافيك مع معرض أعمال تفاعلي",
+        "image": "https://via.placeholder.com/400x300/10b981/ffffff?text=Portfolio",
+        "link": "#",
+        "badge": "مكتمل",
+        "technologies": [
+            "React",
+            "Tailwind CSS",
+            "Framer Motion"
+        ],
+        "sections": "6 أقسام",
+        "animations": "متحركة بالكامل"
+    }
+]

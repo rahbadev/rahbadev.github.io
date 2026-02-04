@@ -1,0 +1,35 @@
+{
+    "name": "رحبة للتطوير",
+    "nameEn": "Rehba Dev",
+    "tagline": "نحول أفكارك لواقع رقمي",
+    "description": "تصميم | برمجة | هويات بصرية",
+    "descriptionLong": "شرمتخصصة في التصميم والبرمجة وتطوير الحلول الرقمية",
+    "logo": "../shared/images/brand.webp",
+    "established": "2024",
+    "location": {
+        "country": "السعودية",
+        "city": ""
+    },
+    "contact": {
+        "email": "rahbadev@gmail.com",
+        "phone": "963000000000",
+        "whatsapp": "963000000000",
+        "telegram": "https://t.me/rahbadev"
+    },
+    "social": {
+        "facebook": "https://www.facebook.com/rahbadev/",
+        "twitter": "https://twitter.com/rahbadev",
+        "github": "https://github.com/rahbadev",
+        "playstore": "https://play.google.com/store/apps/dev?id=6736668226615202750",
+        "linkedin": "",
+        "instagram": ""
+    },
+    "navigation": {
+        "mainSite": "../site/index.html",
+        "bioPage": "../bio/index.html",
+        "projectsSection": "#projects",
+        "servicesSection": "#services",
+        "calculatorSection": "#calculator",
+        "examplesSection": "#examples"
+    }
+}
