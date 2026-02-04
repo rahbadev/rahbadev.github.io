@@ -4,8 +4,8 @@ const path = require('path');
 const PROJECTS_DIR = path.join(__dirname, 'projects_source');
 const TEMPLATE_PATH = path.join(__dirname, 'templates', 'project-template.html');
 const PRIVACY_TEMPLATE_PATH = path.join(__dirname, 'templates', 'privacy-policy-template.html');
-const OUTPUT_JSON = path.join(__dirname, 'dist', 'projects.json');
-const OUTPUT_DIR = path.join(__dirname, 'dist', 'projects');
+const OUTPUT_JSON = path.join(__dirname, '..', 'site', 'data', 'projects.json');
+const OUTPUT_DIR = path.join(__dirname, '..', 'projects');
 
 function getFileSize(filePath) {
     try {

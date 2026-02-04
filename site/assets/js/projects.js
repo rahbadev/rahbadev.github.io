@@ -19,30 +19,34 @@ const ProjectsApp = {
             const response1 = await fetch('data/projects.json');
             const regularProjects = await response1.json();
 
-            // تحميل المشاريع البرمجية من apps/dist/projects.json (المولدة من build.js)
+            // تحميل المشاريع البرمجية (المولدة من build.js)
             let programmingProjects = [];
             try {
-                const response2 = await fetch('../apps/dist/projects.json');
-                const buildProjects = await response2.json();
+                // المشاريع البرمجية الآن في نفس الـ projects.json
+                programmingProjects = regularProjects.filter(p => p.link && p.link.startsWith('projects/'));
+
                 // تحويل المشاريع البرمجية إلى الصيغة المتوافقة
-                programmingProjects = buildProjects.map(proj => ({
+                programmingProjects = programmingProjects.map(proj => ({
                     id: proj.id,
                     title: proj.title,
                     description: proj.description,
                     category: 'apps',
                     categoryName: 'تطبيقات',
-                    image: `../apps/dist/projects/${proj.id}/${proj.icon}`,
+                    image: `../${proj.link}${proj.icon}`,
                     link: `../${proj.link}`,
                     badge: proj.status === 'available' ? 'متوفر' : 'قيد التطوير',
                     technologies: [],
-                    isProgrammingProject: true // علامة للمشاريع البرمجية
+                    isProgrammingProject: true
                 }));
             } catch (error) {
-                // No programming projects found
+                console.log('No programming projects found');
             }
 
+            // تصفية المشاريع العادية (استبعاد البرمجية)
+            const otherProjects = regularProjects.filter(p => !p.link || !p.link.startsWith('projects/'));
+
             // دمج جميع المشاريع
-            this.allProjects = [...programmingProjects, ...regularProjects];
+            this.allProjects = [...programmingProjects, ...otherProjects];
             this.renderProjects(this.allProjects);
         } catch (error) {
             this.showError();

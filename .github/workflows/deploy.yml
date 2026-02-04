@@ -21,8 +21,19 @@ jobs:
         with:
           node-version: '20'
 
-      - name: 🔨 Build Programming Projects
+      - name: 🔨 Build Projects Pages
         run: node apps/build.js
+        
+      - name: 📋 Verify Build Output
+        run: |
+          echo "Checking if projects were built..."
+          if [ -d "projects" ]; then
+            echo "✅ Projects directory created"
+            ls -la projects/
+          else
+            echo "❌ Projects directory not found!"
+            exit 1
+          fi
 
       - name: 🚀 Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
