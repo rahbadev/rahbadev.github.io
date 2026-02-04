@@ -34,10 +34,14 @@ jobs:
             echo "❌ Projects directory not found!"
             exit 1
           fi
-
+      
+      - name: 🗑️ Remove .gitignore for deployment
+        run: rm .gitignore
+      
       - name: 🚀 Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: . 
           branch: gh-pages
           clean: true
+          force: true
