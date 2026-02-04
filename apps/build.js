@@ -122,9 +122,9 @@ function build() {
 
     const folders = fs.readdirSync(PROJECTS_DIR).filter(f => {
         const fullPath = path.join(PROJECTS_DIR, f);
-        return fs.statSync(fullPath).isDirectory() && 
-               f !== 'templates' && 
-               f !== 'node_modules';
+        return fs.statSync(fullPath).isDirectory() &&
+            f !== 'templates' &&
+            f !== 'node_modules';
     });
     const allProjects = [];
 
