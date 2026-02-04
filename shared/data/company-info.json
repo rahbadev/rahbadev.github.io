@@ -37,32 +37,6 @@
         "brand": "../shared/images/brand.webp",
         "icon": "../shared/images/icon.ico"
     },
-    "services": [
-        {
-            "id": "mobile-apps",
-            "icon": "fa-mobile-alt",
-            "title": "تطبيقات الجوال",
-            "description": "تطبيقات Android & iOS احترافية"
-        },
-        {
-            "id": "websites",
-            "icon": "fa-globe",
-            "title": "المواقع الإلكترونية",
-            "description": "مواقع سريعة ومتجاوبة"
-        },
-        {
-            "id": "design",
-            "icon": "fa-palette",
-            "title": "الهويات البصرية",
-            "description": "تصاميم احترافية تعبر عن هويتك"
-        },
-        {
-            "id": "automation",
-            "icon": "fa-robot",
-            "title": "أتمتة الأعمال",
-            "description": "جداول ذكية وسكربتات أتمتة"
-        }
-    ],
     "navigation": {
         "mainSite": "../site/index.html",
         "bioPage": "../bio/index.html"

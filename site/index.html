@@ -430,7 +430,7 @@
     <script defer src="assets/js/app.js?v=3.2"></script>
     <script defer src="assets/js/calculator-new.js"></script>
     <script defer src="assets/js/projects.js"></script>
-    
+
     <!-- Load Company Info -->
     <script>
         // Load and update company contact info
@@ -441,7 +441,7 @@
                 const whatsappCard = document.getElementById('whatsappCard');
                 const emailCard = document.getElementById('emailCard');
                 const telegramCard = document.getElementById('telegramCard');
-                
+
                 if (whatsappCard) whatsappCard.href = data.contact.whatsappLink;
                 if (emailCard) {
                     emailCard.href = `mailto:${data.contact.email}`;
@@ -451,7 +451,7 @@
                     telegramCard.href = data.contact.telegramLink;
                     document.getElementById('telegramText').textContent = data.contact.telegram;
                 }
-                
+
                 // Update social links
                 const socialLinks = document.getElementById('socialLinks');
                 if (socialLinks) {
@@ -462,18 +462,18 @@
                     if (data.social.playstore) links.push(`<a href="${data.social.playstore}" target="_blank" class="social-link playstore" data-tippy-content="متجر جوجل بلاي"><i class="fab fa-google-play"></i></a>`);
                     socialLinks.innerHTML = links.join('');
                 }
-                
+
                 // Update footer email
                 const footerEmail = document.querySelector('.footer-contact a[href^="mailto:"]');
                 if (footerEmail) {
                     footerEmail.href = `mailto:${data.contact.email}`;
                     footerEmail.textContent = data.contact.email;
                 }
-                
+
                 // Update footer WhatsApp
                 const footerWhatsapp = document.querySelector('.footer-contact a[href^="https://wa.me"]');
                 if (footerWhatsapp) footerWhatsapp.href = data.contact.whatsappLink;
-                
+
                 // Update footer Telegram
                 const footerTelegram = document.querySelector('.footer-contact a[href^="https://t.me"]');
                 if (footerTelegram) footerTelegram.href = data.contact.telegramLink;
