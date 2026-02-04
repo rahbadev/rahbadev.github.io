@@ -4,21 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رحبة للتطوير | RehbaDev</title>
-    <meta name="description" content="نحول أفكارك لواقع رقمي - تصميم، برمجة، هويات بصرية">
+    <title>رحبة التطوير | RehbaDev Bio</title>
+    <meta name="description" content="نحول أفكارك إلى واقع رقمي - حلول رقمية متكاملة">
+    <link rel="icon" href="../shared/images/icon.ico" type="image/x-icon">
 
-    <!-- Shared Resources -->
+    <!-- Fonts -->
     <link href="../shared/fonts/cairo.css" rel="stylesheet">
-    <link rel="stylesheet" href="../shared/css/variables.css">
-    <link rel="stylesheet" href="../shared/css/components.css">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="../shared/vendor/fontawesome/all.min.css">
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="../shared/css/variables.css">
 
     <style>
-        /* =========================================
-           Bio Page - Minimal Custom Styles
-           Most styles inherited from shared
-           ========================================= */
-
         * {
             margin: 0;
             padding: 0;
@@ -27,237 +24,321 @@
 
         body {
             font-family: 'Cairo', sans-serif;
-            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a2332 100%);
-            color: var(--text-primary);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            color: #f1f5f9;
             min-height: 100vh;
             padding: 20px;
             line-height: 1.6;
         }
 
         .bio-container {
-            max-width: 680px;
+            max-width: 640px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 30px 0;
         }
 
-        /* Profile Section */
-        .profile-header {
+        /* Header */
+        .bio-header {
             text-align: center;
             margin-bottom: 40px;
-            animation: fadeInDown 0.6s ease-out;
+            padding: 30px 20px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 24px;
+            border: 1px solid rgba(45, 106, 200, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         }
 
-        .profile-avatar {
-            width: 140px;
-            height: 140px;
+        .bio-logo {
+            width: 120px;
+            height: 120px;
             margin: 0 auto 20px;
+            padding: 5px;
+            background: linear-gradient(135deg, #2d6ac8 0%, #f472b6 100%);
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            padding: 4px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            animation: scaleIn 0.5s ease-out;
+            box-shadow: 0 8px 30px rgba(45, 106, 200, 0.4);
         }
 
-        .profile-avatar img {
+        .bio-logo img {
             width: 100%;
             height: 100%;
+            padding: 12px;
+            background: #1e293b;
             border-radius: 50%;
-            padding: 8px;
-            background: var(--card-bg);
             object-fit: contain;
         }
 
-        .profile-name {
+        .bio-title {
             font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #2d6ac8 0%, #f472b6 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .profile-bio {
+        .bio-tagline {
             font-size: 1.1rem;
-            color: var(--text-secondary);
+            color: #cbd5e1;
             margin-bottom: 8px;
         }
 
-        .profile-description {
+        .bio-description {
             font-size: 0.95rem;
-            color: var(--text-muted);
+            color: #94a3b8;
         }
 
-        /* Services Grid */
+        /* What We Offer - 2 Columns */
+        .services-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #f1f5f9;
+        }
+
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 16px;
-            margin: 30px 0;
-            animation: fadeInUp 0.6s ease-out 0.2s both;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
         }
 
-        .service-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
+        .service-item {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(45, 106, 200, 0.2);
             border-radius: 16px;
-            padding: 24px 16px;
+            padding: 20px 16px;
             text-align: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
         }
 
-        .service-card:hover {
-            background: var(--card-hover);
-            border-color: var(--primary-color);
+        .service-item:hover {
+            border-color: #2d6ac8;
+            background: rgba(30, 41, 59, 0.8);
             transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 25px rgba(45, 106, 200, 0.3);
         }
 
-        .service-card i {
-            font-size: 2rem;
+        .service-icon {
+            font-size: 2.5rem;
             margin-bottom: 12px;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            background: linear-gradient(135deg, #2d6ac8 0%, #f472b6 100%);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .service-card h3 {
+        .service-title {
             font-size: 1rem;
             font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+            color: #f1f5f9;
         }
 
-        .service-card p {
+        .service-desc {
             font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.5;
+            color: #94a3b8;
+            line-height: 1.4;
         }
 
-        /* Links Container */
-        .links-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin: 40px 0;
-            animation: fadeInUp 0.6s ease-out 0.4s both;
+        /* Links */
+        .links-section {
+            margin-bottom: 32px;
         }
 
         .link-btn {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: block;
+            background: rgba(30, 41, 59, 0.6);
+            border: 2px solid rgba(45, 106, 200, 0.3);
+            border-radius: 14px;
             padding: 16px 20px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            color: var(--text-primary);
+            margin-bottom: 12px;
+            color: #f1f5f9;
             text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            font-size: 1rem;
             font-weight: 600;
-        }
-
-        .link-btn:hover {
-            background: var(--card-hover);
-            border-color: var(--primary-color);
-            transform: translateX(-4px);
-        }
-
-        .link-btn.primary {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            border: none;
-            box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
-        }
-
-        .link-btn.primary:hover {
-            transform: translateX(-4px) translateY(-2px);
-            box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.4);
-        }
-
-        .link-btn.success {
-            background: var(--success-color);
-            border: none;
-            box-shadow: 0 4px 12px rgba(var(--success-rgb), 0.3);
-        }
-
-        .link-btn.success:hover {
-            transform: translateX(-4px) translateY(-2px);
-            box-shadow: 0 8px 20px rgba(var(--success-rgb), 0.4);
-        }
-
-        .link-btn i:first-child {
-            font-size: 1.2rem;
-        }
-
-        .link-btn i:last-child {
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        .link-content {
+            font-size: 1rem;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
+        .link-btn:hover {
+            border-color: #2d6ac8;
+            background: rgba(45, 106, 200, 0.15);
+            transform: translateX(-5px);
+            box-shadow: 0 6px 20px rgba(45, 106, 200, 0.3);
+        }
+
+        .link-btn i {
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #2d6ac8 0%, #f472b6 100%);
+            border-radius: 10px;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .link-btn-content {
+            flex: 1;
+            text-align: right;
+        }
+
+        .link-btn-title {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        .link-btn-desc {
+            display: block;
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        /* WhatsApp Special */
+        .link-btn.whatsapp {
+            background: rgba(37, 211, 102, 0.1);
+            border-color: rgba(37, 211, 102, 0.3);
+        }
+
+        .link-btn.whatsapp:hover {
+            border-color: #25D366;
+            background: rgba(37, 211, 102, 0.2);
+        }
+
+        .link-btn.whatsapp i {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+        }
+
+        /* Social Icons */
+        .social-section {
+            margin-bottom: 40px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .social-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(45, 106, 200, 0.3);
+            border-radius: 12px;
+            color: #cbd5e1;
+            font-size: 1.3rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(45, 106, 200, 0.4);
+        }
+
+        .social-icon.facebook:hover {
+            background: #1877f2;
+            border-color: #1877f2;
+            color: white;
+        }
+
+        .social-icon.twitter:hover {
+            background: #1da1f2;
+            border-color: #1da1f2;
+            color: white;
+        }
+
+        .social-icon.github:hover {
+            background: #333;
+            border-color: #333;
+            color: white;
+        }
+
+        .social-icon.telegram:hover {
+            background: #0088cc;
+            border-color: #0088cc;
+            color: white;
+        }
+
+        .social-icon.playstore:hover {
+            background: #34a853;
+            border-color: #34a853;
+            color: white;
+        }
+
+        .social-icon.email:hover {
+            background: #ea4335;
+            border-color: #ea4335;
+            color: white;
+        }
+
         /* Footer */
-        .footer {
+        .bio-footer {
             text-align: center;
-            margin-top: 60px;
-            padding-top: 30px;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-muted);
+            padding: 20px;
+            color: #64748b;
             font-size: 0.9rem;
-            animation: fadeIn 0.6s ease-out 0.6s both;
         }
 
-        .footer p {
-            margin: 8px 0;
+        .bio-footer a {
+            color: #2d6ac8;
+            text-decoration: none;
         }
 
-        .made-with i {
-            color: #ef4444;
-            animation: heartbeat 1.5s ease-in-out infinite;
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #94a3b8;
         }
 
-        @keyframes heartbeat {
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(45, 106, 200, 0.2);
+            border-top-color: #2d6ac8;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
 
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.2);
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
             }
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
-            .bio-container {
-                padding: 20px 10px;
-            }
-
-            .profile-name {
-                font-size: 1.75rem;
-            }
-
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .service-card {
-                padding: 20px 12px;
-            }
-
-            .link-btn {
-                padding: 14px 16px;
-                font-size: 0.95rem;
-            }
-        }
-
         @media (max-width: 480px) {
+            .bio-title {
+                font-size: 1.6rem;
+            }
+
+            .service-icon {
+                font-size: 2rem;
+            }
+
             .services-grid {
-                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .service-item {
+                padding: 16px 12px;
             }
         }
     </style>
@@ -265,208 +346,147 @@
 
 <body>
     <div class="bio-container">
-        <!-- Profile Section -->
-        <header class="profile-header">
-            <div class="profile-avatar">
-                <img src="../shared/images/brand.webp" alt="Rehba Dev Logo" id="avatar">
+        <!-- Loading State -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p style="margin-top: 20px;">جاري التحميل...</p>
+        </div>
+
+        <!-- Content (Hidden Until Loaded) -->
+        <div id="content" style="display: none;">
+            <!-- Header -->
+            <div class="bio-header">
+                <div class="bio-logo">
+                    <img src="../shared/images/logo.webp" alt="Rehba Dev" id="logo">
+                </div>
+                <h1 class="bio-title" id="companyName">رحبة التطوير</h1>
+                <p class="bio-tagline" id="tagline">نحول أفكارك إلى واقع رقمي</p>
+                <p class="bio-description" id="description">حلول رقمية متكاملة</p>
             </div>
-            <h1 class="profile-name text-gradient" id="companyName">رحبة للتطوير</h1>
-            <p class="profile-bio" id="tagline"></p>
-            <p class="profile-description" id="description"></p>
-        </header>
 
-        <!-- Social Links -->
-        <div class="social-links" id="socialLinks">
-            <!-- Will be populated by JavaScript -->
-        </div>
-
-        <!-- Services Section -->
-        <div class="section-title">
-            <i class="fas fa-briefcase"></i>
-            <h2>ماذا نقدم</h2>
-        </div>
-
-        <div class="services-grid" id="servicesGrid">
-            <!-- Will be populated by JavaScript -->
-        </div>
-
-        <!-- Main Links -->
-        <div class="links-container">
-            <a href="../site/index.html#projects" class="link-btn primary">
-                <div class="link-content">
-                    <i class="fas fa-folder-open"></i>
-                    <span>المشاريع</span>
+            <!-- What We Offer -->
+            <div class="services-section">
+                <h2 class="section-title">ماذا نقدم؟</h2>
+                <div class="services-grid" id="servicesGrid">
+                    <!-- Will be populated by JS -->
                 </div>
-                <i class="fas fa-chevron-left"></i>
-            </a>
+            </div>
 
-            <a href="../site/index.html#calculator" class="link-btn">
-                <div class="link-content">
-                    <i class="fas fa-calculator"></i>
-                    <span>احسب تكلفة مشروعك</span>
-                </div>
-                <i class="fas fa-chevron-left"></i>
-            </a>
-
-            <a href="../site/index.html#services" class="link-btn">
-                <div class="link-content">
-                    <i class="fas fa-images"></i>
-                    <span>خدماتنا التفصيلية</span>
-                </div>
-                <i class="fas fa-chevron-left"></i>
-            </a>
-
-            <a href="../site/index.html" class="link-btn">
-                <div class="link-content">
-                    <i class="fas fa-globe"></i>
-                    <span>الموقع الكامل</span>
-                </div>
-                <i class="fas fa-external-link-alt"></i>
-            </a>
-
-            <a href="#" class="link-btn success" id="whatsappBtn">
-                <div class="link-content">
+            <!-- Links -->
+            <div class="links-section">
+                <a href="#" class="link-btn whatsapp" id="whatsappLink">
                     <i class="fab fa-whatsapp"></i>
-                    <span>تواصل معنا عبر واتساب</span>
-                </div>
-                <i class="fas fa-chevron-left"></i>
-            </a>
-        </div>
+                    <div class="link-btn-content">
+                        <span class="link-btn-title">تواصل معنا عبر واتساب</span>
+                        <span class="link-btn-desc">تواصل مباشر وسريع</span>
+                    </div>
+                </a>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <p>جميع الحقوق محفوظة © 2026 رحبة للتطوير</p>
-            <p class="made-with">صُنع بـ <i class="fas fa-heart"></i> في السعودية</p>
-        </footer>
+                <a href="../site/index.html" class="link-btn">
+                    <i class="fas fa-globe"></i>
+                    <div class="link-btn-content">
+                        <span class="link-btn-title">الموقع الإلكتروني</span>
+                        <span class="link-btn-desc">تعرّف على خدماتنا وأعمالنا</span>
+                    </div>
+                </a>
+
+                <a href="../site/index.html#calculator" class="link-btn">
+                    <i class="fas fa-calculator"></i>
+                    <div class="link-btn-content">
+                        <span class="link-btn-title">احسب تكلفة مشروعك</span>
+                        <span class="link-btn-desc">حاسبة ذكية لتقدير التكلفة</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Social Icons -->
+            <div class="social-section">
+                <h2 class="section-title">تابعنا على</h2>
+                <div class="social-icons" id="socialIcons">
+                    <!-- Will be populated by JS -->
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="bio-footer">
+                <p>&copy; <span id="year"></span> <span id="footerName">رحبة التطوير</span></p>
+                <p style="margin-top: 8px;">
+                    <a href="mailto:rahbadev@gmail.com" id="footerEmail">rahbadev@gmail.com</a>
+                </p>
+            </div>
+        </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="../shared/js/data-loader.js"></script>
     <script>
-        // =========================================
-        // Bio Page App - Data-Driven
-        // =========================================
-
-        const dataLoader = new DataLoader();
-
-        // Initialize page
-        async function initPage() {
+        // Load company data
+        async function loadData() {
             try {
-                // Load company info
-                const companyInfo = await dataLoader.getCompanyInfo();
-                if (companyInfo) {
-                    populateCompanyInfo(companyInfo);
+                const response = await fetch('../shared/data/company-info.json');
+                const data = await response.json();
+
+                // Update header
+                document.getElementById('companyName').textContent = data.company.name;
+                document.getElementById('tagline').textContent = data.company.tagline;
+                document.getElementById('description').textContent = data.company.descriptionLong;
+
+                // Update services grid
+                const servicesGrid = document.getElementById('servicesGrid');
+                servicesGrid.innerHTML = data.services.map(service => `
+                    <div class="service-item">
+                        <div class="service-icon">
+                            <i class="fas ${service.icon}"></i>
+                        </div>
+                        <div class="service-title">${service.title}</div>
+                        <div class="service-desc">${service.description}</div>
+                    </div>
+                `).join('');
+
+                // Update WhatsApp link
+                document.getElementById('whatsappLink').href = data.contact.whatsappLink;
+
+                // Update social icons
+                const socialIcons = document.getElementById('socialIcons');
+                const socialLinks = [];
+
+                if (data.contact.email) {
+                    socialLinks.push(`<a href="mailto:${data.contact.email}" class="social-icon email" title="البريد الإلكتروني"><i class="fas fa-envelope"></i></a>`);
+                }
+                if (data.contact.telegramLink) {
+                    socialLinks.push(`<a href="${data.contact.telegramLink}" class="social-icon telegram" target="_blank" title="تيليجرام"><i class="fab fa-telegram-plane"></i></a>`);
+                }
+                if (data.social.facebook) {
+                    socialLinks.push(`<a href="${data.social.facebook}" class="social-icon facebook" target="_blank" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>`);
+                }
+                if (data.social.twitter) {
+                    socialLinks.push(`<a href="${data.social.twitter}" class="social-icon twitter" target="_blank" title="تويتر"><i class="fab fa-twitter"></i></a>`);
+                }
+                if (data.social.github) {
+                    socialLinks.push(`<a href="${data.social.github}" class="social-icon github" target="_blank" title="جيت هاب"><i class="fab fa-github"></i></a>`);
+                }
+                if (data.social.playstore) {
+                    socialLinks.push(`<a href="${data.social.playstore}" class="social-icon playstore" target="_blank" title="متجر جوجل بلاي"><i class="fab fa-google-play"></i></a>`);
                 }
 
-                // Load services
-                const services = await dataLoader.getServicesForBio();
-                if (services) {
-                    populateServices(services);
-                }
+                socialIcons.innerHTML = socialLinks.join('');
+
+                // Update footer
+                document.getElementById('year').textContent = new Date().getFullYear();
+                document.getElementById('footerName').textContent = data.company.name;
+                document.getElementById('footerEmail').href = `mailto:${data.contact.email}`;
+                document.getElementById('footerEmail').textContent = data.contact.email;
+
+                // Show content, hide loading
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
 
             } catch (error) {
-                console.error('Error initializing page:', error);
+                console.error('Error loading data:', error);
+                document.getElementById('loading').innerHTML = '<p style="color: #ef4444;">حدث خطأ في تحميل البيانات</p>';
             }
         }
 
-        // Populate company information
-        function populateCompanyInfo(info) {
-            // Update texts
-            document.getElementById('companyName').textContent = info.name;
-            document.getElementById('tagline').textContent = info.tagline;
-            document.getElementById('description').textContent = info.description;
-
-            // Update logo
-            const avatar = document.getElementById('avatar');
-            if (avatar && info.logo) {
-                avatar.src = info.logo;
-                avatar.alt = info.name;
-            }
-
-            // Update social links
-            populateSocialLinks(info);
-
-            // Update WhatsApp button
-            const whatsappBtn = document.getElementById('whatsappBtn');
-            if (whatsappBtn && info.contact.whatsapp) {
-                whatsappBtn.href = `https://wa.me/${info.contact.whatsapp}?text=مرحباً، أريد الاستفسار عن خدماتكم`;
-            }
-        }
-
-        // Populate social links
-        function populateSocialLinks(info) {
-            const container = document.getElementById('socialLinks');
-            if (!container) return;
-
-            container.innerHTML = '';
-
-            // WhatsApp
-            if (info.contact.whatsapp) {
-                container.innerHTML += `
-                    <a href="https://wa.me/${info.contact.whatsapp}" class="social-btn whatsapp" target="_blank">
-                        <i class="fab fa-whatsapp"></i>
-                    </a>
-                `;
-            }
-
-            // Twitter
-            if (info.social.twitter) {
-                container.innerHTML += `
-                    <a href="${info.social.twitter}" class="social-btn twitter" target="_blank">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                `;
-            }
-
-            // GitHub
-            if (info.social.github) {
-                container.innerHTML += `
-                    <a href="${info.social.github}" class="social-btn github" target="_blank">
-                        <i class="fab fa-github"></i>
-                    </a>
-                `;
-            }
-
-            // Email
-            if (info.contact.email) {
-                container.innerHTML += `
-                    <a href="mailto:${info.contact.email}" class="social-btn email" target="_blank">
-                        <i class="fas fa-envelope"></i>
-                    </a>
-                `;
-            }
-
-            // LinkedIn (if available)
-            if (info.social.linkedin) {
-                container.innerHTML += `
-                    <a href="${info.social.linkedin}" class="social-btn linkedin" target="_blank">
-                        <i class="fab fa-linkedin"></i>
-                    </a>
-                `;
-            }
-        }
-
-        // Populate services
-        function populateServices(services) {
-            const container = document.getElementById('servicesGrid');
-            if (!container) return;
-
-            container.innerHTML = '';
-
-            services.forEach(service => {
-                const card = document.createElement('div');
-                card.className = 'service-card';
-                card.innerHTML = `
-                    <i class="${service.icon}"></i>
-                    <h3>${service.titleShort || service.title}</h3>
-                    <p>${service.description}</p>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', initPage);
+        // Load on page ready
+        document.addEventListener('DOMContentLoaded', loadData);
     </script>
 </body>
 

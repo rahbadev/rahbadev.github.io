@@ -195,7 +195,6 @@ class MainSiteHelper {
                 
                 <div class="footer-bottom">
                     <p>جميع الحقوق محفوظة © ${new Date().getFullYear()} ${info.name}</p>
-                    <p>صُنع بـ <i class="fas fa-heart"></i> في ${info.location.country}</p>
                 </div>
             </footer>
         `;
