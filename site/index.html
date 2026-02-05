@@ -24,6 +24,7 @@
     <!-- Shared Variables -->
     <link rel="stylesheet" href="../shared/css/variables.css">
     <link rel="stylesheet" href="assets/css/main.css?v=3.2">
+    <link rel="stylesheet" href="assets/css/modules/sections/services-calculator-unified.css?v=1.0">
 
     <!-- Preload critical resources -->
     <link rel="preload" href="../shared/fonts/cairo-700.ttf" as="font" type="font/ttf" crossorigin>
@@ -52,8 +53,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#home">الرئيسية</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#services">الخدمات</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#calculator">الحاسبة</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">الخدمات والحاسبة</a></li>
                     <li class="nav-item"><a class="nav-link" href="#bio">من نحن</a></li>
                 </ul>
             </div>
@@ -80,13 +80,13 @@
                             متكاملة لتنمية مشروعك وتوفير وقتك.</span>
                     </p>
                     <div class="hero-buttons text-center">
-                        <a href="#calculator" class="btn btn-primary btn-lg px-4 py-3 me-2 mb-3">
+                        <a href="#services" class="btn btn-primary btn-lg px-4 py-3 me-2 mb-3">
                             <i class="fas fa-calculator ms-2"></i>
                             ابدأ مشروعك الآن
                         </a>
-                        <a href="#services" class="btn btn-outline-light btn-lg px-4 py-3 mb-3">
-                            <i class="fas fa-briefcase ms-2"></i>
-                            اكتشف خدماتنا
+                        <a href="#bio" class="btn btn-outline-light btn-lg px-4 py-3 mb-3">
+                            <i class="fas fa-info-circle ms-2"></i>
+                            من نحن
                         </a>
                     </div>
 
@@ -110,39 +110,23 @@
         </div>
     </section>
 
-    <!-- Services Section -->
+    <!-- Unified Services & Calculator Section -->
     <section id="services" class="section-padding">
-        <div class="container">
+        <div class="container-fluid" style="max-width: 1600px;">
             <div class="section-header text-center mb-5">
                 <span class="section-badge">خدماتنا</span>
-                <h2 class="section-title">ما هي خدماتنا؟</h2>
+                <h2 class="section-title">اكتشف خدماتنا واحسب تكلفة مشروعك</h2>
                 <div class="section-divider mx-auto"></div>
-                <p class="section-subtitle">نقدم حلول بسيطة وعملية لكل احتياجاتك الرقمية</p>
-            </div>
-
-            <div class="row g-4" id="servicesContainer">
-                <!-- Services will be loaded dynamically -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Calculator Section -->
-    <section id="calculator" class="section-padding bg-dark-alt">
-        <div class="container">
-            <div class="section-header text-center mb-5">
-                <span class="section-badge">حاسبة ذكية</span>
-                <h2 class="section-title">احسب تكلفة مشروعك</h2>
-                <div class="section-divider mx-auto"></div>
-                <p class="section-subtitle">
-                    اختر الخدمات اللي تحتاجها لترى التكلفة التقديرية فوراً
+                <p class="section-subtitle">اختر الخدمات التي تحتاجها ومعاينة الأمثلة وشاهد التكلفة التقديرية مباشرةً
                 </p>
             </div>
 
-            <div class="row">
-                <div class="col-lg-8">
-                    <div id="servicesGrid">
-                        <!-- Services will be loaded here by JavaScript -->
-                        <div class="text-center py-5">
+            <div class="row g-4">
+                <!-- Services Cards -->
+                <div class="col-lg-9">
+                    <div class="row g-3" id="unifiedServicesGrid">
+                        <!-- Services will be loaded dynamically -->
+                        <div class="text-center py-5 w-100">
                             <div class="spinner-border text-primary" role="status">
                                 <span class="visually-hidden">جاري التحميل...</span>
                             </div>
@@ -150,30 +134,16 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4">
-                    <div class="calculator-summary">
-                        <h4>
-                            <i class="fas fa-receipt"></i>
-                            ملخص مشروعك
-                        </h4>
-                        <div id="selectedServicesList">
-                            <div class="empty-summary">
-                                <i class="fas fa-info-circle"></i>
-                                اختر الخدمات لعرض التكلفة
-                            </div>
+                <!-- Calculator Summary Sidebar -->
+                <div class="col-lg-3">
+                    <div class="calculator-summary-sticky" id="calculatorSummary">
+                        <div class="summary-title">
+                            <i class="fas fa-calculator"></i>
+                            <span>الحاسبة</span>
                         </div>
-                        <div class="summary-total">
-                            <span class="summary-total-label">الإجمالي</span>
-                            <span id="totalPrice">0$</span>
-                        </div>
-                        <div class="calculator-actions">
-                            <button id="resetCalc">
-                                <i class="fas fa-redo"></i> إعادة تعيين
-                            </button>
-                            <button id="requestQuote">
-                                <i class="fab fa-whatsapp"></i> إرسال الطلب
-                            </button>
-                        </div>
+                        <p style="text-align: center; color: #94a3b8; padding: 2rem 0;">
+                            اختر الخدمات التي تحتاجها لترى التكلفة
+                        </p>
                     </div>
                 </div>
             </div>
@@ -208,7 +178,7 @@
                                 <i class="fab fa-whatsapp"></i>
                                 <span>تواصل عبر واتساب</span>
                             </a>
-                            <a href="#calculator" class="contact-btn primary-btn">
+                            <a href="#services" class="contact-btn primary-btn">
                                 <i class="fas fa-calculator"></i>
                                 <span>احسب تكلفة مشروعك</span>
                             </a>
@@ -254,18 +224,17 @@
                     <h6 class="footer-title">روابط سريعة</h6>
                     <ul class="footer-links">
                         <li><a href="#home">الرئيسية</a></li>
-                        <li><a href="#services">الخدمات</a></li>
-                        <li><a href="#calculator">الحاسبة</a></li>
+                        <li><a href="#services">الخدمات والحاسبة</a></li>
                         <li><a href="#bio">من نحن</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-4 mb-4 mb-lg-0">
                     <h6 class="footer-title">الخدمات</h6>
                     <ul class="footer-links">
-                        <li><a href="#calculator">تطبيقات الجوال</a></li>
-                        <li><a href="#calculator">تطوير مواقع</a></li>
-                        <li><a href="#calculator">هويات بصرية</a></li>
-                        <li><a href="#calculator">أتمتة الأعمال</a></li>
+                        <li><a href="#services">تطبيقات الجوال</a></li>
+                        <li><a href="#services">تطوير مواقع</a></li>
+                        <li><a href="#services">هويات بصرية</a></li>
+                        <li><a href="#services">أتمتة الأعمال</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4 col-md-4">
@@ -306,15 +275,20 @@
     <!-- Scripts - Load Async for Better Performance -->
     <script defer src="../shared/vendor/bootstrap.bundle.min.js"></script>
     <script defer src="../shared/vendor/tippy.min.js"></script>
-    <script defer src="assets/js/app.js?v=3.3"></script>
-    <script defer src="assets/js/calculator-new.js"></script>
+    <!-- Core Services -->
+    <script defer src="../shared/js/logger.js"></script>
+    <script defer src="../shared/js/data-service.js"></script>
+    <!-- App Scripts -->
+    <script defer src="assets/js/app.js?v=4.0"></script>
+    <script defer src="assets/js/unified-services-calculator.js?v=1.0"></script>
 
     <!-- Load Company Info -->
     <script>
-        // Load and update company contact info
-        fetch('../shared/data/company-info.json')
-            .then(res => res.json())
-            .then(data => {
+        // Load and update company contact info using dataService
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const data = await dataService.getCompanyInfo();
+
                 // Update Bio Section
                 const bioWhatsappBtn = document.getElementById('bioWhatsappBtn');
                 const bioEmail = document.getElementById('bioEmail');
@@ -363,8 +337,12 @@
                 // Update floating WhatsApp button
                 const floatingWhatsApp = document.getElementById('floatingWhatsApp');
                 if (floatingWhatsApp) floatingWhatsApp.href = data.contact.whatsappLink;
-            })
-            .catch(err => console.error('Error loading company info:', err));
+
+                logger.success('تم تحديث معلومات الاتصال');
+            } catch (err) {
+                logger.error('خطأ في تحميل معلومات الشركة', err);
+            }
+        });
     </script>
 </body>
 

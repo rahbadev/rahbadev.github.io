@@ -40,10 +40,12 @@ const Calculator = {
 
     async loadData() {
         try {
-            const res = await fetch('data/calculator-services.json');
-            this.state.data = await res.json();
+            logger.time('تحميل بيانات الحاسبة');
+            this.state.data = await dataService.getServices();
+            logger.timeEnd('تحميل بيانات الحاسبة');
+            logger.success('تم تحميل بيانات الحاسبة');
         } catch (err) {
-            console.error('خطأ في تحميل البيانات:', err);
+            logger.error('خطأ في تحميل البيانات', err);
         }
     },
 
@@ -90,7 +92,7 @@ const Calculator = {
                     </div>
                 </div>
                 <div class="service-card-body">
-                    <h4 class="service-name">${svc.name}</h4>
+                    <h4 class="service-name">${svc.title}</h4>
                     <p class="service-desc">${description}</p>
                     <div class="service-price">
                         ${svc.custom ? '<span class="price-custom">حسب الطلب</span>' : `

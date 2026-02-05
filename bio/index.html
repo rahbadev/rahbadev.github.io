@@ -502,22 +502,24 @@
         </div>
     </div>
 
+    <!-- Load DataService -->
+    <script src="../shared/js/logger.js"></script>
+    <script src="../shared/js/data-service.js"></script>
+
     <script>
         // Load company data
         async function loadData() {
             try {
-                // Load company info
-                const companyResponse = await fetch('../shared/data/company-info.json');
-                const companyData = await companyResponse.json();
+                // Load company info using DataService
+                const companyData = await dataService.getCompanyInfo();
 
-                // Load services from the main services file
-                const servicesResponse = await fetch('../site/data/services.json');
-                const servicesData = await servicesResponse.json();
+                // Load services from DataService
+                const servicesData = await dataService.getServices();
 
                 // Update header
                 document.getElementById('companyName').textContent = companyData.company.name;
                 document.getElementById('tagline').textContent = companyData.company.tagline;
-                document.getElementById('description').textContent = companyData.company.descriptionLong;
+                document.getElementById('description').textContent = companyData.company.description;
 
                 // Update services grid - Show all categories in 2 columns
                 const servicesGrid = document.getElementById('servicesGrid');
@@ -569,8 +571,10 @@
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('content').style.display = 'block';
 
+                logger.success('تم تحميل بيانات البايو');
+
             } catch (error) {
-                console.error('Error loading data:', error);
+                logger.error('خطأ في تحميل بيانات البايو', error);
                 document.getElementById('loading').innerHTML = '<p style="color: var(--danger-color);">حدث خطأ في تحميل البيانات</p>';
             }
         }
