@@ -11,29 +11,35 @@ class DataService {
     constructor() {
         this.cache = new Map();
         this.cacheExpiry = 5 * 60 * 1000; // 5 دقائق
-        this.basePath = window.location.pathname.includes('/site/') ? '../' : './';
+        // تحديد المسار الأساسي بناءً على الموقع
+        const path = window.location.pathname;
+        if (path.includes('/site/') || path.includes('/bio/') || path.includes('/apps/') || path.includes('/projects/')) {
+            this.sharedPath = '../shared/data/';
+            this.sitePath = '../site/data/';
+        } else {
+            this.sharedPath = 'shared/data/';
+            this.sitePath = 'site/data/';
+        }
     }
 
     /**
      * جلب البيانات من API مع دعم الكاش
      * @private
-     * @param {string} url - مسار API
+     * @param {string} url - مسار كامل للملف
      * @param {boolean} useCache - استخدام الكاش
      * @returns {Promise<Object>} البيانات
      */
     async _fetch(url, useCache = true) {
-        const fullUrl = `${this.basePath}${url}`;
-
         // التحقق من الكاش
-        if (useCache && this.cache.has(fullUrl)) {
-            const cached = this.cache.get(fullUrl);
+        if (useCache && this.cache.has(url)) {
+            const cached = this.cache.get(url);
             if (Date.now() - cached.timestamp < this.cacheExpiry) {
                 return cached.data;
             }
         }
 
         try {
-            const response = await fetch(fullUrl);
+            const response = await fetch(url);
 
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -43,7 +49,7 @@ class DataService {
 
             // حفظ في الكاش
             if (useCache) {
-                this.cache.set(fullUrl, {
+                this.cache.set(url, {
                     data,
                     timestamp: Date.now()
                 });
@@ -61,7 +67,7 @@ class DataService {
      * @returns {Promise<Object>} معلومات الشركة
      */
     async getCompanyInfo() {
-        return this._fetch('shared/data/company.json');
+        return this._fetch(this.sharedPath + 'company.json');
     }
 
     /**
@@ -69,7 +75,7 @@ class DataService {
      * @returns {Promise<Object>} الخدمات مصنفة حسب الفئات
      */
     async getServices() {
-        return this._fetch('site/data/services.json');
+        return this._fetch(this.sitePath + 'services.json');
     }
 
     /**
@@ -106,7 +112,7 @@ class DataService {
      * @returns {Promise<Object>} المشاريع
      */
     async getProjects() {
-        return this._fetch('site/data/projects.json');
+        return this._fetch(this.sitePath + 'projects.json');
     }
 
     /**

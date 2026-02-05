@@ -17,10 +17,10 @@
     },
     "contact": {
         "email": "rahbadev@gmail.com",
-        "phone": "+963000000000",
-        "phoneDisplay": "963000000000",
-        "whatsapp": "963000000000",
-        "whatsappLink": "https://wa.me/963000000000",
+        "phone": "+963940058006",
+        "phoneDisplay": "963940058006",
+        "whatsapp": "963940058006",
+        "whatsappLink": "https://wa.me/963940058006",
         "telegram": "@rahbadev",
         "telegramLink": "https://t.me/rahbadev"
     },
@@ -29,8 +29,7 @@
         "twitter": "https://twitter.com/rahbadev",
         "github": "https://github.com/rahbadev",
         "playstore": "https://play.google.com/store/apps/dev?id=6736668226615202750",
-        "instagram": "",
-        "linkedin": ""
+        "instagram": ""
     },
     "assets": {
         "logo": "../shared/images/logo.webp",

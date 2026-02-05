@@ -1,143 +1,30 @@
-# 🚀 دليل النشر - Deployment Guide
+# دليل النشر
 
-دليل شامل لنشر موقع رحبة التطوير على منصات الاستضافة المختلفة.
-
----
-
-## ✅ متطلبات ما قبل النشر
-
-### 1. ✓ جاهزية المشروع
+## GitHub Pages (مجاني)
 
 ```bash
-✅ Code Quality: 98/100
-✅ No Errors Found
-✅ All Features Tested
-✅ Documentation Complete
-✅ Performance Optimized
-✅ Production Ready Status
-```
-
-### 2. ملفات إلزامية
-
-تأكد من وجود هذه الملفات:
-
-```
-✅ index.html (الجذر)
-✅ site/index.html (الموقع الرئيسي)
-✅ bio/index.html (صفحة البايو)
-✅ apps/index.html (صفحة التطبيقات)
-✅ shared/data/company.json
-✅ shared/data/services.json
-```
-
----
-
-## 🌐 الخيار 1: GitHub Pages (موصى به - مجاني)
-
-### المزايا
-- ✅ **مجاني بالكامل**
-- ✅ HTTPS تلقائي
-- ✅ نطاق مخصص مجاني
-- ✅ تحديثات Git مباشرة
-- ✅ سهل الاستخدام
-
-### خطوات النشر
-
-#### 1. إنشاء مستودع GitHub
-
-```bash
-# في مجلد المشروع
 git init
 git add .
-git commit -m "v2.0.0: Initial production release"
-```
-
-#### 2. ربط بـ GitHub
-
-```bash
-# أنشئ مستودع على github.com أولاً، ثم:
-git remote add origin https://github.com/YOUR_USERNAME/rehbadev-website.git
-git branch -M main
+git commit -m "v2.0"
+git remote add origin https://github.com/USERNAME/rehbadev-website.git
 git push -u origin main
 ```
 
-#### 3. تفعيل GitHub Pages
+في GitHub: Settings → Pages → Source: main branch → Save
 
-1. اذهب إلى **Settings** → **Pages**
-2. اختر **Source**: `main` branch, `/ (root)` folder
-3. احفظ التغييرات
-4. انتظر 2-3 دقائق
+الموقع: `https://USERNAME.github.io/rehbadev-website/`
 
-**الموقع متاح على:**
-```
-https://YOUR_USERNAME.github.io/rehbadev-website/
-```
-
-#### 4. (اختياري) نطاق مخصص
-
-1. اشتري نطاق (مثل: `rehbadev.com`)
-2. في إعدادات النطاق، أضف CNAME record:
-   ```
-   CNAME: www → YOUR_USERNAME.github.io
-   ```
-3. في GitHub Pages، أضف Custom Domain: `www.rehbadev.com`
-4. فعّل "Enforce HTTPS"
-
----
-
-## 🟦 الخيار 2: Vercel (سريع جداً)
-
-### المزايا
-- ✅ **مجاني للمشاريع الشخصية**
-- ✅ أداء عالمي ممتاز (CDN)
-- ✅ نشر تلقائي من Git
-- ✅ معاينة لكل Pull Request
-- ✅ تحليلات مدمجة
-
-### خطوات النشر
-
-#### 1. تثبيت Vercel CLI
+## Vercel (سريع)
 
 ```bash
 npm install -g vercel
-```
-
-#### 2. تسجيل الدخول
-
-```bash
 vercel login
-```
-
-#### 3. النشر
-
-```bash
-# في مجلد المشروع
-vercel
-
-# اتبع التعليمات:
-# - Set up and deploy: Y
-# - Scope: اختر حسابك
-# - Link to project: N
-# - Project name: rehbadev-website
-# - Directory: ./ (الجذر)
-# - Override settings: N
-```
-
-#### 4. النشر للإنتاج
-
-```bash
 vercel --prod
 ```
 
-**الموقع متاح فوراً على:**
-```
-https://rehbadev-website.vercel.app
-```
+## Netlify
 
-#### 5. (اختياري) نطاق مخصص
-
-```bash
-vercel domains add rehbadev.com
+اسحب المجلد على [netlify.com/drop](https://app.netlify.com/drop)
 # اتبع التعليمات لإضافة DNS records
 ```
 

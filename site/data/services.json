@@ -53,7 +53,7 @@
             "title": "المواقع الإلكترونية",
             "icon": "fas fa-globe",
             "color": "#10b981",
-            "description": "مواقع سريعة وجميلة ومتوافقة مع جميع الأجهزة",
+            "description": "مواقع بسيطة وجميلة ليعرض خدماتك ومنتجاتك",
             "services": [
                 {
                     "id": "bio-page",
@@ -107,7 +107,7 @@
             "title": "تطبيقات الجوال",
             "icon": "fas fa-mobile-alt",
             "color": "#6366f1",
-            "description": "تطبيقات أندرويد و iOS لمشروعك",
+            "description": "تطبيقات جوال في مختلف المجالات",
             "services": [
                 {
                     "id": "web-to-app",
@@ -149,7 +149,7 @@
             "title": "الجداول الذكية",
             "icon": "fas fa-table",
             "color": "#8b5cf6",
-            "description": "أتمتة وتنظيم أعمالك باستخدام Google Sheets",
+            "description": "أتمتة وتنظيم أعمالك",
             "services": [
                 {
                     "id": "sheets-basic",
@@ -168,69 +168,6 @@
                     "price": 100,
                     "priceLabel": "تبدأ من",
                     "urgent": 40
-                }
-            ]
-        },
-        {
-            "id": "extras",
-            "title": "خدمات إضافية",
-            "icon": "fas fa-plus-circle",
-            "color": "#f59e0b",
-            "description": "خدمات مساندة لمشروعك الرقمي",
-            "services": [
-                {
-                    "id": "domain",
-                    "title": "حجز دومين",
-                    "description": "نطاق خاص لموقعك أو تطبيقك",
-                    "icon": "fas fa-globe",
-                    "price": 30,
-                    "priceLabel": "سنوياً",
-                    "recurring": "سنوياً"
-                },
-                {
-                    "id": "subdomain",
-                    "title": "رابط فرعي",
-                    "description": "رابط فرعي من نطاقنا",
-                    "icon": "fas fa-link",
-                    "price": 10,
-                    "priceLabel": "شهرياً",
-                    "recurring": "شهرياً"
-                },
-                {
-                    "id": "short-link",
-                    "title": "روابط مختصرة",
-                    "description": "روابط قصيرة وسهلة الحفظ",
-                    "icon": "fas fa-compress",
-                    "price": 5,
-                    "priceLabel": "شهرياً",
-                    "recurring": "شهرياً"
-                },
-                {
-                    "id": "ssl",
-                    "title": "شهادة SSL",
-                    "description": "تشفير وأمان لموقعك",
-                    "icon": "fas fa-lock",
-                    "price": 15,
-                    "priceLabel": "سنوياً",
-                    "recurring": "سنوياً"
-                },
-                {
-                    "id": "email",
-                    "title": "بريد احترافي",
-                    "description": "بريد إلكتروني باسم نطاقك",
-                    "icon": "fas fa-envelope",
-                    "price": 20,
-                    "priceLabel": "سنوياً",
-                    "recurring": "سنوياً"
-                },
-                {
-                    "id": "hosting",
-                    "title": "استضافة",
-                    "description": "استضافة موقعك على خادم سريع وآمن",
-                    "icon": "fas fa-server",
-                    "price": 50,
-                    "priceLabel": "سنوياً",
-                    "recurring": "سنوياً"
                 }
             ]
         }

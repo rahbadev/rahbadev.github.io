@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>رحبة التطوير | RehbaDev Bio</title>
     <meta name="description" content="نحول أفكارك إلى واقع رقمي - حلول رقمية متكاملة">
-    <link rel="icon" href="../shared/images/icon.ico" type="image/x-icon">
+    <link rel="icon" href="../shared/images/logo.webp" type="image/x-icon">
 
     <!-- Fonts -->
     <link href="../shared/fonts/cairo.css" rel="stylesheet">
@@ -49,10 +49,10 @@
         }
 
         .bio-logo {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 20px;
-            padding: 5px;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 14px;
+            padding: 8px;
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
             border-radius: 50%;
             box-shadow: 0 8px 30px rgba(var(--primary-rgb), 0.4);
@@ -61,7 +61,7 @@
         .bio-logo img {
             width: 100%;
             height: 100%;
-            padding: 12px;
+            padding: 16px;
             background: var(--dark-alt);
             border-radius: 50%;
             object-fit: contain;
@@ -442,7 +442,7 @@
             <!-- Header -->
             <div class="bio-header">
                 <div class="bio-logo">
-                    <img src="../shared/images/logo.webp" alt="Rehba Dev" id="logo">
+                    <img src="../shared/images/brand-blue.webp" alt="Rehba Dev" id="logo">
                 </div>
                 <h1 class="bio-title" id="companyName">رحبة التطوير</h1>
                 <p class="bio-tagline" id="tagline">نحول أفكارك إلى واقع رقمي</p>
@@ -475,18 +475,18 @@
                     </div>
                 </a>
 
-                <a href="../site/index.html#calculator" class="link-btn">
+                <a href="../site/index.html#services" class="link-btn">
                     <i class="fas fa-calculator"></i>
                     <div class="link-btn-content">
-                        <span class="link-btn-title">احسب تكلفة مشروعك</span>
-                        <span class="link-btn-desc">حاسبة ذكية لتقدير التكلفة</span>
+                        <span class="link-btn-title">خدماتنا ومشاريعنا</span>
+                        <span class="link-btn-desc">استكشف خدماتنا ومشاريعنا بالتفصيل</span>
                     </div>
                 </a>
             </div>
 
             <!-- Social Icons -->
             <div class="social-section">
-                <h2 class="section-title">تابعنا على</h2>
+                <h2 class="section-title">حساباتنا</h2>
                 <div class="social-icons" id="socialIcons">
                     <!-- Will be populated by JS -->
                 </div>
@@ -540,9 +540,6 @@
                 const socialIcons = document.getElementById('socialIcons');
                 const socialLinks = [];
 
-                if (companyData.contact.email) {
-                    socialLinks.push(`<a href="mailto:${companyData.contact.email}" class="social-icon email" title="البريد الإلكتروني"><i class="fas fa-envelope"></i></a>`);
-                }
                 if (companyData.contact.telegramLink) {
                     socialLinks.push(`<a href="${companyData.contact.telegramLink}" class="social-icon telegram" target="_blank" title="تيليجرام"><i class="fab fa-telegram-plane"></i></a>`);
                 }
@@ -551,9 +548,6 @@
                 }
                 if (companyData.social.twitter) {
                     socialLinks.push(`<a href="${companyData.social.twitter}" class="social-icon twitter" target="_blank" title="تويتر"><i class="fab fa-twitter"></i></a>`);
-                }
-                if (companyData.social.github) {
-                    socialLinks.push(`<a href="${companyData.social.github}" class="social-icon github" target="_blank" title="جيت هاب"><i class="fab fa-github"></i></a>`);
                 }
                 if (companyData.social.playstore) {
                     socialLinks.push(`<a href="${companyData.social.playstore}" class="social-icon playstore" target="_blank" title="متجر جوجل بلاي"><i class="fab fa-google-play"></i></a>`);
