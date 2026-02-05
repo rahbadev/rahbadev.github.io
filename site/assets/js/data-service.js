@@ -13,12 +13,10 @@ class DataService {
         this.cacheExpiry = 5 * 60 * 1000; // 5 دقائق
         // تحديد المسار الأساسي بناءً على الموقع
         const path = window.location.pathname;
-        if (path.includes('/site/') || path.includes('/bio/') || path.includes('/apps/') || path.includes('/projects/')) {
-            this.sharedPath = '../shared/data/';
-            this.sitePath = '../site/data/';
+        if (path.includes('/bio/') || path.includes('/apps/') || path.includes('/projects/')) {
+            this.dataPath = '../site/assets/data/';
         } else {
-            this.sharedPath = 'shared/data/';
-            this.sitePath = 'site/data/';
+            this.dataPath = 'assets/data/';
         }
     }
 
@@ -67,7 +65,7 @@ class DataService {
      * @returns {Promise<Object>} معلومات الشركة
      */
     async getCompanyInfo() {
-        return this._fetch(this.sharedPath + 'company.json');
+        return this._fetch(this.dataPath + 'company.json');
     }
 
     /**
@@ -75,7 +73,7 @@ class DataService {
      * @returns {Promise<Object>} الخدمات مصنفة حسب الفئات
      */
     async getServices() {
-        return this._fetch(this.sitePath + 'services.json');
+        return this._fetch(this.dataPath + 'services.json');
     }
 
     /**
@@ -112,7 +110,7 @@ class DataService {
      * @returns {Promise<Object>} المشاريع
      */
     async getProjects() {
-        return this._fetch(this.sitePath + 'projects.json');
+        return this._fetch(this.dataPath + 'projects.json');
     }
 
     /**

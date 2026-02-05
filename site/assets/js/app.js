@@ -1,13 +1,12 @@
 // =========================================
-// Main Application JavaScript v4.0
+// Main Application JavaScript v5.0
 // =========================================
-// استخدام DataService و Logger الموحدين
 
 // Global company info
 let companyInfo = null;
 
 document.addEventListener('DOMContentLoaded', async function () {
-    logger.info('تهيئة التطبيق...');
+    console.log('⚙️ تهيئة التطبيق...');
 
     try {
         // Load company info first
@@ -27,9 +26,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             animateOnScroll();
         }, 100);
 
-        logger.success('تم تحميل التطبيق بنجاح');
+        console.log('✅ تم تحميل التطبيق بنجاح');
     } catch (error) {
-        logger.error('خطأ في تهيئة التطبيق', error);
+        console.error('❌ خطأ في تهيئة التطبيق', error);
     }
 });
 
@@ -218,16 +217,15 @@ function initTooltips() {
 
 // =========================================
 // =========================================
-// 5.5 Load Company Info (استخدام DataService)
+// 5.5 Load Company Info
 // =========================================
 async function loadCompanyInfo() {
     try {
-        logger.time('تحميل معلومات الشركة');
+        const start = performance.now();
         companyInfo = await dataService.getCompanyInfo();
-        logger.timeEnd('تحميل معلومات الشركة');
-        logger.success('تم تحميل معلومات الشركة');
+        console.log(`✅ تم تحميل معلومات الشركة (${(performance.now() - start).toFixed(2)}ms)`);
     } catch (error) {
-        logger.error('خطأ في تحميل معلومات الشركة', error);
+        console.error('❌ خطأ في تحميل معلومات الشركة', error);
     }
 }
 
@@ -287,14 +285,13 @@ function adjustColor(color, percent) {
 
 async function loadServices() {
     try {
-        logger.time('تحميل الخدمات');
+        const start = performance.now();
         const data = await dataService.getServices();
-        logger.timeEnd('تحميل الخدمات');
 
         const container = document.getElementById('servicesContainer');
 
         if (!container) {
-            logger.error('servicesContainer غير موجود!');
+            console.error('❌ servicesContainer غير موجود!');
             return;
         }
 
@@ -342,9 +339,9 @@ async function loadServices() {
             </div>
         `).join('');
 
-        logger.success('تم تحميل الخدمات بنجاح');
+        console.log(`✅ تم تحميل الخدمات (${(performance.now() - start).toFixed(2)}ms)`);
     } catch (error) {
-        logger.error('خطأ في تحميل الخدمات', error);
+        console.error('❌ خطأ في تحميل الخدمات', error);
     }
 }
 

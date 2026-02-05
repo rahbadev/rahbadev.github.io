@@ -14,15 +14,14 @@ const UnifiedServicesCalculator = {
 
     async init() {
         try {
-            logger.time('تحميل الخدمات الموحدة');
+            const start = performance.now();
             this.state.services = await dataService.getServices();
-            logger.timeEnd('تحميل الخدمات الموحدة');
+            console.log(`✅ تم تحميل الخدمات الموحدة (${(performance.now() - start).toFixed(2)}ms)`);
 
             this.render();
             this.attachEvents();
-            logger.success('تم تحميل الخدمات الموحدة');
         } catch (error) {
-            logger.error('خطأ في تحميل الخدمات', error);
+            console.error('❌ خطأ في تحميل الخدمات', error);
         }
     },
 
@@ -309,7 +308,7 @@ const UnifiedServicesCalculator = {
             const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
         } catch (error) {
-            logger.error('خطأ في إرسال الطلب', error);
+            console.error('❌ خطأ في إرسال الطلب', error);
             alert('حدث خطأ. الرجاء المحاولة مرة أخرى');
         }
     },
