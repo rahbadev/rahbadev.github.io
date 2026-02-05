@@ -40,21 +40,21 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
         <div class="container">
             <a class="navbar-brand" href="#home">
-                <img src="../shared/images/brand.webp" alt="رحبة التطوير" class="brand-logo-nav">
+                <div class="brand-icon">
+                    <i class="fas fa-code"></i>
+                </div>
                 <span class="brand-text">رحبة<span class="text-primary">التطوير</span></span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#home">الرئيسية</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">من نحن</a></li>
                     <li class="nav-item"><a class="nav-link" href="#services">الخدمات</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#projects">المشاريع</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#calculator">احسب مشروعك</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#faq">الأسئلة الشائعة</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">تواصل معنا</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#calculator">الحاسبة</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#bio">من نحن</a></li>
                 </ul>
             </div>
         </div>
@@ -82,11 +82,11 @@
                     <div class="hero-buttons text-center">
                         <a href="#calculator" class="btn btn-primary btn-lg px-4 py-3 me-2 mb-3">
                             <i class="fas fa-calculator ms-2"></i>
-                            احسب تكلفة مشروعك
+                            ابدأ مشروعك الآن
                         </a>
-                        <a href="#projects" class="btn btn-outline-light btn-lg px-4 py-3 mb-3">
+                        <a href="#services" class="btn btn-outline-light btn-lg px-4 py-3 mb-3">
                             <i class="fas fa-briefcase ms-2"></i>
-                            شاهد أعمالنا
+                            اكتشف خدماتنا
                         </a>
                     </div>
 
@@ -110,83 +110,6 @@
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="section-padding bg-dark-alt">
-        <div class="container">
-            <div class="text-center mb-5">
-                <div class="section-header">
-                    <span class="section-badge">من نحن</span>
-                    <h2 class="section-title">رحبة التطوير</h2>
-                    <div class="section-divider mx-auto"></div>
-                    <p class="section-subtitle">شريكك في بناء مستقبل رقمي مبتكر</p>
-                </div>
-            </div>
-
-            <div class="row justify-content-center mb-5">
-                <div class="col-lg-10 col-xl-9">
-                    <div class="about-intro-card">
-                        <p class="lead text-center mb-0">
-                            نقدّم <span class="text-gradient">حلولاً رقمية متكاملة</span> تجمع بين
-                            الإبداع والتقنية.
-                            لأن كل مشروع يستحق لمسة فريدة تعكس هويته وتحقق أهدافه.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- لماذا تختارنا -->
-            <div class="row justify-content-center">
-                <div class="col-lg-11">
-                    <h3 class="text-center text-white mb-5 section-subtitle-heading">
-                        <span class="text-gradient-alt">لماذا تختار</span> رحبة التطوير ؟
-                    </h3>
-                    <div class="row g-4">
-                        <div class="col-md-6 col-lg-3">
-                            <div class="feature-card-modern">
-                                <div class="feature-card-icon bg-gradient-success">
-                                    <i class="fas fa-check-circle"></i>
-                                </div>
-                                <h4 class="feature-card-title">جودة عالية</h4>
-                                <p class="feature-card-desc">نهتم بالتفاصيل لضمان منتج نهائي احترافي</p>
-                                <div class="feature-card-glow glow-success"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3">
-                            <div class="feature-card-modern">
-                                <div class="feature-card-icon bg-gradient-warning">
-                                    <i class="fas fa-bolt"></i>
-                                </div>
-                                <h4 class="feature-card-title">تسليم سريع</h4>
-                                <p class="feature-card-desc">نلتزم بالمواعيد المتفق عليها ونحترم وقتك</p>
-                                <div class="feature-card-glow glow-warning"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3">
-                            <div class="feature-card-modern">
-                                <div class="feature-card-icon bg-gradient-info">
-                                    <i class="fas fa-headset"></i>
-                                </div>
-                                <h4 class="feature-card-title">دعم مستمر</h4>
-                                <p class="feature-card-desc">نبقى معك حتى بعد التسليم والإطلاق بدعم شامل</p>
-                                <div class="feature-card-glow glow-info"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3">
-                            <div class="feature-card-modern">
-                                <div class="feature-card-icon bg-gradient-danger">
-                                    <i class="fas fa-dollar-sign"></i>
-                                </div>
-                                <h4 class="feature-card-title">أسعار مناسبة</h4>
-                                <p class="feature-card-desc">جودة عالية بتكلفة معقولة ومناسبة لجميع الميزانيات</p>
-                                <div class="feature-card-glow glow-danger"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Services Section -->
     <section id="services" class="section-padding">
         <div class="container">
@@ -203,42 +126,6 @@
         </div>
     </section>
 
-    <!-- Projects Section -->
-    <!--<section id="projects" class="section-padding bg-dark-alt">
-        <div class="container">
-            <div class="section-header text-center mb-5">
-                <span class="section-badge">أعمالنا</span>
-                <h2 class="section-title">مشاريعنا المميزة</h2>
-                <div class="section-divider mx-auto"></div>
-                <p class="section-subtitle">تصفح مجموعة من المشاريع التي أنجزناها بنجاح</p>
-            </div>
-
-            <div class="project-filters mb-5">
-                <button class="filter-btn active" data-filter="all">
-                    <i class="fas fa-th me-2"></i>الكل
-                </button>
-                <button class="filter-btn" data-filter="apps">
-                    <i class="fas fa-mobile-alt me-2"></i>تطبيقات
-                </button>
-                <button class="filter-btn" data-filter="websites">
-                    <i class="fas fa-globe me-2"></i>مواقع
-                </button>
-                <button class="filter-btn" data-filter="stores">
-                    <i class="fas fa-shopping-cart me-2"></i>متاجر
-                </button>
-                <button class="filter-btn" data-filter="branding">
-                    <i class="fas fa-palette me-2"></i>هويات بصرية
-                </button>
-                <button class="filter-btn" data-filter="sheets">
-                    <i class="fas fa-table me-2"></i>جداول بيانات
-                </button>
-            </div>
-
-            <div class="row g-4" id="projectsContainer">
-            </div>
-        </div>
-    </section>
--->
     <!-- Calculator Section -->
     <section id="calculator" class="section-padding bg-dark-alt">
         <div class="container">
@@ -293,70 +180,58 @@
         </div>
     </section>
 
-    <!-- FAQ Section -->
-    <section id="faq" class="section-padding">
+    <!-- Bio/Info Section -->
+    <section id="bio" class="section-padding">
         <div class="container">
-            <div class="section-header text-center mb-5">
-                <span class="section-badge">أسئلة شائعة</span>
-                <h2 class="section-title">إجابات لأسئلتك</h2>
-                <div class="section-divider mx-auto"></div>
-                <p class="section-subtitle">كل ما تحتاج معرفته قبل البدء بمشروعك</p>
-            </div>
-
             <div class="row justify-content-center">
-                <div class="col-lg-10">
-                    <div class="accordion faq-accordion" id="faqAccordion">
-                        <!-- FAQ items will be loaded dynamically -->
+                <div class="col-lg-8">
+                    <div class="bio-card">
+                        <div class="bio-logo-wrapper">
+                            <div class="bio-logo">
+                                <img src="../shared/images/logo.webp" alt="رحبة التطوير">
+                            </div>
+                        </div>
+                        <h2 class="bio-title">رحبة التطوير | RahbaDev</h2>
+                        <div class="bio-tags">
+                            <span class="bio-tag"><i class="fas fa-palette ms-2"></i>تصميم</span>
+                            <span class="bio-tag"><i class="fas fa-mobile-alt ms-2"></i>برمجة</span>
+                            <span class="bio-tag"><i class="fas fa-robot ms-2"></i>أتمتة</span>
+                        </div>
+                        <p class="bio-description">
+                            نحن وكالة برمجية متخصصة في تطوير الحلول الرقمية المتكاملة. نجمع بين الإبداع والتقنية لتحويل
+                            أفكارك إلى واقع رقمي يخدم أهدافك. تخصصنا الفريد في هندسة النظم والأتمتة الذكية يجعلنا الشريك
+                            الأمثل لمشروعك.
+                        </p>
+
+                        <div class="contact-buttons">
+                            <a href="#" class="contact-btn whatsapp-btn" id="bioWhatsappBtn">
+                                <i class="fab fa-whatsapp"></i>
+                                <span>تواصل عبر واتساب</span>
+                            </a>
+                            <a href="#calculator" class="contact-btn primary-btn">
+                                <i class="fas fa-calculator"></i>
+                                <span>احسب تكلفة مشروعك</span>
+                            </a>
+                        </div>
+
+                        <div class="social-icons-bio">
+                            <a href="#" class="social-icon-bio" id="bioEmail">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                            <a href="#" class="social-icon-bio" id="bioTelegram" target="_blank">
+                                <i class="fab fa-telegram-plane"></i>
+                            </a>
+                            <a href="#" class="social-icon-bio" id="bioFacebook" target="_blank">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="social-icon-bio" id="bioGithub" target="_blank">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="#" class="social-icon-bio" id="bioPlaystore" target="_blank">
+                                <i class="fab fa-google-play"></i>
+                            </a>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="section-padding">
-        <div class="container">
-            <div class="section-header text-center mb-5">
-                <span class="section-badge">تواصل معنا</span>
-                <h2 class="section-title">ابدأ مشروعك الآن</h2>
-                <div class="section-divider mx-auto"></div>
-                <p class="section-subtitle">نسعد بالتواصل معك عبر قنواتنا المختلفة</p>
-            </div>
-
-            <div class="row g-4" id="contactCards">
-                <div class="col-md-4">
-                    <a href="https://wa.me/963000000000" target="_blank" class="contact-card" id="whatsappCard">
-                        <div class="contact-icon whatsapp">
-                            <i class="fab fa-whatsapp"></i>
-                        </div>
-                        <h4>واتساب</h4>
-                        <p>تواصل مباشر وسريع</p>
-                    </a>
-                </div>
-                <div class="col-md-4">
-                    <a href="mailto:rahbadev@gmail.com" class="contact-card" id="emailCard">
-                        <div class="contact-icon email">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <h4>البريد الإلكتروني</h4>
-                        <p id="emailText">rahbadev@gmail.com</p>
-                    </a>
-                </div>
-                <div class="col-md-4">
-                    <a href="https://t.me/rahbadev" target="_blank" class="contact-card" id="telegramCard">
-                        <div class="contact-icon telegram">
-                            <i class="fab fa-telegram-plane"></i>
-                        </div>
-                        <h4>تيليجرام</h4>
-                        <p id="telegramText">@rahbadev</p>
-                    </a>
-                </div>
-            </div>
-
-            <div class="social-links-section mt-5">
-                <h4 class="text-center mb-4">تابعنا على</h4>
-                <div class="social-links" id="socialLinks">
-                    <!-- Will be populated dynamically -->
                 </div>
             </div>
         </div>
@@ -379,9 +254,9 @@
                     <h6 class="footer-title">روابط سريعة</h6>
                     <ul class="footer-links">
                         <li><a href="#home">الرئيسية</a></li>
-                        <li><a href="#about">من نحن</a></li>
                         <li><a href="#services">الخدمات</a></li>
-                        <li><a href="#projects">المشاريع</a></li>
+                        <li><a href="#calculator">الحاسبة</a></li>
+                        <li><a href="#bio">من نحن</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-4 mb-4 mb-lg-0">
@@ -423,13 +298,16 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
+    <!-- Floating WhatsApp Button for Mobile -->
+    <a href="#" id="floatingWhatsApp" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
     <!-- Scripts - Load Async for Better Performance -->
     <script defer src="../shared/vendor/bootstrap.bundle.min.js"></script>
-    <script defer src="../shared/vendor/popper.min.js"></script>
     <script defer src="../shared/vendor/tippy.min.js"></script>
-    <script defer src="assets/js/app.js?v=3.2"></script>
+    <script defer src="assets/js/app.js?v=3.3"></script>
     <script defer src="assets/js/calculator-new.js"></script>
-    <script defer src="assets/js/projects.js"></script>
 
     <!-- Load Company Info -->
     <script>
@@ -437,30 +315,34 @@
         fetch('../shared/data/company-info.json')
             .then(res => res.json())
             .then(data => {
-                // Update contact cards
-                const whatsappCard = document.getElementById('whatsappCard');
-                const emailCard = document.getElementById('emailCard');
-                const telegramCard = document.getElementById('telegramCard');
+                // Update Bio Section
+                const bioWhatsappBtn = document.getElementById('bioWhatsappBtn');
+                const bioEmail = document.getElementById('bioEmail');
+                const bioTelegram = document.getElementById('bioTelegram');
+                const bioFacebook = document.getElementById('bioFacebook');
+                const bioGithub = document.getElementById('bioGithub');
+                const bioPlaystore = document.getElementById('bioPlaystore');
 
-                if (whatsappCard) whatsappCard.href = data.contact.whatsappLink;
-                if (emailCard) {
-                    emailCard.href = `mailto:${data.contact.email}`;
-                    document.getElementById('emailText').textContent = data.contact.email;
+                if (bioWhatsappBtn) bioWhatsappBtn.href = data.contact.whatsappLink;
+                if (bioEmail) {
+                    bioEmail.href = `mailto:${data.contact.email}`;
+                    bioEmail.style.display = data.contact.email ? '' : 'none';
                 }
-                if (telegramCard) {
-                    telegramCard.href = data.contact.telegramLink;
-                    document.getElementById('telegramText').textContent = data.contact.telegram;
+                if (bioTelegram) {
+                    bioTelegram.href = data.contact.telegramLink;
+                    bioTelegram.style.display = data.contact.telegramLink ? '' : 'none';
                 }
-
-                // Update social links
-                const socialLinks = document.getElementById('socialLinks');
-                if (socialLinks) {
-                    const links = [];
-                    if (data.social.facebook) links.push(`<a href="${data.social.facebook}" target="_blank" class="social-link facebook" data-tippy-content="فيسبوك"><i class="fab fa-facebook-f"></i></a>`);
-                    if (data.social.twitter) links.push(`<a href="${data.social.twitter}" target="_blank" class="social-link twitter" data-tippy-content="تويتر"><i class="fab fa-twitter"></i></a>`);
-                    if (data.social.github) links.push(`<a href="${data.social.github}" target="_blank" class="social-link github" data-tippy-content="جيت هاب"><i class="fab fa-github"></i></a>`);
-                    if (data.social.playstore) links.push(`<a href="${data.social.playstore}" target="_blank" class="social-link playstore" data-tippy-content="متجر جوجل بلاي"><i class="fab fa-google-play"></i></a>`);
-                    socialLinks.innerHTML = links.join('');
+                if (bioFacebook) {
+                    bioFacebook.href = data.social.facebook;
+                    bioFacebook.style.display = data.social.facebook ? '' : 'none';
+                }
+                if (bioGithub) {
+                    bioGithub.href = data.social.github;
+                    bioGithub.style.display = data.social.github ? '' : 'none';
+                }
+                if (bioPlaystore) {
+                    bioPlaystore.href = data.social.playstore;
+                    bioPlaystore.style.display = data.social.playstore ? '' : 'none';
                 }
 
                 // Update footer email
@@ -477,6 +359,10 @@
                 // Update footer Telegram
                 const footerTelegram = document.querySelector('.footer-contact a[href^="https://t.me"]');
                 if (footerTelegram) footerTelegram.href = data.contact.telegramLink;
+
+                // Update floating WhatsApp button
+                const floatingWhatsApp = document.getElementById('floatingWhatsApp');
+                if (floatingWhatsApp) floatingWhatsApp.href = data.contact.whatsappLink;
             })
             .catch(err => console.error('Error loading company info:', err));
     </script>

@@ -1,17 +1,41 @@
 // =========================================
-// Smart Calculator - Simplified & Clean
+// Smart Calculator - Clean & Modern
 // =========================================
 
 const Calculator = {
     state: {
         data: null,
-        selected: new Map() // serviceId => { urgent: false, addons: Set() }
+        selected: new Map()
+    },
+
+    // Configuration
+    config: {
+        serviceDescriptions: {
+            'logo': 'شعار احترافي يعكس هوية علامتك التجارية',
+            'designs': 'تصاميم جرافيك للسوشيال ميديا والمطبوعات',
+            'full-identity': 'هوية بصرية متكاملة مع دليل استخدام',
+            'bio-page': 'صفحة واحدة تجمع كل روابطك',
+            'landing-page': 'صفحة تعريفية احترافية لمشروعك',
+            'store': 'متجر إلكتروني متكامل بلوحة تحكم',
+            'web-to-app': 'تحويل موقعك إلى تطبيق Android/iOS',
+            'simple-app': 'تطبيق بميزات أساسية وتصميم بسيط',
+            'pro-app': 'تطبيق احترافي بميزات متقدمة حسب طلبك',
+            'sheets-basic': 'تنظيم وإدارة بياناتك في جداول',
+            'sheets-auto': 'أتمتة المهام والعمليات المتكررة',
+            'domain': 'احجز دومين باسمك (مثل: shop.com)',
+            'subdomain': 'رابط فرعي على rahba.dev (مثل: shop.rahba.dev)',
+            'short-link': 'روابط مختصرة (مثل: rahba.dev/shop)',
+            'ssl': 'شهادة أمان SSL لموقعك (HTTPS)',
+            'email': 'بريد إلكتروني باسم نطاقك (info@shop.com)',
+            'hosting': 'استضافة سريعة وآمنة لموقعك'
+        }
     },
 
     async init() {
         await this.loadData();
         this.render();
         this.attachEvents();
+        this.initTooltips();
     },
 
     async loadData() {
@@ -27,69 +51,109 @@ const Calculator = {
         const container = document.getElementById('servicesGrid');
         if (!container || !this.state.data) return;
 
-        container.innerHTML = this.state.data.categories.map(cat => `
+        container.innerHTML = this.state.data.categories
+            .map(cat => this.renderCategory(cat))
+            .join('');
+
+        this.updateSummary();
+        this.initTooltips();
+    },
+
+    renderCategory(cat) {
+        return `
             <div class="calc-category">
                 <div class="calc-cat-header">
                     <i class="${cat.icon}"></i>
                     <h3>${cat.title}</h3>
                 </div>
-                <div class="calc-services">
-                    ${cat.services.map(svc => this.renderService(svc, cat.id)).join('')}
+                <div class="calc-services-grid">
+                    ${cat.services.map(svc => this.renderServiceCard(svc)).join('')}
                 </div>
-            </div>
-        `).join('');
-
-        this.updateSummary();
-    },
-
-    renderService(svc, catId) {
-        const sel = this.state.selected.get(svc.id);
-        const isActive = !!sel;
-
-        return `
-            <div class="calc-service ${isActive ? 'active' : ''}" data-id="${svc.id}">
-                <div class="calc-svc-main">
-                    <label class="calc-checkbox">
-                        <input type="checkbox" 
-                               ${isActive ? 'checked' : ''} 
-                               onchange="Calculator.toggle('${svc.id}')">
-                        <span class="checkmark"></span>
-                    </label>
-                    <div class="calc-svc-info">
-                        <i class="${svc.icon}"></i>
-                        <div>
-                            <strong>${svc.name}</strong>
-                            <span class="calc-price">${svc.custom ? 'حسب الطلب' : svc.price + '$'}</span>
-                        </div>
-                    </div>
-                </div>
-                
-                ${isActive && !svc.custom ? `
-                    <div class="calc-options">
-                        ${svc.urgent ? `
-                            <label class="calc-option">
-                                <input type="checkbox" 
-                                       ${sel.urgent ? 'checked' : ''}
-                                       onchange="Calculator.toggleUrgent('${svc.id}')">
-                                <span>⚡ تسليم عاجل <small>(+${svc.urgent}$)</small></span>
-                            </label>
-                        ` : ''}
-                        
-                        ${(svc.addons || []).map((addon, i) => `
-                            <label class="calc-option">
-                                <input type="checkbox"
-                                       ${sel.addons.has(i) ? 'checked' : ''}
-                                       onchange="Calculator.toggleAddon('${svc.id}', ${i})">
-                                <span>${addon.name} <small>(+${addon.price}$)</small></span>
-                            </label>
-                        `).join('')}
-                    </div>
-                ` : ''}
             </div>
         `;
     },
 
-    toggle(id) {
+    renderServiceCard(svc) {
+        const isSelected = this.state.selected.has(svc.id);
+        const description = this.config.serviceDescriptions[svc.id] || '';
+
+        return `
+            <div class="service-card ${isSelected ? 'selected' : ''}" 
+                 data-id="${svc.id}"
+                 onclick="Calculator.toggleService('${svc.id}')">
+                <div class="service-card-header">
+                    <div class="service-icon">
+                        <i class="${svc.icon}"></i>
+                    </div>
+                    <div class="service-checkbox">
+                        <i class="fas ${isSelected ? 'fa-check-circle' : 'fa-circle'}"></i>
+                    </div>
+                </div>
+                <div class="service-card-body">
+                    <h4 class="service-name">${svc.name}</h4>
+                    <p class="service-desc">${description}</p>
+                    <div class="service-price">
+                        ${svc.custom ? '<span class="price-custom">حسب الطلب</span>' : `
+                            <span class="price-value">${svc.price}$</span>
+                            ${svc.recurring ? `<span class="price-recurring">${svc.recurring}</span>` : ''}
+                        `}
+                    </div>
+                </div>
+                ${isSelected && !svc.custom ? this.renderAddons(svc) : ''}
+            </div>
+        `;
+    },
+
+    renderAddons(svc) {
+        const sel = this.state.selected.get(svc.id);
+        const addons = [];
+
+        if (svc.urgent) {
+            addons.push({
+                type: 'urgent',
+                label: 'تسليم عاجل',
+                icon: 'fa-bolt',
+                price: svc.urgent,
+                active: sel.urgent
+            });
+        }
+
+        (svc.addons || []).forEach((addon, i) => {
+            addons.push({
+                type: 'addon',
+                index: i,
+                label: addon.name,
+                icon: 'fa-plus-circle',
+                price: addon.price,
+                active: sel.addons.has(i)
+            });
+        });
+
+        if (addons.length === 0) return '';
+
+        return `
+            <div class="service-addons">
+                ${addons.map(addon => this.renderAddonBadge(svc.id, addon)).join('')}
+            </div>
+        `;
+    },
+
+    renderAddonBadge(serviceId, addon) {
+        const clickHandler = addon.type === 'urgent'
+            ? `Calculator.toggleUrgent('${serviceId}')`
+            : `Calculator.toggleAddon('${serviceId}', ${addon.index})`;
+
+        return `
+            <button class="addon-badge ${addon.active ? 'active' : ''}"
+                    onclick="event.stopPropagation(); ${clickHandler};"
+                    data-tippy-content="+${addon.price}$">
+                <i class="fas ${addon.icon}"></i>
+                <span>${addon.label}</span>
+            </button>
+        `;
+    },
+
+    toggleService(id) {
         if (this.state.selected.has(id)) {
             this.state.selected.delete(id);
         } else {
@@ -102,19 +166,17 @@ const Calculator = {
         const sel = this.state.selected.get(id);
         if (sel) {
             sel.urgent = !sel.urgent;
-            this.updateSummary();
+            this.render();
         }
     },
 
     toggleAddon(id, addonIndex) {
         const sel = this.state.selected.get(id);
         if (sel) {
-            if (sel.addons.has(addonIndex)) {
-                sel.addons.delete(addonIndex);
-            } else {
-                sel.addons.add(addonIndex);
-            }
-            this.updateSummary();
+            sel.addons.has(addonIndex)
+                ? sel.addons.delete(addonIndex)
+                : sel.addons.add(addonIndex);
+            this.render();
         }
     },
 
@@ -124,19 +186,29 @@ const Calculator = {
 
         if (!listEl || !totalEl) return;
 
-        let total = 0;
-        let html = '';
-
         if (this.state.selected.size === 0) {
-            listEl.innerHTML = `
-                <div class="empty-summary">
-                    <i class="fas fa-info-circle"></i>
-                    اختر الخدمات لعرض التكلفة
-                </div>
-            `;
+            listEl.innerHTML = this.getEmptySummaryHTML();
             totalEl.textContent = '0$';
             return;
         }
+
+        const { items, total } = this.calculateTotal();
+        listEl.innerHTML = items.map(item => this.renderSummaryItem(item)).join('');
+        totalEl.textContent = total + '$';
+    },
+
+    getEmptySummaryHTML() {
+        return `
+            <div class="empty-summary">
+                <i class="fas fa-info-circle"></i>
+                اختر الخدمات لعرض التكلفة
+            </div>
+        `;
+    },
+
+    calculateTotal() {
+        const items = [];
+        let total = 0;
 
         this.state.selected.forEach((sel, id) => {
             const svc = this.findService(id);
@@ -151,7 +223,7 @@ const Calculator = {
             }
 
             sel.addons.forEach(i => {
-                const addon = svc.addons[i];
+                const addon = svc.addons?.[i];
                 if (addon) {
                     price += addon.price;
                     extras.push(addon.name);
@@ -159,23 +231,25 @@ const Calculator = {
             });
 
             total += price;
-
-            html += `
-                <div class="summary-item">
-                    <div class="summary-item-info">
-                        <strong>${svc.name}</strong>
-                        ${extras.length ? `<small>${extras.join(' • ')}</small>` : ''}
-                    </div>
-                    <span class="summary-item-price">${price}$</span>
-                    <button class="summary-remove" onclick="Calculator.toggle('${id}')">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            `;
+            items.push({ id, name: svc.name, price, extras });
         });
 
-        listEl.innerHTML = html;
-        totalEl.textContent = total + '$';
+        return { items, total };
+    },
+
+    renderSummaryItem(item) {
+        return `
+            <div class="summary-item">
+                <div class="summary-item-info">
+                    <strong>${item.name}</strong>
+                    ${item.extras.length ? `<small>${item.extras.join(' • ')}</small>` : ''}
+                </div>
+                <span class="summary-item-price">${item.price}$</span>
+                <button class="summary-remove" onclick="Calculator.toggleService('${item.id}')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
     },
 
     findService(id) {
@@ -184,6 +258,16 @@ const Calculator = {
             if (svc) return svc;
         }
         return null;
+    },
+
+    initTooltips() {
+        if (typeof tippy !== 'undefined') {
+            tippy('[data-tippy-content]', {
+                theme: 'light',
+                placement: 'top',
+                animation: 'scale'
+            });
+        }
     },
 
     attachEvents() {

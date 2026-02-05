@@ -18,8 +18,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     initCounters();
     initTooltips();
     loadServices();
-    loadFAQ();
-    updateContactLinks();
 
     // Initialize after short delay to ensure DOM is ready
     setTimeout(() => {
@@ -343,72 +341,11 @@ async function loadServices() {
 }
 
 // =========================================
-// 7. Load FAQ
+// FAQ Function Removed - Simplified Version
 // =========================================
-async function loadFAQ() {
-    const faqData = [
-        {
-            question: "كم من الوقت يستغرق تطوير تطبيق جوال؟",
-            answer: "يعتمد ذلك على حجم التطبيق وتعقيده. تطبيق بسيط قد يستغرق 2-4 أسابيع، بينما تطبيق متوسط أو معقد قد يستغرق 1-3 أشهر. نقدم لك جدول زمني تفصيلي بعد مناقشة متطلبات مشروعك."
-        },
-        {
-            question: "هل توفرون الدعم بعد التسليم؟",
-            answer: "نعم، نقدم دعماً فنياً مجانياً لمدة شهر بعد التسليم لضمان عمل المشروع بشكل مثالي. بعد ذلك يمكنك الاشتراك في باقات الدعم الشهرية أو السنوية."
-        },
-        {
-            question: "هل يمكنني طلب تعديلات على المشروع؟",
-            answer: "بالتأكيد! نقدم جولتين من التعديلات المجانية ضمن نطاق المشروع الأصلي. أي تعديلات إضافية أو خارج النطاق سيتم تسعيرها بشكل منفصل."
-        },
-        {
-            question: "كيف تتم عملية الدفع؟",
-            answer: "نعمل بنظام الدفع على مراحل: 50% عند بدء المشروع، و50% عند التسليم النهائي. نقبل التحويلات البنكية، PayPal، ومحافظ العملات الرقمية."
-        },
-        {
-            question: "هل تقدمون خدمات نشر التطبيقات على المتاجر؟",
-            answer: "نعم، نساعدك في نشر تطبيقك على Google Play Store و Apple App Store، بما في ذلك إعداد الحسابات، كتابة الوصف، واستيفاء متطلبات المتاجر."
-        },
-        {
-            question: "ما هي التقنيات التي تستخدمونها؟",
-            answer: "نستخدم أحدث التقنيات: Flutter و React Native للتطبيقات متعددة المنصات، Java/Kotlin لتطبيقات Android الأصلية، وتقنيات الويب الحديثة مثل React و Vue.js للمواقع."
-        },
-        {
-            question: "هل يمكنني رؤية نماذج من أعمالكم السابقة؟",
-            answer: "بالتأكيد! يمكنك تصفح قسم <a href='#projects' class='text-primary'>المشاريع</a> في الأعلى لمشاهدة مجموعة من أعمالنا السابقة مع تفاصيل كل مشروع."
-        },
-        {
-            question: "هل تقدمون استشارات تقنية مجانية؟",
-            answer: "نعم، نقدم استشارة أولية مجانية لمناقشة فكرة مشروعك ومساعدتك في اختيار الحل التقني الأنسب. تواصل معنا عبر واتساب أو البريد الإلكتروني."
-        }
-    ];
-
-    const container = document.getElementById('faqAccordion');
-    if (!container) return;
-
-    container.innerHTML = faqData.map((item, index) => `
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="faqHeading${index}">
-                <button class="accordion-button ${index !== 0 ? 'collapsed' : ''}" 
-                        type="button" 
-                        data-bs-toggle="collapse" 
-                        data-bs-target="#faqCollapse${index}" 
-                        aria-expanded="${index === 0 ? 'true' : 'false'}" 
-                        aria-controls="faqCollapse${index}">
-                    ${item.question}
-                </button>
-            </h2>
-            <div id="faqCollapse${index}" 
-                 class="accordion-collapse collapse ${index === 0 ? 'show' : ''}" 
-                 aria-labelledby="faqHeading${index}" 
-                 data-bs-parent="#faqAccordion">
-                <div class="accordion-body">
-                    ${item.answer}
-                </div>
-            </div>
-        </div>
-    `).join('');
-}
 
 // =========================================
+// 7. Animate// =========================================
 // 8. Animate Elements on Scroll
 // =========================================
 function animateOnScroll() {
@@ -475,3 +412,4 @@ function isValidEmail(email) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
 }
+

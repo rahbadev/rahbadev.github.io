@@ -136,6 +136,55 @@
                     "urgent": 40
                 }
             ]
+        },
+        {
+            "id": "extras",
+            "title": "خدمات إضافية",
+            "icon": "fas fa-plus-circle",
+            "services": [
+                {
+                    "id": "domain",
+                    "name": "حجز دومين",
+                    "icon": "fas fa-globe",
+                    "price": 30,
+                    "recurring": "سنوياً"
+                },
+                {
+                    "id": "subdomain",
+                    "name": "رابط فرعي",
+                    "icon": "fas fa-link",
+                    "price": 10,
+                    "recurring": "شهرياً"
+                },
+                {
+                    "id": "short-link",
+                    "name": "روابط مختصرة",
+                    "icon": "fas fa-compress",
+                    "price": 5,
+                    "recurring": "شهرياً"
+                },
+                {
+                    "id": "ssl",
+                    "name": "شهادة SSL",
+                    "icon": "fas fa-lock",
+                    "price": 15,
+                    "recurring": "سنوياً"
+                },
+                {
+                    "id": "email",
+                    "name": "بريد احترافي",
+                    "icon": "fas fa-envelope",
+                    "price": 20,
+                    "recurring": "سنوياً"
+                },
+                {
+                    "id": "hosting",
+                    "name": "استضافة",
+                    "icon": "fas fa-server",
+                    "price": 50,
+                    "recurring": "سنوياً"
+                }
+            ]
         }
     ]
 }
