@@ -1,67 +1,85 @@
 {
+    "version": "1.0.0",
+    "lastUpdated": "2026-02-05",
     "categories": [
         {
             "id": "design",
             "title": "التصميم",
             "icon": "fas fa-palette",
+            "color": "#ec4899",
+            "description": "تصاميم احترافية تعبر عن هويتك",
             "services": [
                 {
                     "id": "logo",
-                    "name": "تصميم شعار",
+                    "title": "تصميم شعار",
+                    "description": "شعار احترافي لمشروعك أو شركتك",
                     "icon": "fas fa-star",
                     "price": 20,
+                    "priceLabel": "تبدأ من",
                     "urgent": 15,
                     "addons": [
                         {
-                            "name": "ملف مصدري (AI/PSD)",
+                            "name": "تسليم الملف المصدري (AI/PSD)",
                             "price": 15
                         },
                         {
-                            "name": "تجهيز لمنصات التواصل",
+                            "name": "تجهيز الشعار لمنصات التواصل",
                             "price": 5
                         }
                     ]
                 },
                 {
                     "id": "designs",
-                    "name": "تصاميم متنوعة",
+                    "title": "تصاميم متنوعة",
+                    "description": "ترويسة، كرت عمل، منشورات سوشيال ميديا",
                     "icon": "fas fa-images",
                     "price": 10,
+                    "priceLabel": "تبدأ من",
                     "urgent": 5
                 },
                 {
                     "id": "full-identity",
-                    "name": "هوية بصرية كاملة",
+                    "title": "هوية بصرية",
+                    "description": "هوية متكاملة لمشروعك أو شركتك",
                     "icon": "fas fa-copyright",
                     "price": 100,
+                    "priceLabel": "تبدأ من",
                     "urgent": 40
                 }
             ]
         },
         {
             "id": "websites",
-            "title": "المواقع",
+            "title": "المواقع الإلكترونية",
             "icon": "fas fa-globe",
+            "color": "#10b981",
+            "description": "مواقع بسيطة وجميلة ليعرض خدماتك ومنتجاتك",
             "services": [
                 {
                     "id": "bio-page",
-                    "name": "صفحة بايو",
+                    "title": "صفحة البايو",
+                    "description": "صفحة لعرض روابطك الشخصية (شعار + روابط + QR)",
                     "icon": "fas fa-link",
                     "price": 20,
-                    "urgent": 10,
+                    "priceLabel": "تبدأ من",
+                    "urgent": 15,
+                    "exampleUrl": "demos/bio-demo.html",
                     "addons": [
                         {
-                            "name": "روابط غير محدودة",
+                            "name": "5 روابط إضافية",
                             "price": 10
                         }
                     ]
                 },
                 {
                     "id": "landing-page",
-                    "name": "صفحة لمشروعك",
+                    "title": "صفحة لمشروعك",
+                    "description": "صفحة احترافية + 4 أقسام + QR + متوافقة مع الأجهزة",
                     "icon": "fas fa-pager",
                     "price": 60,
+                    "priceLabel": "تبدأ من",
                     "urgent": 30,
+                    "exampleUrl": "#projects",
                     "addons": [
                         {
                             "name": "دعم لغتين",
@@ -75,23 +93,29 @@
                 },
                 {
                     "id": "store",
-                    "name": "متجر إلكتروني",
+                    "title": "متجر إلكتروني",
+                    "description": "متجر بسيط لعرض وبيع منتجاتك على الإنترنت",
                     "icon": "fas fa-shopping-cart",
                     "price": 300,
+                    "priceLabel": "تبدأ من",
                     "urgent": 100
                 }
             ]
         },
         {
             "id": "apps",
-            "title": "التطبيقات",
+            "title": "تطبيقات الجوال",
             "icon": "fas fa-mobile-alt",
+            "color": "#6366f1",
+            "description": "تطبيقات جوال في مختلف المجالات",
             "services": [
                 {
                     "id": "web-to-app",
-                    "name": "تحويل موقع لتطبيق",
+                    "title": "تحويل موقع لتطبيق",
+                    "description": "تحويل موقعك الحالي إلى تطبيق جوال (Web-to-App) بلمسة احترافية",
                     "icon": "fas fa-window-restore",
                     "price": 150,
+                    "priceLabel": "تبدأ من",
                     "urgent": 50,
                     "addons": [
                         {
@@ -102,87 +126,48 @@
                 },
                 {
                     "id": "simple-app",
-                    "name": "تطبيق بسيط",
+                    "title": "تطبيق بسيط",
+                    "description": "تطبيق (1-3 صفحات) لعرض معلومات أو خدمات بـ Flutter",
                     "icon": "fas fa-mobile-alt",
                     "price": 400,
+                    "priceLabel": "تبدأ من",
                     "urgent": 150
                 },
                 {
                     "id": "pro-app",
-                    "name": "تطبيق احترافي",
+                    "title": "تطبيق احترافي",
+                    "description": "تطبيق متقدم بمميزات مخصصة وأنظمة برمجية متكاملة",
                     "icon": "fas fa-rocket",
                     "price": 1500,
+                    "priceLabel": "تبدأ من",
                     "custom": true
                 }
             ]
         },
         {
             "id": "sheets",
-            "title": "الجداول",
+            "title": "الجداول الذكية",
             "icon": "fas fa-table",
+            "color": "#8b5cf6",
+            "description": "أتمتة وتنظيم أعمالك",
             "services": [
                 {
                     "id": "sheets-basic",
-                    "name": "تنظيم بيانات",
+                    "title": "تنظيم بيانات",
+                    "description": "ترتيب وتنظيم بياناتك بشكل احترافي",
                     "icon": "fas fa-list",
                     "price": 40,
+                    "priceLabel": "تبدأ من",
                     "urgent": 20
                 },
                 {
                     "id": "sheets-auto",
-                    "name": "أتمتة متقدمة",
+                    "title": "أتمتة متقدمة",
+                    "description": "أتمتة كاملة باستخدام Apps Script",
                     "icon": "fas fa-robot",
                     "price": 100,
+                    "priceLabel": "تبدأ من",
                     "urgent": 40
-                }
-            ]
-        },
-        {
-            "id": "extras",
-            "title": "خدمات إضافية",
-            "icon": "fas fa-plus-circle",
-            "services": [
-                {
-                    "id": "domain",
-                    "name": "حجز دومين",
-                    "icon": "fas fa-globe",
-                    "price": 30,
-                    "recurring": "سنوياً"
-                },
-                {
-                    "id": "subdomain",
-                    "name": "رابط فرعي",
-                    "icon": "fas fa-link",
-                    "price": 10,
-                    "recurring": "شهرياً"
-                },
-                {
-                    "id": "short-link",
-                    "name": "روابط مختصرة",
-                    "icon": "fas fa-compress",
-                    "price": 5,
-                    "recurring": "شهرياً"
-                },
-                {
-                    "id": "ssl",
-                    "name": "شهادة SSL",
-                    "icon": "fas fa-lock",
-                    "price": 15,
-                    "recurring": "سنوياً"
-                },
-                {
-                    "id": "email",
-                    "name": "بريد احترافي",
-                    "icon": "fas fa-envelope",
-                    "price": 20,
-                    "recurring": "سنوياً"
-                },
-                {
-                    "id": "hosting",
-                    "name": "استضافة",
-                    "icon": "fas fa-server",
-                    "price": 50,
-                    "recurring": "سنوياً"
                 }
             ]
         }

@@ -1,28 +1,35 @@
 // =========================================
-// Main Application JavaScript
+// Main Application JavaScript v5.0
 // =========================================
 
 // Global company info
 let companyInfo = null;
 
 document.addEventListener('DOMContentLoaded', async function () {
+    console.log('⚙️ تهيئة التطبيق...');
 
-    // Load company info first
-    await loadCompanyInfo();
+    try {
+        // Load company info first
+        await loadCompanyInfo();
 
-    // Initialize all functions
-    initNavbar();
-    initScrollToTop();
-    initProgressBar();
-    initSmoothScroll();
-    initCounters();
-    initTooltips();
-    loadServices();
+        // Initialize all functions
+        initNavbar();
+        initScrollToTop();
+        initProgressBar();
+        initSmoothScroll();
+        initCounters();
+        initTooltips();
+        loadServices();
 
-    // Initialize after short delay to ensure DOM is ready
-    setTimeout(() => {
-        animateOnScroll();
-    }, 100);
+        // Initialize after short delay to ensure DOM is ready
+        setTimeout(() => {
+            animateOnScroll();
+        }, 100);
+
+        console.log('✅ تم تحميل التطبيق بنجاح');
+    } catch (error) {
+        console.error('❌ خطأ في تهيئة التطبيق', error);
+    }
 });
 
 // =========================================
@@ -209,16 +216,16 @@ function initTooltips() {
 }
 
 // =========================================
-// 5.5 Load Company Info (Centralized Data)
+// =========================================
+// 5.5 Load Company Info
 // =========================================
 async function loadCompanyInfo() {
     try {
-        const response = await fetch('../shared/data/company-info.json');
-        if (response.ok) {
-            companyInfo = await response.json();
-        }
+        const start = performance.now();
+        companyInfo = await dataService.getCompanyInfo();
+        console.log(`✅ تم تحميل معلومات الشركة (${(performance.now() - start).toFixed(2)}ms)`);
     } catch (error) {
-        console.error('Error loading company info:', error);
+        console.error('❌ خطأ في تحميل معلومات الشركة', error);
     }
 }
 
@@ -278,16 +285,13 @@ function adjustColor(color, percent) {
 
 async function loadServices() {
     try {
-        const response = await fetch('data/services.json');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
+        const start = performance.now();
+        const data = await dataService.getServices();
 
         const container = document.getElementById('servicesContainer');
 
         if (!container) {
-            console.error('servicesContainer not found!');
+            console.error('❌ servicesContainer غير موجود!');
             return;
         }
 
@@ -335,8 +339,9 @@ async function loadServices() {
             </div>
         `).join('');
 
+        console.log(`✅ تم تحميل الخدمات (${(performance.now() - start).toFixed(2)}ms)`);
     } catch (error) {
-        console.error('Error loading services:', error);
+        console.error('❌ خطأ في تحميل الخدمات', error);
     }
 }
 

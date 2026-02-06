@@ -4,7 +4,7 @@ const path = require('path');
 const PROJECTS_DIR = __dirname; // المشاريع في نفس المجلد (apps/)
 const TEMPLATE_PATH = path.join(__dirname, 'templates', 'project-template.html');
 const PRIVACY_TEMPLATE_PATH = path.join(__dirname, 'templates', 'privacy-policy-template.html');
-const OUTPUT_JSON = path.join(__dirname, '..', 'site', 'data', 'projects.json');
+const OUTPUT_JSON = path.join(__dirname, '..', 'site', 'assets', 'data', 'projects.json');
 
 function getFileSize(filePath) {
     try {
@@ -227,6 +227,12 @@ function build() {
             status: info.status || 'available'
         });
     });
+
+    // التأكد من وجود المجلد قبل الكتابة
+    const outputDir = path.dirname(OUTPUT_JSON);
+    if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir, { recursive: true });
+    }
 
     fs.writeFileSync(OUTPUT_JSON, JSON.stringify(allProjects, null, 2));
     console.log('✨ Done!');

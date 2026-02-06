@@ -1,28 +1,22 @@
-/* =========================================
-   Shared Core Variables - RahbaDev
+﻿/* =========================================
+   Core Variables - RahbaDev (Optimized)
    ========================================= */
 
 :root {
     /* Primary Colors */
     --primary-color: #2d6ac8;
-    --primary-dark: #1e4d8f;
     --primary-rgb: 45, 106, 200;
 
     /* Secondary Colors */
     --secondary-color: #3d7fd9;
-    --secondary-dark: #2d6fc9;
     --secondary-rgb: 61, 127, 217;
 
-    /* Accent Colors */
+    /* Accent Color */
     --accent-color: #5ca3e8;
-    --accent-light: #7db8ec;
-    --accent-rgb: 92, 163, 232;
 
     /* Status Colors */
     --success-color: #10b981;
     --success-rgb: 16, 185, 129;
-    --warning-color: #f59e0b;
-    --warning-rgb: 245, 158, 11;
     --danger-color: #ef4444;
     --danger-rgb: 239, 68, 68;
 
@@ -36,10 +30,8 @@
     --text-primary: #ffffff;
     --text-secondary: #cbd5e1;
     --text-muted: #94a3b8;
-    --text-light: #e2e8f0;
 
     /* Border & Shadow */
     --border-color: rgba(255, 255, 255, 0.1);
     --shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 25px 80px -15px rgba(0, 0, 0, 0.5);
 }

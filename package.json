@@ -1,0 +1,38 @@
+{
+    "name": "rehbadev-website",
+    "version": "1.0.0",
+    "description": "موقع رحبة التطوير - عرض احترافي للخدمات والمشاريع الرقمية",
+    "main": "index.html",
+    "scripts": {
+        "start": "start index.html",
+        "build": "node build.js",
+        "build:apps": "node apps/build.js",
+        "screenshot": "node apps/screenshot.js"
+    },
+    "keywords": [
+        "rehba",
+        "رحبة التطوير",
+        "تطوير تطبيقات",
+        "تطوير مواقع",
+        "متاجر إلكترونية",
+        "هوية بصرية",
+        "أتمتة الأعمال",
+        "portfolio",
+        "business website"
+    ],
+    "author": "Rehba Dev Team",
+    "license": "UNLICENSED",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/rahbadev/rehbadev-website"
+    },
+    "homepage": "https://rehbadev.com",
+    "devDependencies": {
+        "puppeteer": "^24.36.1"
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not dead"
+    ]
+}
