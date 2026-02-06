@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معرض التصميمات | رحبة التطوير</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="../../site/assets/fonts/cairo.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../site/assets/css/variables.css">
+    <link rel="stylesheet" href="../../site/assets/css/main.css">
+    <style>
+        .designs-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .design-card {
+            padding: 0;
+            overflow: hidden;
+            cursor: pointer;
+            animation: fadeIn 0.6s ease backwards;
+        }
+
+        .design-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .design-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .design-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .design-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .design-card:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .design-card:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+
+        .design-card img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .design-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .design-info {
+            padding: 1.25rem;
+        }
+
+        .design-title {
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            font-size: 1.05rem;
+            color: var(--text-primary);
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.96);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .lightbox.show {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 92%;
+            max-height: 92%;
+            border-radius: 16px;
+            box-shadow: 0 20px 80px rgba(var(--primary-rgb), 0.4);
+            animation: zoomIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            background: var(--danger-color);
+            border-color: var(--danger-color);
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .designs-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .lightbox-close {
+                top: 1rem;
+                left: 1rem;
+                width: 42px;
+                height: 42px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <a href="../../site/index.html" class="btn btn-outline-light mb-4">
+                    <i class="fas fa-arrow-right"></i> العودة للموقع
+                </a>
+                <span class="section-badge">
+                    <i class="fas fa-palette"></i> معرض الأعمال
+                </span>
+                <h1 class="section-title">معرض التصميمات</h1>
+                <div class="section-divider"></div>
+                <p class="section-subtitle">أعمال التصميم الجرافيكي والهوية البصرية</p>
+            </div>
+
+            <div class="d-flex justify-content-center gap-3 flex-wrap mb-5">
+                <button class="btn btn-primary active" data-cat="all">
+                    <i class="fas fa-th"></i> الكل
+                </button>
+                <button class="btn btn-outline-light" data-cat="logo">
+                    <i class="fas fa-gem"></i> شعارات
+                </button>
+                <button class="btn btn-outline-light" data-cat="card">
+                    <i class="fas fa-id-card"></i> بطاقات
+                </button>
+                <button class="btn btn-outline-light" data-cat="ad">
+                    <i class="fas fa-ad"></i> إعلانات
+                </button>
+                <button class="btn btn-outline-light" data-cat="mockup">
+                    <i class="fas fa-box"></i> مجسمات
+                </button>
+            </div>
+
+            <div class="designs-gallery" id="gallery"></div>
+
+            <div class="empty-state" id="empty" style="display:none">
+                <i class="fas fa-images"
+                    style="font-size:5rem;opacity:0.2;margin-bottom:1.5rem;background:linear-gradient(135deg,var(--primary-color),var(--accent-color));-webkit-background-clip:text;-webkit-text-fill-color:transparent"></i>
+                <h3 style="font-size:1.5rem;margin-bottom:1rem">لا توجد تصميمات</h3>
+                <p style="font-size:1rem;opacity:0.7">أضف صور webp في المجلدات ثم شغّل: <code
+                        style="background:var(--card-bg);padding:0.35rem 0.75rem;border-radius:8px;color:var(--primary-color)">node build.js</code>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="lightbox" id="lightbox" onclick="if(event.target===this) close()">
+        <button class="lightbox-close" onclick="close()"><i class="fas fa-times"></i></button>
+        <img id="lightboxImg" src="" alt="">
+    </div>
+
+    <script src="designs.js"></script>
+    <script>
+        const cats = { logo: 'شعار', card: 'بطاقة', ad: 'إعلان', mockup: 'مجسم' };
+        let cat = 'all';
+
+        // قراءة التصنيف من URL إذا وجد
+        function getCategoryFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlCat = urlParams.get('cat');
+            if (urlCat && (urlCat === 'all' || cats.hasOwnProperty(urlCat))) {
+                return urlCat;
+            }
+            return 'all';
+        }
+
+        // تفعيل الزر المناسب حسب التصنيف
+        function activateButton(category) {
+            document.querySelectorAll('[data-cat]').forEach(b => {
+                b.classList.remove('btn-primary', 'active');
+                b.classList.add('btn-outline-light');
+            });
+            const activeBtn = document.querySelector(`[data-cat="${category}"]`);
+            if (activeBtn) {
+                activeBtn.classList.remove('btn-outline-light');
+                activeBtn.classList.add('btn-primary', 'active');
+            }
+        }
+
+        function render() {
+            const g = document.getElementById('gallery');
+            const e = document.getElementById('empty');
+            const items = cat === 'all' ? designs : designs.filter(d => d.cat === cat);
+
+            if (!items.length) {
+                g.style.display = 'none';
+                e.style.display = 'block';
+                return;
+            }
+
+            g.style.display = 'grid';
+            e.style.display = 'none';
+            g.innerHTML = items.map(d => `
+                <div class="card design-card" onclick="open('${d.img}')">
+                    <img src="${d.img}" alt="${d.title}" loading="lazy">
+                    <div class="design-info">
+                        <div class="design-title">${d.title}</div>
+                        <span class="badge badge-primary">
+                            <i class="fas fa-tag"></i>
+                            ${cats[d.cat]}
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.querySelectorAll('[data-cat]').forEach(btn => {
+            btn.onclick = () => {
+                cat = btn.dataset.cat;
+                activateButton(cat);
+                render();
+                // تحديث URL بدون إعادة تحميل الصفحة
+                const newUrl = cat === 'all'
+                    ? window.location.pathname
+                    : `${window.location.pathname}?cat=${cat}`;
+                window.history.pushState({}, '', newUrl);
+            };
+        });
+
+        // تفعيل التصنيف عند تحميل الصفحة
+        cat = getCategoryFromURL();
+        activateButton(cat);
+
+        function open(img) {
+            document.getElementById('lightboxImg').src = img;
+            document.getElementById('lightbox').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function close() {
+            document.getElementById('lightbox').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        document.onkeydown = e => e.key === 'Escape' && close();
+        render();
+    </script>
+</body>
+
+</html>

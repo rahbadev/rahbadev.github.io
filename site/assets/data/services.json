@@ -14,9 +14,10 @@
                     "title": "تصميم شعار",
                     "description": "شعار احترافي لمشروعك أو شركتك",
                     "icon": "fas fa-star",
-                    "price": 20,
+                    "price": 25,
                     "priceLabel": "تبدأ من",
                     "urgent": 15,
+                    "exampleUrl": "../../projects/design/index.html?cat=logo",
                     "addons": [
                         {
                             "name": "تسليم الملف المصدري (AI/PSD)",
@@ -35,7 +36,8 @@
                     "icon": "fas fa-images",
                     "price": 10,
                     "priceLabel": "تبدأ من",
-                    "urgent": 5
+                    "urgent": 5,
+                    "exampleUrl": "../../projects/design/index.html?cat=card"
                 },
                 {
                     "id": "full-identity",
@@ -44,7 +46,8 @@
                     "icon": "fas fa-copyright",
                     "price": 100,
                     "priceLabel": "تبدأ من",
-                    "urgent": 40
+                    "urgent": 40,
+                    "exampleUrl": "../../projects/design/index.html?cat=all"
                 }
             ]
         },
@@ -60,33 +63,41 @@
                     "title": "صفحة البايو",
                     "description": "صفحة لعرض روابطك الشخصية (شعار + روابط + QR)",
                     "icon": "fas fa-link",
-                    "price": 20,
+                    "price": 25,
                     "priceLabel": "تبدأ من",
                     "urgent": 15,
-                    "exampleUrl": "demos/bio-demo.html",
+                    "exampleUrl": "../projects/perfurm-site/bio-demo.html",
                     "addons": [
                         {
                             "name": "5 روابط إضافية",
+                            "price": 10
+                        },
+                        {
+                            "name": "عرض خدماتك أو منتجاتك",
+                            "price": 10
+                        },
+                        {
+                            "name": "روابط مختصرة باسمك (مثال: rehbadev.dev/yourname)",
                             "price": 10
                         }
                     ]
                 },
                 {
                     "id": "landing-page",
-                    "title": "صفحة لمشروعك",
-                    "description": "صفحة احترافية + 4 أقسام + QR + متوافقة مع الأجهزة",
+                    "title": "صفحة بسيطة لمشروعك",
+                    "description": "صفحة مناسبة لعرض مشروعك أو منتجك بشكل جذاب وبسيط",
                     "icon": "fas fa-pager",
                     "price": 60,
                     "priceLabel": "تبدأ من",
                     "urgent": 30,
-                    "exampleUrl": "#projects",
+                    "exampleUrl": "../projects/perfurm-site/store-demo.html",
                     "addons": [
                         {
                             "name": "دعم لغتين",
                             "price": 20
                         },
                         {
-                            "name": "وضع مظلم",
+                            "name": "روابط مختصرة باسمك (مثال: rehbadev.dev/yourname)",
                             "price": 10
                         }
                     ]
@@ -116,13 +127,7 @@
                     "icon": "fas fa-window-restore",
                     "price": 150,
                     "priceLabel": "تبدأ من",
-                    "urgent": 50,
-                    "addons": [
-                        {
-                            "name": "إشعارات push",
-                            "price": 30
-                        }
-                    ]
+                    "urgent": 75
                 },
                 {
                     "id": "simple-app",
@@ -131,7 +136,7 @@
                     "icon": "fas fa-mobile-alt",
                     "price": 400,
                     "priceLabel": "تبدأ من",
-                    "urgent": 150
+                    "urgent": 200
                 },
                 {
                     "id": "pro-app",

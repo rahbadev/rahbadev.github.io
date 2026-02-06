@@ -92,10 +92,10 @@ const UnifiedServicesCalculator = {
                             <span>${isSelected ? 'تمت الإضافة' : 'أضف للحاسبة'}</span>
                         </button>
                         ${hasExample ? `
-                            <a href="${service.exampleUrl}" target="_blank" class="btn-view-example" style="background: ${category.color}15; color: ${category.color}; border-color: ${category.color}30;">
-                                <i class="fas fa-external-link-alt ms-1"></i>
+                            <button onclick="DesignsModal.open('${this.getCategoryFromUrl(service.exampleUrl)}')" class="btn-view-example" style="background: ${category.color}15; color: ${category.color}; border-color: ${category.color}30;">
+                                <i class="fas fa-images ms-1"></i>
                                 <span>شاهد مثالاً</span>
-                            </a>
+                            </button>
                         ` : ''}
                     </div>
 
@@ -311,6 +311,12 @@ const UnifiedServicesCalculator = {
             console.error('❌ خطأ في إرسال الطلب', error);
             alert('حدث خطأ. الرجاء المحاولة مرة أخرى');
         }
+    },
+
+    getCategoryFromUrl(url) {
+        if (!url) return 'all';
+        const match = url.match(/[?&]cat=([^&]+)/);
+        return match ? match[1] : 'all';
     },
 
     attachEvents() {
