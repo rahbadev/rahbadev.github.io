@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>رحبة التطوير | حلول رقمية متكاملة</title>
     <meta name="description"
@@ -74,15 +74,15 @@
                             <img src="assets/images/logo.webp" alt="رحبة التطوير">
                         </div>
                     </div>
-                    <h1 class="hero-title text-center">
+                    <h1 class="hero-title text-center" id="heroTitle">
                         نحول أفكارك إلى<br>
                         <span class="gradient-text">واقع رقمي</span>
                     </h1>
                     <p class="hero-subtitle text-center">
-                        <span class="hero-subtitle-highlight">نقدم حلولاً رقمية
+                        <span class="hero-subtitle-highlight" id="heroSubtitle">نقدم حلولاً رقمية
                             متكاملة لتنمية مشروعك وتوفير وقتك.</span>
                     </p>
-                    <div class="hero-buttons text-center">
+                    <div class="hero-buttons text-center mb-2">
                         <a href="#services" class="btn btn-primary btn-lg px-4 py-3 me-2 mb-3">
                             <i class="fas fa-calculator ms-2"></i>
                             ابدأ مشروعك الآن
@@ -96,22 +96,23 @@
                     <!-- Tech Stack Badges -->
                     <div class="tech-stack">
                         <span class="tech-badge" data-tippy-content="تطبيقات متعددة المنصات">
-                            <i class="fas fa-mobile-alt ms-2"></i> Mobile Apps
+                            <i class="fas fa-mobile-alt me-2"></i> Mobile Apps
                         </span>
                         <span class="tech-badge" data-tippy-content="تطوير مواقع حديثة وسريعة">
-                            <i class="fas fa-code ms-2"></i> Web Dev
+                            <i class="fas fa-code me-2"></i> Web Dev
                         </span>
                         <span class="tech-badge" data-tippy-content="تصميم هويات بصرية احترافية">
-                            <i class="fas fa-palette ms-2"></i> Design
+                            <i class="fas fa-palette me-2"></i> Design
                         </span>
                         <span class="tech-badge" data-tippy-content="أتمتة العمليات والجداول">
-                            <i class="fas fa-robot ms-2"></i> Automation
+                            <i class="fas fa-robot me-2"></i> Automation
                         </span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
 
     <!-- Unified Services & Calculator Section -->
     <section id="services" class="section-padding">
@@ -161,21 +162,18 @@
                     <div class="bio-card">
                         <div class="bio-logo-wrapper">
                             <div class="bio-logo">
-                                <img src="assets/images/logo.webp" alt="رحبة التطوير">
+                                <img src="assets/images/brand-blue.webp" alt="رحبة التطوير">
                             </div>
                         </div>
-                        <h2 class="bio-title">رحبة التطوير | RahbaDev</h2>
+                        <h2 class="bio-title" id="bioTitle">رحبة التطوير | RahbaDev</h2>
                         <div class="bio-tags">
-                            <span class="bio-tag"><i class="fas fa-palette ms-2"></i>تصميم</span>
-                            <span class="bio-tag"><i class="fas fa-mobile-alt ms-2"></i>برمجة</span>
-                            <span class="bio-tag"><i class="fas fa-robot ms-2"></i>أتمتة</span>
+                            <span class="bio-tag"><i class="fas fa-palette me-2"></i>تصميم</span>
+                            <span class="bio-tag"><i class="fas fa-mobile-alt me-2"></i>برمجة</span>
+                            <span class="bio-tag"><i class="fas fa-robot me-2"></i>أتمتة</span>
                         </div>
-                        <p class="bio-description">
-                            نحن وكالة برمجية متخصصة في تطوير الحلول الرقمية المتكاملة. نجمع بين الإبداع والتقنية لتحويل
-                            أفكارك إلى واقع رقمي يخدم أهدافك. تخصصنا الفريد في هندسة النظم والأتمتة الذكية يجعلنا الشريك
-                            الأمثل لمشروعك.
-                        </p>
-
+                        <p class="bio-description" id="bioDescription">
+                            تطوير الحلول الرقمية المتكاملة. نجمع بين الإبداع والتقنية لتحويل
+                            أفكارك إلى واقع رقمي يخدم أهدافك.</p>
                         <div class="contact-buttons">
                             <a href="#" class="contact-btn whatsapp-btn" id="bioWhatsappBtn">
                                 <i class="fab fa-whatsapp"></i>
@@ -187,22 +185,8 @@
                             </a>
                         </div>
 
-                        <div class="social-icons-bio">
-                            <a href="#" class="social-icon-bio" id="bioEmail">
-                                <i class="fas fa-envelope"></i>
-                            </a>
-                            <a href="#" class="social-icon-bio" id="bioTelegram" target="_blank">
-                                <i class="fab fa-telegram-plane"></i>
-                            </a>
-                            <a href="#" class="social-icon-bio" id="bioFacebook" target="_blank">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a href="#" class="social-icon-bio" id="bioGithub" target="_blank">
-                                <i class="fab fa-github"></i>
-                            </a>
-                            <a href="#" class="social-icon-bio" id="bioPlaystore" target="_blank">
-                                <i class="fab fa-google-play"></i>
-                            </a>
+                        <div class="social-icons-bio" id="socialIcons">
+                            <!-- Will be populated dynamically -->
                         </div>
                     </div>
                 </div>
@@ -216,10 +200,10 @@
             <div class="row">
                 <div class="col-lg-4 mb-4 mb-lg-0">
                     <div class="footer-brand mb-3">
-                        <img src="assets/images/brand.webp" alt="رحبة التطوير" class="footer-logo">
-                        <h5>رحبة التطوير</h5>
+                        <img src="assets/images/brand-blue.webp" alt="رحبة التطوير" class="footer-logo">
+                        <h5 id="footerBrandName">رحبة التطوير</h5>
                     </div>
-                    <p class="text-muted">
+                    <p class="text-muted" id="footerDescription" lang="ar">
                         نحول أفكارك إلى واقع رقمي. متخصصون في تطوير التطبيقات، المواقع، والحلول الرقمية المتكاملة.
                     </p>
                 </div>
@@ -260,7 +244,7 @@
             </div>
             <hr class="footer-divider">
             <div class="footer-bottom">
-                <p class="mb-0">&copy; 2026 رحبة التطوير. جميع الحقوق محفوظة.</p>
+                <p class="mb-0" id="footerCopyright">&copy; 2026 رحبة التطوير. جميع الحقوق محفوظة.</p>
             </div>
         </div>
     </footer>
@@ -285,69 +269,7 @@
     <script defer src="assets/js/data-service.js"></script>
     <script defer src="assets/js/app.js?v=5.0"></script>
     <script defer src="assets/js/unified-services-calculator.js?v=1.0"></script>
-
-    <!-- Load Company Info -->
-    <script>
-        // Load and update company contact info using dataService
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                const data = await dataService.getCompanyInfo();
-
-                // Update Bio Section
-                const bioWhatsappBtn = document.getElementById('bioWhatsappBtn');
-                const bioEmail = document.getElementById('bioEmail');
-                const bioTelegram = document.getElementById('bioTelegram');
-                const bioFacebook = document.getElementById('bioFacebook');
-                const bioGithub = document.getElementById('bioGithub');
-                const bioPlaystore = document.getElementById('bioPlaystore');
-
-                if (bioWhatsappBtn) bioWhatsappBtn.href = data.contact.whatsappLink;
-                if (bioEmail) {
-                    bioEmail.href = `mailto:${data.contact.email}`;
-                    bioEmail.style.display = data.contact.email ? '' : 'none';
-                }
-                if (bioTelegram) {
-                    bioTelegram.href = data.contact.telegramLink;
-                    bioTelegram.style.display = data.contact.telegramLink ? '' : 'none';
-                }
-                if (bioFacebook) {
-                    bioFacebook.href = data.social.facebook;
-                    bioFacebook.style.display = data.social.facebook ? '' : 'none';
-                }
-                if (bioGithub) {
-                    bioGithub.href = data.social.github;
-                    bioGithub.style.display = data.social.github ? '' : 'none';
-                }
-                if (bioPlaystore) {
-                    bioPlaystore.href = data.social.playstore;
-                    bioPlaystore.style.display = data.social.playstore ? '' : 'none';
-                }
-
-                // Update footer email
-                const footerEmail = document.querySelector('.footer-contact a[href^="mailto:"]');
-                if (footerEmail) {
-                    footerEmail.href = `mailto:${data.contact.email}`;
-                    footerEmail.textContent = data.contact.email;
-                }
-
-                // Update footer WhatsApp
-                const footerWhatsapp = document.querySelector('.footer-contact a[href^="https://wa.me"]');
-                if (footerWhatsapp) footerWhatsapp.href = data.contact.whatsappLink;
-
-                // Update footer Telegram
-                const footerTelegram = document.querySelector('.footer-contact a[href^="https://t.me"]');
-                if (footerTelegram) footerTelegram.href = data.contact.telegramLink;
-
-                // Update floating WhatsApp button
-                const floatingWhatsApp = document.getElementById('floatingWhatsApp');
-                if (floatingWhatsApp) floatingWhatsApp.href = data.contact.whatsappLink;
-
-                logger.success('تم تحديث معلومات الاتصال');
-            } catch (err) {
-                logger.error('خطأ في تحميل معلومات الشركة', err);
-            }
-        });
-    </script>
+    <script defer src="assets/js/contact-updater.js?v=1.0"></script>
 </body>
 
 </html>

@@ -114,62 +114,6 @@ class DataService {
     }
 
     /**
-     * حساب تكلفة الخدمات المحددة
-     * @param {Array<string>} serviceIds - معرفات الخدمات
-     * @param {Array<Object>} addons - الإضافات المختارة
-     * @param {boolean} isUrgent - تسليم مستعجل
-     * @returns {Promise<Object>} تفاصيل التكلفة
-     */
-    async calculateCost(serviceIds, addons = [], isUrgent = false) {
-        const data = await this.getServices();
-        let totalCost = 0;
-        const selectedServices = [];
-
-        // حساب تكلفة الخدمات الأساسية
-        for (const category of data.categories) {
-            for (const service of category.services) {
-                if (serviceIds.includes(service.id)) {
-                    let serviceCost = service.price;
-
-                    // إضافة تكلفة الاستعجال
-                    if (isUrgent && service.urgent) {
-                        serviceCost += service.urgent;
-                    }
-
-                    totalCost += serviceCost;
-                    selectedServices.push({
-                        id: service.id,
-                        title: service.title,
-                        price: serviceCost,
-                        category: category.title
-                    });
-                }
-            }
-        }
-
-        // حساب تكلفة الإضافات
-        let addonsCost = 0;
-        const selectedAddons = [];
-
-        for (const addon of addons) {
-            addonsCost += addon.price;
-            selectedAddons.push({
-                name: addon.name,
-                price: addon.price
-            });
-        }
-
-        return {
-            services: selectedServices,
-            addons: selectedAddons,
-            subtotal: totalCost,
-            addonsTotal: addonsCost,
-            total: totalCost + addonsCost,
-            isUrgent
-        };
-    }
-
-    /**
      * تنظيف الكاش
      * @param {string} [url] - مسار محدد لتنظيفه (اختياري)
      */

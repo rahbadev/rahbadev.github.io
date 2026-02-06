@@ -383,25 +383,6 @@ function animateOnScroll() {
 // 9. Utility Functions
 // =========================================
 
-// Adjust color brightness
-function adjustColor(color, amount) {
-    // Remove # if present
-    color = color.replace('#', '');
-
-    // Convert to RGB
-    let r = parseInt(color.substring(0, 2), 16);
-    let g = parseInt(color.substring(2, 4), 16);
-    let b = parseInt(color.substring(4, 6), 16);
-
-    // Adjust
-    r = Math.max(0, Math.min(255, r + amount));
-    g = Math.max(0, Math.min(255, g + amount));
-    b = Math.max(0, Math.min(255, b + amount));
-
-    // Convert back to hex
-    return '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');
-}
-
 // Show notification (can be expanded with a toast library)
 function showNotification(message, type = 'info') {
     // Can be expanded with toast library
@@ -417,4 +398,3 @@ function isValidEmail(email) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
 }
-
