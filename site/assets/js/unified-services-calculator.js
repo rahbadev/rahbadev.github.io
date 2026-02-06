@@ -92,7 +92,7 @@ const UnifiedServicesCalculator = {
                             <span>${isSelected ? 'تمت الإضافة' : 'أضف للحاسبة'}</span>
                         </button>
                         ${hasExample ? `
-                            <button onclick="DesignsModal.open('${this.getCategoryFromUrl(service.exampleUrl)}')" class="btn-view-example" style="background: ${category.color}15; color: ${category.color}; border-color: ${category.color}30;">
+                            <button onclick="UnifiedServicesCalculator.openExample('${service.exampleUrl.replace(/'/g, "\\'")}', '${category.color}')" class="btn-view-example" style="background: ${category.color}15; color: ${category.color}; border-color: ${category.color}30;">
                                 <i class="fas fa-images ms-1"></i>
                                 <span>شاهد مثالاً</span>
                             </button>
@@ -317,6 +317,18 @@ const UnifiedServicesCalculator = {
         if (!url) return 'all';
         const match = url.match(/[?&]cat=([^&]+)/);
         return match ? match[1] : 'all';
+    },
+
+    openExample(url, categoryColor) {
+        // Check if it's a design gallery link
+        if (url.includes('projects/design/index.html')) {
+            // Open in designs modal
+            const category = this.getCategoryFromUrl(url);
+            DesignsModal.open(category);
+        } else {
+            // Open external link in new window
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
     },
 
     attachEvents() {

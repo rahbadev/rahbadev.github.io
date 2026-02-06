@@ -35,8 +35,7 @@
             "label": "App Store",
             "url": "https://apps.apple.com/us/app/%D8%A7%D9%84%D8%AF%D9%8A%D9%86-%D8%A7%D9%84%D9%82%D9%8A%D9%85/id6757972073",
             "icon": "fab fa-apple",
-            "available": false,
-            "comingSoon": true
+            "available": true
         }
     ],
     "version": "5.0.0",
