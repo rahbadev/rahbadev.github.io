@@ -28,6 +28,30 @@
     <!-- CSS Files -->
     <link rel="stylesheet" href="assets/css/variables.css">
     <link rel="stylesheet" href="assets/css/main.css?v=5.0">
+    
+    <!-- Designs Modal CSS -->
+    <style>
+        .designs-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.97); backdrop-filter: blur(10px); z-index: 10000; overflow-y: auto; }
+        .designs-modal.show { display: block; animation: fadeIn 0.3s; }
+        .designs-modal-content { max-width: 1400px; margin: 2rem auto; padding: 2rem; }
+        .designs-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .designs-modal-title { font-size: 2rem; font-weight: 800; color: var(--text-primary); margin: 0; }
+        .designs-modal-close { width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 1.2rem; cursor: pointer; transition: all 0.3s; }
+        .designs-modal-close:hover { background: var(--danger-color); transform: rotate(90deg); }
+        .designs-modal-filters { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .designs-modal-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+        .designs-modal-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; overflow: hidden; cursor: pointer; transition: all 0.3s; }
+        .designs-modal-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+        .designs-modal-card img { width: 100%; aspect-ratio: 1; object-fit: cover; transition: transform 0.3s; }
+        .designs-modal-card:hover img { transform: scale(1.05); }
+        .designs-modal-card-info { padding: 1rem; }
+        .designs-modal-card-title { font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; }
+        .designs-modal-empty { text-align: center; padding: 4rem 2rem; color: var(--text-muted); }
+        @media (max-width: 768px) {
+            .designs-modal-content { padding: 1rem; margin: 1rem; }
+            .designs-modal-gallery { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+        }
+    </style>
 
     <!-- Preload critical resources -->
     <link rel="preload" href="assets/fonts/cairo-700.ttf" as="font" type="font/ttf" crossorigin>
@@ -259,6 +283,45 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
+    <!-- Designs Gallery Modal -->
+    <div class="designs-modal" id="designsModal" onclick="if(event.target===this) DesignsModal.close()">
+        <div class="designs-modal-content">
+            <div class="designs-modal-header">
+                <h2 class="designs-modal-title">
+                    <i class="fas fa-images me-2"></i>
+                    معرض التصميمات
+                </h2>
+                <button class="designs-modal-close" onclick="DesignsModal.close()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="designs-modal-filters" id="designsModalFilters">
+                <button class="btn btn-primary active" data-cat="all">
+                    <i class="fas fa-th"></i> الكل
+                </button>
+                <button class="btn btn-outline-light" data-cat="logo">
+                    <i class="fas fa-gem"></i> شعارات
+                </button>
+                <button class="btn btn-outline-light" data-cat="card">
+                    <i class="fas fa-id-card"></i> بطاقات
+                </button>
+                <button class="btn btn-outline-light" data-cat="ad">
+                    <i class="fas fa-ad"></i> إعلانات
+                </button>
+                <button class="btn btn-outline-light" data-cat="mockup">
+                    <i class="fas fa-box"></i> مجسمات
+                </button>
+            </div>
+            
+            <div class="designs-modal-gallery" id="designsModalGallery">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">جاري التحميل...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts - Load from CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
@@ -270,6 +333,109 @@
     <script defer src="assets/js/app.js?v=5.0"></script>
     <script defer src="assets/js/unified-services-calculator.js?v=1.0"></script>
     <script defer src="assets/js/contact-updater.js?v=1.0"></script>
+    
+    <!-- Designs Modal Script -->
+    <script>
+        const DesignsModal = {
+            designs: null,
+            currentCat: 'all',
+            cats: { logo: 'شعار', card: 'بطاقة', ad: 'إعلان', mockup: 'مجسم' },
+            
+            async loadDesigns() {
+                if (this.designs) return;
+                try {
+                    const response = await fetch('../projects/design/designs.js');
+                    const text = await response.text();
+                    eval(text);
+                    this.designs = designs;
+                } catch (error) {
+                    console.error('خطأ في تحميل التصميمات:', error);
+                    this.designs = [];
+                }
+            },
+            
+            async open(category = 'all') {
+                await this.loadDesigns();
+                this.currentCat = category;
+                this.render();
+                this.attachEvents();
+                document.getElementById('designsModal').classList.add('show');
+                document.body.style.overflow = 'hidden';
+            },
+            
+            close() {
+                document.getElementById('designsModal').classList.remove('show');
+                document.body.style.overflow = '';
+            },
+            
+            render() {
+                const gallery = document.getElementById('designsModalGallery');
+                const items = this.currentCat === 'all' 
+                    ? this.designs 
+                    : this.designs.filter(d => d.cat === this.currentCat);
+                
+                if (!items || items.length === 0) {
+                    gallery.innerHTML = `
+                        <div class="designs-modal-empty" style="grid-column: 1/-1;">
+                            <i class="fas fa-images" style="font-size:4rem;opacity:0.3;margin-bottom:1rem"></i>
+                            <h3>لا توجد تصميمات</h3>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                gallery.innerHTML = items.map(d => `
+                    <div class="card designs-modal-card" onclick="DesignsModal.openLightbox('${d.img}')">
+                        <img src="../projects/design/${d.img}" alt="${d.title}" loading="lazy">
+                        <div class="designs-modal-card-info">
+                            <div class="designs-modal-card-title">${d.title}</div>
+                            <span class="badge badge-primary">
+                                <i class="fas fa-tag"></i>
+                                ${this.cats[d.cat]}
+                            </span>
+                        </div>
+                    </div>
+                `).join('');
+            },
+            
+            attachEvents() {
+                document.querySelectorAll('#designsModalFilters [data-cat]').forEach(btn => {
+                    btn.onclick = () => {
+                        document.querySelectorAll('#designsModalFilters [data-cat]').forEach(b => {
+                            b.classList.remove('btn-primary', 'active');
+                            b.classList.add('btn-outline-light');
+                        });
+                        btn.classList.remove('btn-outline-light');
+                        btn.classList.add('btn-primary', 'active');
+                        this.currentCat = btn.dataset.cat;
+                        this.render();
+                    };
+                });
+            },
+            
+            openLightbox(img) {
+                const lightbox = document.createElement('div');
+                lightbox.className = 'lightbox show';
+                lightbox.style.cssText = 'display:flex;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:10001;align-items:center;justify-content:center;';
+                lightbox.innerHTML = `
+                    <button onclick="this.parentElement.remove();" style="position:absolute;top:2rem;left:2rem;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;font-size:1.2rem;cursor:pointer;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <img src="../projects/design/${img}" alt="" style="max-width:90%;max-height:90%;border-radius:16px;box-shadow:0 20px 80px rgba(var(--primary-rgb),0.4);">
+                `;
+                lightbox.onclick = (e) => { if (e.target === lightbox) lightbox.remove(); };
+                document.body.appendChild(lightbox);
+            }
+        };
+        
+        // إضافة event listener للـ Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                DesignsModal.close();
+                document.querySelectorAll('.lightbox').forEach(l => l.remove());
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -48,6 +48,10 @@ try {
 console.log('🏗️  Step 3: Generating projects landing pages...');
 generateProjectsDirectory();
 
+// Step 4: Generate designs.js from design folders
+console.log('🎨 Step 4: Generating designs data...');
+generateDesignsData();
+
 console.log('\n✨ Build Complete!');
 
 /**
@@ -172,5 +176,60 @@ function generateProjectsDirectory() {
     if (successCount === 0) {
         console.error('❌ No landing pages were created!');
         process.exit(1);
+    }
+}
+
+/**
+ * قراءة ملفات التصميم من المجلدات وتوليد designs.js
+ */
+function generateDesignsData() {
+    const DESIGN_DIR = path.join(__dirname, 'projects', 'design');
+    const DESIGNS_JS = path.join(DESIGN_DIR, 'designs.js');
+
+    if (!fs.existsSync(DESIGN_DIR)) {
+        console.warn('⚠️  projects/design/ not found, skipping designs generation');
+        return;
+    }
+
+    const folders = [
+        { name: 'logo', cat: 'logo' },
+        { name: 'busniss-cards', cat: 'card' },
+        { name: 'ads', cat: 'ad' },
+        { name: 'mockups', cat: 'mockup' }
+    ];
+
+    const designs = [];
+
+    folders.forEach(({ name, cat }) => {
+        const folderPath = path.join(DESIGN_DIR, name);
+        if (!fs.existsSync(folderPath)) return;
+
+        const files = fs.readdirSync(folderPath).filter(f => f.endsWith('.webp'));
+
+        files.forEach(file => {
+            const title = path.basename(file, '.webp')
+                .replace(/[-_]/g, ' ')
+                .replace(/\b\w/g, c => c.toUpperCase());
+
+            designs.push({
+                img: `${name}/${file}`,
+                title: title,
+                cat: cat
+            });
+        });
+    });
+
+    const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
+    const jsContent = `// Auto-generated: ${timestamp}
+const designs = [
+${designs.map(d => `    { img: '${d.img}', title: '${d.title}', cat: '${d.cat}' }`).join(',\n')}
+];
+`;
+
+    fs.writeFileSync(DESIGNS_JS, jsContent, 'utf8');
+    console.log(`   ✅ Generated designs.js with ${designs.length} designs`);
+
+    if (designs.length === 0) {
+        console.warn('   ⚠️  No webp files found in design folders');
     }
 }
