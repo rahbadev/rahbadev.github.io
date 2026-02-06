@@ -188,9 +188,9 @@ class DataService {
      */
     async reload(dataType) {
         const urls = {
-            company: 'shared/data/company.json',
-            services: 'site/data/services-unified.json',
-            projects: 'site/assets/data/projects.json'
+            company: `${this.dataPath}company.json`,
+            services: `${this.dataPath}services.json`,
+            projects: `${this.dataPath}projects.json`
         };
 
         if (urls[dataType]) {

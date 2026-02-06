@@ -47,12 +47,12 @@ console.log('\n✨ Build Complete!');
 function generateProjectsDirectory() {
     const PROJECTS_DIR = path.join(__dirname, 'projects');
     const APPS_DIR = path.join(__dirname, 'apps');
-    const PROJECTS_JSON = path.join(__dirname, 'site', 'data', 'projects.json');
+    const PROJECTS_JSON = path.join(__dirname, 'site', 'assets', 'data', 'projects.json');
 
     // Read projects.json
     if (!fs.existsSync(PROJECTS_JSON)) {
-        console.error('❌ projects.json not found!');
-        process.exit(1);
+        console.warn('⚠️  projects.json not found, skipping projects generation');
+        return;
     }
 
     const projects = JSON.parse(fs.readFileSync(PROJECTS_JSON, 'utf8'));
