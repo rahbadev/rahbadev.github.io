@@ -15,13 +15,22 @@ const path = require('path');
 
 console.log('🚀 Starting Main Build Process...\n');
 
+// Verify required files exist
+const APPS_BUILD_SCRIPT = path.join(__dirname, 'apps', 'build.js');
+if (!fs.existsSync(APPS_BUILD_SCRIPT)) {
+    console.error('❌ apps/build.js not found!');
+    console.error('Expected path:', APPS_BUILD_SCRIPT);
+    process.exit(1);
+}
+
 // Step 1: Run apps/build.js to update projects in place
 console.log('📦 Step 1: Updating project pages...');
 try {
-    execSync('node apps/build.js', { stdio: 'inherit' });
+    execSync('node apps/build.js', { stdio: 'inherit', cwd: __dirname });
     console.log('✅ Project pages updated\n');
 } catch (error) {
     console.error('❌ Error updating project pages:', error.message);
+    console.error('Error details:', error);
     process.exit(1);
 }
 
@@ -52,25 +61,36 @@ function generateProjectsDirectory() {
     // Read projects.json
     if (!fs.existsSync(PROJECTS_JSON)) {
         console.warn('⚠️  projects.json not found, skipping projects generation');
+        console.warn('Expected path:', PROJECTS_JSON);
         return;
     }
 
-    const projects = JSON.parse(fs.readFileSync(PROJECTS_JSON, 'utf8'));
+    let projects;
+    try {
+        projects = JSON.parse(fs.readFileSync(PROJECTS_JSON, 'utf8'));
+        console.log(`📄 Loaded ${projects.length} projects from projects.json`);
+    } catch (error) {
+        console.error('❌ Error reading projects.json:', error.message);
+        return;
+    }
 
     // Create projects/ directory
     if (!fs.existsSync(PROJECTS_DIR)) {
         fs.mkdirSync(PROJECTS_DIR, { recursive: true });
+        console.log('📁 Created projects/ directory');
     }
 
     // Generate landing page for each project
+    let successCount = 0;
     projects.forEach(project => {
-        const projectDir = path.join(PROJECTS_DIR, project.id);
-        if (!fs.existsSync(projectDir)) {
-            fs.mkdirSync(projectDir, { recursive: true });
-        }
+        try {
+            const projectDir = path.join(PROJECTS_DIR, project.id);
+            if (!fs.existsSync(projectDir)) {
+                fs.mkdirSync(projectDir, { recursive: true });
+            }
 
-        // Create simple landing page that redirects to apps/{project}/
-        const landingPage = `<!DOCTYPE html>
+            // Create simple landing page that redirects to apps/{project}/
+            const landingPage = `<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -139,9 +159,18 @@ function generateProjectsDirectory() {
 </body>
 </html>`;
 
-        fs.writeFileSync(path.join(projectDir, 'index.html'), landingPage);
-        console.log(`   ✅ Generated landing page: projects/${project.id}/`);
+            fs.writeFileSync(path.join(projectDir, 'index.html'), landingPage);
+            console.log(`   ✅ Generated landing page: projects/${project.id}/`);
+            successCount++;
+        } catch (error) {
+            console.error(`   ❌ Failed to generate landing page for ${project.id}:`, error.message);
+        }
     });
 
-    console.log(`\n📁 Created ${projects.length} landing pages in projects/`);
+    console.log(`\n📁 Successfully created ${successCount}/${projects.length} landing pages in projects/`);
+
+    if (successCount === 0) {
+        console.error('❌ No landing pages were created!');
+        process.exit(1);
+    }
 }

@@ -22,18 +22,41 @@ jobs:
           node-version: '20'
 
       - name: 🔨 Build Projects
-        run: node build.js
+        run: |
+          echo "Starting build process..."
+          node build.js
+          echo "Build completed successfully!"
         
       - name: 📋 Verify Build Output
         run: |
-          echo "Checking if projects were built..."
+          echo "=== Checking build output ==="
+          
+          # Check if projects directory exists
           if [ -d "projects" ]; then
             echo "✅ Projects directory created"
-            ls -la projects/
+            echo "Contents:"
+            ls -lah projects/
+            
+            # Check each project subdirectory
+            for dir in projects/*/; do
+              if [ -d "$dir" ]; then
+                echo "Project: $dir"
+                ls -lah "$dir"
+              fi
+            done
           else
             echo "❌ Projects directory not found!"
             exit 1
           fi
+          
+          # Verify apps directory updates
+          if [ -d "apps" ]; then
+            echo "✅ Apps directory exists"
+            echo "Checking for generated HTML files..."
+            find apps/ -name "index.html" -type f -exec echo "Found: {}" \;
+          fi
+          
+          echo "=== Build verification complete ==="
       
       - name: 🗑️ Remove .gitignore for deployment
         run: rm .gitignore
