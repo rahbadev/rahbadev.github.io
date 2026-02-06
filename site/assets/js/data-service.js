@@ -190,7 +190,7 @@ class DataService {
         const urls = {
             company: 'shared/data/company.json',
             services: 'site/data/services-unified.json',
-            projects: 'site/data/projects.json'
+            projects: 'site/assets/data/projects.json'
         };
 
         if (urls[dataType]) {
