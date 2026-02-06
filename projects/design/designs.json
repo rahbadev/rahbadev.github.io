@@ -1,0 +1,116 @@
+{
+    "version": "1.0.0",
+    "lastUpdated": "2026-02-06",
+    "categories": [
+        {
+            "id": "logo",
+            "title": "تصميم شعارات",
+            "icon": "fas fa-star",
+            "color": "#f59e0b",
+            "description": "شعارات احترافية للشركات والمشاريع",
+            "designs": [
+                {
+                    "id": "logo-1",
+                    "title": "شعار تقني حديث",
+                    "description": "تصميم شعار بأسلوب تقني عصري",
+                    "image": "logo-voltmaster.webp",
+                    "tags": [
+                        "تقني",
+                        "حديث",
+                        "احترافي"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "card",
+            "title": "كروت العمل",
+            "icon": "fas fa-id-card",
+            "color": "#06b6d4",
+            "description": "كروت عمل احترافية بتصاميم حديثة",
+            "designs": [
+                {
+                    "id": "card-1",
+                    "title": "كرت عمل أنيق",
+                    "description": "تصميم كرت عمل بألوان احترافية",
+                    "image": "card-voltmaster.webp",
+                    "tags": [
+                        "كرت",
+                        "احترافي",
+                        "أنيق"
+                    ]
+                },
+                {
+                    "id": "card-2",
+                    "title": "كرت عمل عصري",
+                    "description": "تصميم حديث لكرت العمل",
+                    "image": "card-nexora.webp",
+                    "tags": [
+                        "كرت",
+                        "عصري",
+                        "حديث"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "ad",
+            "title": "الإعلانات",
+            "icon": "fas fa-bullhorn",
+            "color": "#ef4444",
+            "description": "تصاميم إعلانية جذابة ومؤثرة",
+            "designs": []
+        },
+        {
+            "id": "identity",
+            "title": "الهويات البصرية",
+            "icon": "fas fa-copyright",
+            "color": "#10b981",
+            "description": "هويات بصرية متكاملة للشركات والمشاريع",
+            "designs": [
+                {
+                    "id": "identity-1",
+                    "title": "هوية بصرية متكاملة",
+                    "description": "شعار + كرت عمل + موك آب",
+                    "image": "id-voltmaster.webp",
+                    "tags": [
+                        "هوية",
+                        "متكامل",
+                        "احترافي"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "mockup",
+            "title": "موك آب",
+            "icon": "fas fa-magic",
+            "color": "#8b5cf6",
+            "description": "عرض التصاميم بشكل واقعي واحترافي",
+            "designs": [
+                {
+                    "id": "mockup-1",
+                    "title": "موك آب احترافي",
+                    "description": "عرض احترافي للتصميم",
+                    "image": "mockup-zad.webp",
+                    "tags": [
+                        "موك آب",
+                        "واقعي",
+                        "احترافي"
+                    ]
+                },
+                {
+                    "id": "mockup-2",
+                    "title": "موك آب احترافي",
+                    "description": "عرض احترافي للتصميم",
+                    "image": "mockup-voltmaster.webp",
+                    "tags": [
+                        "موك آب",
+                        "تطبيق",
+                        "احترافي"
+                    ]
+                }
+            ]
+        }
+    ]
+}
