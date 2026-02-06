@@ -2,12 +2,15 @@
     "company": {
         "name": "رحبة التطوير",
         "nameEn": "Rehba Dev",
+        "fullName": "رحبة التطوير | RahbaDev",
         "brandName": "رحبة",
         "brandNameEn": "Rehba",
         "tagline": "نحول أفكارك إلى واقع رقمي",
         "taglineEn": "Transforming Ideas into Digital Reality",
-        "description": "حلول رقمية متكاملة لتنمية مشروعك",
-        "descriptionLong": "شركة متخصصة في تطوير تطبيقات الجوال، المواقع الإلكترونية، المتاجر، الهويات البصرية، وأتمتة الأعمال",
+        "description": "حلول رقمية متكاملة",
+        "descriptionLong": "نحول أفكارك إلى واقع رقمي. متخصصون في تطوير التطبيقات، المواقع، والحلول الرقمية المتكاملة",
+        "bioDescription": "تطوير الحلول الرقمية المتكاملة. نجمع بين الإبداع والتقنية لتحويل أفكارك إلى واقع رقمي يخدم أهدافك",
+        "heroSubtitle": "نقدم حلولاً رقمية متكاملة لتنمية مشروعك وتوفير وقتك",
         "established": "2024",
         "location": {
             "country": "سوريا",
