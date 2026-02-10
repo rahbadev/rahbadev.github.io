@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>لوحة التحكم - إدارة المنتجات</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
+
+    <!-- Cairo Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        * {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        /* Hide Alpine content until loaded */
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100" x-data="adminPanel()" x-init="init()" x-cloak>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div>
+                    <h1 class="text-xl font-bold text-gray-900">🎛️ لوحة التحكم</h1>
+                    <p class="text-xs text-gray-500">إدارة المنتجات والمخزون</p>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <button @click="showAddModal = true; resetForm()"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition flex items-center gap-2">
+                        <i class="ri-add-line text-xl"></i>
+                        <span>منتج جديد</span>
+                    </button>
+
+                    <button onclick="logout()"
+                        class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold px-4 py-2 rounded-lg transition flex items-center gap-2"
+                        title="تسجيل الخروج">
+                        <i class="ri-logout-box-line text-xl"></i>
+                        <span class="hidden sm:inline">خروج</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Statistics Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">إجمالي المنتجات</p>
+                        <p class="text-2xl font-bold text-blue-600" x-text="stats.total"></p>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <i class="ri-box-3-line text-2xl text-blue-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">متوفر</p>
+                        <p class="text-2xl font-bold text-green-600" x-text="stats.available"></p>
+                    </div>
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                        <i class="ri-check-line text-2xl text-green-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">مميز</p>
+                        <p class="text-2xl font-bold text-yellow-600" x-text="stats.featured"></p>
+                    </div>
+                    <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
+                        <i class="ri-star-line text-2xl text-yellow-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-500 mb-1">الفئات</p>
+                        <p class="text-2xl font-bold text-purple-600" x-text="stats.categories"></p>
+                    </div>
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                        <i class="ri-folder-line text-2xl text-purple-600"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search & Filter -->
+        <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
+            <div class="flex gap-4">
+                <div class="flex-1">
+                    <input type="text" x-model="searchQuery" @input.debounce.300ms="filterProducts()"
+                        placeholder="ابحث عن منتج..."
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <select x-model="filterCategory" @change="filterProducts()"
+                    class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">جميع الفئات</option>
+                    <template x-for="cat in categories" :key="cat">
+                        <option :value="cat" x-text="cat"></option>
+                    </template>
+                </select>
+
+                <select x-model="filterStatus" @change="filterProducts()"
+                    class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">الكل</option>
+                    <option value="available">متوفر</option>
+                    <option value="unavailable">غير متوفر</option>
+                    <option value="featured">مميز</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div x-show="loading" class="flex items-center justify-center py-16">
+            <div class="text-center">
+                <div
+                    class="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent mx-auto mb-4">
+                </div>
+                <p class="text-gray-600">جاري التحميل...</p>
+            </div>
+        </div>
+
+        <!-- Products Table -->
+        <div x-show="!loading" class="bg-white rounded-lg shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">المنتج</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">الفئة</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">الماركة</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">السعر</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">الحالة</th>
+                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <template x-for="product in filteredProducts" :key="product.id">
+                            <tr class="hover:bg-gray-50 transition">
+                                <!-- Product Info -->
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center gap-3">
+                                        <img :src="product.image_url" :alt="product.name"
+                                            class="w-12 h-12 object-cover rounded">
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-900" x-text="product.name"></p>
+                                            <p class="text-xs text-gray-500" x-text="'#' + product.id"></p>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <!-- Category -->
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 py-1 text-xs font-semibold bg-blue-100 text-blue-700 rounded"
+                                        x-text="product.category"></span>
+                                </td>
+
+                                <!-- Brand -->
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="text-sm text-gray-900" x-text="product.brand"></span>
+                                </td>
+
+                                <!-- Price -->
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm">
+                                        <div x-show="product.price_new" class="text-green-600 font-semibold">
+                                            جديد: <span x-text="product.price_new.toLocaleString('ar-SA')"></span> ريال
+                                        </div>
+                                        <div x-show="product.price_used" class="text-orange-600">
+                                            مستعمل: <span x-text="product.price_used.toLocaleString('ar-SA')"></span>
+                                            ريال
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <!-- Status -->
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex flex-col gap-1">
+                                        <span
+                                            :class="product.is_available ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'"
+                                            class="px-2 py-1 text-xs font-semibold rounded text-center"
+                                            x-text="product.is_available ? 'متوفر' : 'غير متوفر'"></span>
+                                        <span x-show="product.is_featured"
+                                            class="px-2 py-1 text-xs font-semibold bg-yellow-100 text-yellow-700 rounded text-center">⭐
+                                            مميز</span>
+                                    </div>
+                                </td>
+
+                                <!-- Actions -->
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center gap-2">
+                                        <!-- Edit -->
+                                        <button @click="editProduct(product)"
+                                            class="p-2 text-blue-600 hover:bg-blue-50 rounded transition" title="تعديل">
+                                            <i class="ri-edit-line text-lg"></i>
+                                        </button>
+
+                                        <!-- Toggle Available -->
+                                        <button @click="toggleAvailability(product)"
+                                            class="p-2 hover:bg-gray-100 rounded transition"
+                                            :class="product.is_available ? 'text-green-600' : 'text-red-600'"
+                                            :title="product.is_available ? 'إخفاء' : 'إظهار'">
+                                            <i :class="product.is_available ? 'ri-eye-line' : 'ri-eye-off-line'"
+                                                class="text-lg"></i>
+                                        </button>
+
+                                        <!-- Toggle Featured -->
+                                        <button @click="toggleFeatured(product)"
+                                            class="p-2 hover:bg-yellow-50 rounded transition"
+                                            :class="product.is_featured ? 'text-yellow-600' : 'text-gray-400'"
+                                            :title="product.is_featured ? 'إلغاء التمييز' : 'تمييز'">
+                                            <i :class="product.is_featured ? 'ri-star-fill' : 'ri-star-line'"
+                                                class="text-lg"></i>
+                                        </button>
+
+                                        <!-- Delete -->
+                                        <button @click="confirmDelete(product)"
+                                            class="p-2 text-red-600 hover:bg-red-50 rounded transition" title="حذف">
+                                            <i class="ri-delete-bin-line text-lg"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty State -->
+            <div x-show="filteredProducts.length === 0 && !loading" class="text-center py-16">
+                <i class="ri-inbox-line text-6xl text-gray-300 mb-4"></i>
+                <p class="text-gray-500">لا توجد منتجات</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add/Edit Product Modal -->
+    <div x-show="showAddModal || showEditModal" @click.self="showAddModal = false; showEditModal = false"
+        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+        class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div @click.stop x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-90"
+            class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <!-- Modal Header -->
+            <div class="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between">
+                <h2 class="text-xl font-bold" x-text="showAddModal ? '➕ إضافة منتج جديد' : '✏️ تعديل المنتج'"></h2>
+                <button @click="showAddModal = false; showEditModal = false"
+                    class="p-2 hover:bg-gray-100 rounded-full transition">
+                    <i class="ri-close-line text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <form @submit.prevent="showAddModal ? addProduct() : updateProduct()" class="p-6 space-y-4">
+                <!-- Product Name -->
+                <div>
+                    <label class="block text-sm font-semibold mb-2 text-gray-700">اسم المنتج *</label>
+                    <input type="text" x-model="form.name" required placeholder="مثال: iPhone 15 Pro Max"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <!-- Description -->
+                <div>
+                    <label class="block text-sm font-semibold mb-2 text-gray-700">الوصف</label>
+                    <textarea x-model="form.description" rows="3" placeholder="وصف تفصيلي للمنتج..."
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+
+                <!-- Category & Brand -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2 text-gray-700">الفئة *</label>
+                        <input type="text" x-model="form.category" required list="categories-list"
+                            placeholder="مثال: جوالات"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <datalist id="categories-list">
+                            <template x-for="cat in categories" :key="cat">
+                                <option :value="cat"></option>
+                            </template>
+                        </datalist>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2 text-gray-700">الماركة *</label>
+                        <input type="text" x-model="form.brand" required list="brands-list" placeholder="مثال: Apple"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <datalist id="brands-list">
+                            <template x-for="brand in brands" :key="brand">
+                                <option :value="brand"></option>
+                            </template>
+                        </datalist>
+                    </div>
+                </div>
+
+                <!-- Prices -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2 text-gray-700">سعر جديد (ريال)</label>
+                        <input type="number" x-model="form.price_new" min="0" step="0.01" placeholder="0.00"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2 text-gray-700">سعر مستعمل (ريال)</label>
+                        <input type="number" x-model="form.price_used" min="0" step="0.01" placeholder="0.00"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+
+                <!-- Image URL -->
+                <div>
+                    <label class="block text-sm font-semibold mb-2 text-gray-700">رابط الصورة الرئيسية *</label>
+                    <input type="url" x-model="form.image_url" required placeholder="https://example.com/image.jpg"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <p class="text-xs text-gray-500 mt-1">💡 استخدم Cloudinary أو خدمة مشابهة</p>
+                </div>
+
+                <!-- Toggles -->
+                <div class="flex gap-6">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" x-model="form.is_available"
+                            class="w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500">
+                        <span class="text-sm font-semibold text-gray-700">متوفر للعرض</span>
+                    </label>
+
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" x-model="form.is_featured"
+                            class="w-5 h-5 text-yellow-600 rounded focus:ring-2 focus:ring-yellow-500">
+                        <span class="text-sm font-semibold text-gray-700">منتج مميز ⭐</span>
+                    </label>
+                </div>
+
+                <!-- Error Messages -->
+                <div x-show="errors.length > 0" class="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <p class="font-semibold text-red-700 mb-2">⚠️ يرجى تصحيح الأخطاء التالية:</p>
+                    <ul class="list-disc list-inside text-sm text-red-600 space-y-1">
+                        <template x-for="error in errors" :key="error">
+                            <li x-text="error"></li>
+                        </template>
+                    </ul>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-3 pt-4">
+                    <button type="submit" :disabled="saving"
+                        class="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold py-3 px-6 rounded-lg transition">
+                        <span x-show="!saving" x-text="showAddModal ? 'إضافة المنتج' : 'حفظ التغييرات'"></span>
+                        <span x-show="saving">جاري الحفظ...</span>
+                    </button>
+
+                    <button type="button" @click="showAddModal = false; showEditModal = false"
+                        class="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-lg transition">
+                        إلغاء
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div x-show="showDeleteModal" @click.self="showDeleteModal = false" x-transition
+        class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div @click.stop class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="ri-delete-bin-line text-3xl text-red-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">تأكيد الحذف</h3>
+                <p class="text-gray-600">هل أنت متأكد من حذف هذا المنتج؟ لا يمكن التراجع عن هذا الإجراء.</p>
+            </div>
+
+            <div class="flex gap-3">
+                <button @click="deleteProduct()" :disabled="saving"
+                    class="flex-1 bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white font-bold py-3 px-6 rounded-lg transition">
+                    <span x-show="!saving">حذف نهائياً</span>
+                    <span x-show="saving">جاري الحذف...</span>
+                </button>
+
+                <button @click="showDeleteModal = false"
+                    class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 px-6 rounded-lg transition">
+                    إلغاء
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div x-show="showToast" x-transition
+        class="fixed bottom-4 left-4 bg-gray-900 text-white px-6 py-4 rounded-lg shadow-lg z-50">
+        <p x-text="toastMessage"></p>
+    </div>
+
+    <!-- Authentication Check -->
+    <script>
+        // Check if user is logged in
+        function isAuthenticated() {
+            const session = localStorage.getItem('admin_session');
+            if (!session) return false;
+
+            try {
+                const data = JSON.parse(session);
+                const now = Date.now();
+
+                // Session valid for 24 hours
+                if (now - data.timestamp < 24 * 60 * 60 * 1000) {
+                    return true;
+                }
+            } catch (e) {
+                console.error('Invalid session data');
+            }
+
+            return false;
+        }
+
+        // Redirect to login if not authenticated
+        if (!isAuthenticated()) {
+            window.location.href = 'login.html';
+        }
+
+        // Logout function
+        function logout() {
+            if (confirm('هل تريد تسجيل الخروج؟')) {
+                localStorage.removeItem('admin_session');
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+
+    <!-- Configuration -->
+    <script src="../public/config.js"></script>
+
+    <!-- Admin Service -->
+    <script src="src/services/admin-database.service.js"></script>
+
+    <!-- Alpine Component -->
+    <script>
+        function adminPanel() {
+            return {
+                // State
+                loading: true,
+                saving: false,
+                products: [],
+                filteredProducts: [],
+                categories: [],
+                brands: [],
+
+                // Statistics
+                stats: {
+                    total: 0,
+                    available: 0,
+                    featured: 0,
+                    categories: 0
+                },
+
+                // Filters
+                searchQuery: '',
+                filterCategory: '',
+                filterStatus: '',
+
+                // Modals
+                showAddModal: false,
+                showEditModal: false,
+                showDeleteModal: false,
+
+                // Form
+                form: this.getEmptyForm(),
+                editingId: null,
+                deletingProduct: null,
+                errors: [],
+
+                // Toast
+                showToast: false,
+                toastMessage: '',
+
+                // Initialize
+                async init() {
+                    try {
+                        // Initialize admin service
+                        window.AdminDatabaseService.init();
+
+                        // Load data
+                        await this.loadProducts();
+                        await this.loadAnalytics();
+                    } catch (error) {
+                        console.error('Initialization error:', error);
+                        this.showToastMessage('❌ خطأ في التهيئة: ' + error.message);
+                    }
+                },
+
+                // Load products
+                async loadProducts() {
+                    this.loading = true;
+
+                    const result = await window.AdminDatabaseService.getAllProducts();
+
+                    if (result.success) {
+                        this.products = result.products;
+                        this.filteredProducts = result.products;
+
+                        // Extract categories and brands
+                        this.categories = [...new Set(this.products.map(p => p.category))];
+                        this.brands = [...new Set(this.products.map(p => p.brand))];
+                    } else {
+                        this.showToastMessage('❌ فشل تحميل المنتجات: ' + result.error);
+                    }
+
+                    this.loading = false;
+                },
+
+                // Load analytics
+                async loadAnalytics() {
+                    const result = await window.AdminDatabaseService.getAnalytics();
+
+                    if (result.success) {
+                        this.stats = result.stats;
+                    }
+                },
+
+                // Filter products
+                filterProducts() {
+                    let filtered = this.products;
+
+                    // Search
+                    if (this.searchQuery) {
+                        const query = this.searchQuery.toLowerCase();
+                        filtered = filtered.filter(p =>
+                            p.name.toLowerCase().includes(query) ||
+                            p.brand.toLowerCase().includes(query) ||
+                            p.category.toLowerCase().includes(query)
+                        );
+                    }
+
+                    // Category
+                    if (this.filterCategory) {
+                        filtered = filtered.filter(p => p.category === this.filterCategory);
+                    }
+
+                    // Status
+                    if (this.filterStatus === 'available') {
+                        filtered = filtered.filter(p => p.is_available);
+                    } else if (this.filterStatus === 'unavailable') {
+                        filtered = filtered.filter(p => !p.is_available);
+                    } else if (this.filterStatus === 'featured') {
+                        filtered = filtered.filter(p => p.is_featured);
+                    }
+
+                    this.filteredProducts = filtered;
+                },
+
+                // Add product
+                async addProduct() {
+                    this.errors = [];
+                    this.saving = true;
+
+                    const result = await window.AdminDatabaseService.createProduct(this.form);
+
+                    if (result.success) {
+                        this.showToastMessage('✅ تم إضافة المنتج بنجاح');
+                        this.showAddModal = false;
+                        await this.loadProducts();
+                        await this.loadAnalytics();
+                        this.resetForm();
+                    } else {
+                        this.errors = result.errors || [result.error];
+                    }
+
+                    this.saving = false;
+                },
+
+                // Edit product
+                editProduct(product) {
+                    this.form = { ...product };
+                    this.editingId = product.id;
+                    this.showEditModal = true;
+                    this.errors = [];
+                },
+
+                // Update product
+                async updateProduct() {
+                    this.errors = [];
+                    this.saving = true;
+
+                    const result = await window.AdminDatabaseService.updateProduct(this.editingId, this.form);
+
+                    if (result.success) {
+                        this.showToastMessage('✅ تم تحديث المنتج بنجاح');
+                        this.showEditModal = false;
+                        await this.loadProducts();
+                        await this.loadAnalytics();
+                        this.resetForm();
+                    } else {
+                        this.errors = result.errors || [result.error];
+                    }
+
+                    this.saving = false;
+                },
+
+                // Confirm delete
+                confirmDelete(product) {
+                    this.deletingProduct = product;
+                    this.showDeleteModal = true;
+                },
+
+                // Delete product
+                async deleteProduct() {
+                    this.saving = true;
+
+                    const result = await window.AdminDatabaseService.deleteProduct(this.deletingProduct.id);
+
+                    if (result.success) {
+                        this.showToastMessage('✅ تم حذف المنتج بنجاح');
+                        this.showDeleteModal = false;
+                        await this.loadProducts();
+                        await this.loadAnalytics();
+                    } else {
+                        this.showToastMessage('❌ فشل حذف المنتج: ' + result.error);
+                    }
+
+                    this.saving = false;
+                    this.deletingProduct = null;
+                },
+
+                // Toggle availability
+                async toggleAvailability(product) {
+                    const result = await window.AdminDatabaseService.toggleAvailability(product.id, !product.is_available);
+
+                    if (result.success) {
+                        this.showToastMessage(result.product.is_available ? '✅ المنتج متوفر الآن' : '⚠️ المنتج غير متوفر الآن');
+                        await this.loadProducts();
+                        await this.loadAnalytics();
+                    } else {
+                        this.showToastMessage('❌ فشل تحديث الحالة: ' + result.error);
+                    }
+                },
+
+                // Toggle featured
+                async toggleFeatured(product) {
+                    const result = await window.AdminDatabaseService.toggleFeatured(product.id, !product.is_featured);
+
+                    if (result.success) {
+                        this.showToastMessage(result.product.is_featured ? '⭐ تم تمييز المنتج' : '✅ تم إلغاء التمييز');
+                        await this.loadProducts();
+                        await this.loadAnalytics();
+                    } else {
+                        this.showToastMessage('❌ فشل تحديث التمييز: ' + result.error);
+                    }
+                },
+
+                // Reset form
+                resetForm() {
+                    this.form = this.getEmptyForm();
+                    this.editingId = null;
+                    this.errors = [];
+                },
+
+                // Get empty form
+                getEmptyForm() {
+                    return {
+                        name: '',
+                        description: '',
+                        category: '',
+                        brand: '',
+                        price_new: null,
+                        price_used: null,
+                        image_url: '',
+                        is_available: true,
+                        is_featured: false
+                    };
+                },
+
+                // Show toast message
+                showToastMessage(message) {
+                    this.toastMessage = message;
+                    this.showToast = true;
+                    setTimeout(() => {
+                        this.showToast = false;
+                    }, 3000);
+                }
+            };
+        }
+    </script>
+</body>
+
+</html>
