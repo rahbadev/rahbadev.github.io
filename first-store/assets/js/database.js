@@ -15,10 +15,10 @@ const StoreDatabase = {
                 StoreThemeConfig.supabase.url,
                 StoreThemeConfig.supabase.anonKey
             );
-            console.log('✅ Database Connected');
+            console.log('[DB] Connected');
             return true;
         } catch (error) {
-            console.error('❌ Database Error:', error);
+            console.error('[DB] Error:', error);
             return false;
         }
     },
@@ -67,7 +67,7 @@ const StoreDatabase = {
                 limit
             };
         } catch (error) {
-            console.error('❌ Fetch Error:', error);
+            console.error('[DB] Fetch Error:', error);
             return { data: [], count: 0, page: 1, limit };
         }
     },
@@ -98,7 +98,7 @@ const StoreDatabase = {
             const data = await res.json();
             return data.secure_url;
         } catch (error) {
-            console.error('❌ Upload Error:', error);
+            console.error('[DB] Upload Error:', error);
             throw error;
         }
     },
@@ -116,7 +116,7 @@ const StoreDatabase = {
                 .single();
 
             if (error) throw error;
-            console.log('✅ Product Added');
+            console.log('[DB] Product Added');
 
             // Notify store to refresh
             if (window.Alpine?.store('shop')) {
@@ -125,7 +125,7 @@ const StoreDatabase = {
 
             return data;
         } catch (error) {
-            console.error('❌ Add Error:', error);
+            console.error('[DB] Add Error:', error);
             throw error;
         }
     },
@@ -140,7 +140,7 @@ const StoreDatabase = {
                 .single();
 
             if (error) throw error;
-            console.log('✅ Product Updated');
+            console.log('[DB] Product Updated');
 
             // Notify store to refresh
             if (window.Alpine?.store('shop')) {
@@ -149,7 +149,7 @@ const StoreDatabase = {
 
             return data;
         } catch (error) {
-            console.error('❌ Update Error:', error);
+            console.error('[DB] Update Error:', error);
             throw error;
         }
     },
@@ -162,7 +162,7 @@ const StoreDatabase = {
                 .eq('id', id);
 
             if (error) throw error;
-            console.log('✅ Product Deleted');
+            console.log('[DB] Product Deleted');
 
             // Notify store to refresh
             if (window.Alpine?.store('shop')) {
@@ -171,7 +171,7 @@ const StoreDatabase = {
 
             return true;
         } catch (error) {
-            console.error('❌ Delete Error:', error);
+            console.error('[DB] Delete Error:', error);
             throw error;
         }
     }

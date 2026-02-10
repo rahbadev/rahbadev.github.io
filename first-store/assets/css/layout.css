@@ -169,3 +169,168 @@ body {
         background-position: -200% 0;
     }
 }
+
+/* ============ Toast Notifications ============ */
+.toast-container {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 400px;
+}
+
+.toast {
+    background: white;
+    border-radius: 12px;
+    padding: 16px 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    animation: slideInRight 0.3s ease-out;
+    border-left: 4px solid;
+}
+
+.toast.success {
+    border-left-color: #10B981;
+}
+
+.toast.error {
+    border-left-color: #EF4444;
+}
+
+.toast.info {
+    border-left-color: #3B82F6;
+}
+
+.toast-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.toast.success .toast-icon {
+    background: #D1FAE5;
+    color: #10B981;
+}
+
+.toast.error .toast-icon {
+    background: #FEE2E2;
+    color: #EF4444;
+}
+
+.toast.info .toast-icon {
+    background: #DBEAFE;
+    color: #3B82F6;
+}
+
+.toast-message {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1F2937;
+}
+
+.toast-close {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #F3F4F6;
+    color: #6B7280;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.toast-close:hover {
+    background: #E5E7EB;
+    color: #1F2937;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+    .toast-container {
+        top: 80px;
+        right: 12px;
+        left: 12px;
+        max-width: none;
+    }
+}
+
+/* Cart badge animation */
+@keyframes cartBounce {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+.cart-badge-animate {
+    animation: cartBounce 0.3s ease-in-out;
+}
+
+/* Add to cart button animation */
+@keyframes buttonPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.95);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.btn-add-cart {
+    transition: all 0.2s ease;
+}
+
+.btn-add-cart:active {
+    animation: buttonPulse 0.3s ease;
+}
+
+.btn-add-cart:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}

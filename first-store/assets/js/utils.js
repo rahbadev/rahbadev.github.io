@@ -55,7 +55,7 @@ const StoreUtils = {
             root.style.setProperty('--font-primary', fonts.primary);
         }
 
-        console.log('✅ Theme Variables Injected');
+        console.log('[Theme] Variables Injected');
     },
 
     // ============ DOM Manipulation ============

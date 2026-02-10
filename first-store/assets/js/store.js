@@ -25,6 +25,11 @@ document.addEventListener('alpine:init', () => {
             cartOpen: false,
             mobileMenuOpen: false,
             mobileSearchOpen: false,
+            toast: {
+                show: false,
+                message: '',
+                type: 'success' // success, error, info
+            }
         },
 
         // ============ Computed Properties ============
@@ -77,11 +82,11 @@ document.addEventListener('alpine:init', () => {
 
         // ============ Lifecycle ============
         async init() {
-            console.log('🚀 Initializing Rehba Store...');
+            console.log('[Store] Initializing Rehba Store...');
             StoreUtils.initThemeVariables();
             this.loadCart();
             await this.fetchProducts(true);
-            console.log('✅ Store Ready');
+            console.log('[Store] Ready');
         },
 
         // ============ Data Fetching ============
@@ -103,9 +108,9 @@ document.addEventListener('alpine:init', () => {
                 }
 
                 this.pagination.total = result.count;
-                console.log(`✅ Loaded ${result.data.length} products`);
+                console.log(`[Store] Loaded ${result.data.length} products`);
             } catch (error) {
-                console.error('❌ Fetch Error:', error);
+                console.error('[Store] Fetch Error:', error);
             } finally {
                 this.ui.loading = false;
             }
@@ -137,11 +142,11 @@ document.addEventListener('alpine:init', () => {
                     image: product.image,
                     quantity: 1
                 });
-                this.showToast(`✅ تمت الإضافة: ${product.name}`, 'success');
+                this.showToast(`تمت الإضافة: ${product.name}`, 'success');
             }
 
             this.saveCart();
-            console.log(`✅ Added ${product.name} to cart`);
+            console.log(`[Cart] Added ${product.name}`);
         },
 
         showToast(message, type = 'success') {
@@ -204,17 +209,159 @@ document.addEventListener('alpine:init', () => {
         sendCartWhatsApp() {
             if (this.cartCount === 0) return;
 
-            let msg = '🛒 *طلب جديد*\n\n';
+            let msg = 'طلب جديد\n\n';
             this.cartItems.forEach((item, i) => {
                 msg += `${i + 1}. ${item.brand} ${item.name}\n`;
                 msg += `   ${StoreUtils.formatCurrency(item.price)} × ${item.quantity}\n\n`;
             });
-            msg += `💰 *الإجمالي:* ${StoreUtils.formatCurrency(this.cartTotal)}`;
+            msg += `الإجمالي: ${StoreUtils.formatCurrency(this.cartTotal)}`;
 
             window.open(
                 `https://wa.me/${StoreThemeConfig.store.contact.phone}?text=${encodeURIComponent(msg)}`,
                 '_blank'
             );
+        }
+    });
+
+    // ============ Admin Store ============
+    Alpine.store('admin', {
+        products: [],
+        loading: false,
+        showAddForm: false,
+        editMode: false,
+        saving: false,
+        uploading: false,
+
+        formData: {
+            id: null,
+            name: '',
+            brand: '',
+            price: 0,
+            condition: 'New',
+            description: '',
+            image: '',
+            is_available: true,
+            is_offer: false,
+            is_new: false
+        },
+
+        async init() {
+            console.log('[Admin] Initializing...');
+
+            // Initialize Database Connection
+            if (!StoreDatabase.client) {
+                const dbInit = StoreDatabase.init();
+                if (!dbInit) {
+                    alert('فشل الاتصال بقاعدة البيانات. تحقق من إعدادات Supabase.');
+                    this.loading = false;
+                    return;
+                }
+            }
+
+            StoreUtils.initThemeVariables();
+            await this.fetchProducts();
+        },
+
+        async fetchProducts() {
+            this.loading = true;
+            console.log('[Admin] Fetching products...');
+
+            try {
+                // Ensure database is initialized
+                if (!StoreDatabase.client) {
+                    throw new Error('Database not initialized');
+                }
+
+                const result = await StoreDatabase.getProducts(1, 999);
+
+                if (!result || !result.data) {
+                    throw new Error('Invalid response from database');
+                }
+
+                this.products = result.data || [];
+                console.log(`[Admin] Fetched ${this.products.length} products`);
+
+                if (this.products.length === 0) {
+                    console.warn('[Admin] No products found in database');
+                }
+            } catch (error) {
+                console.error('[Admin] Fetch Error:', error);
+                alert(`حدث خطأ في جلب المنتجات: ${error.message}`);
+            } finally {
+                this.loading = false;
+            }
+        },
+
+        resetForm() {
+            this.formData = {
+                id: null,
+                name: '',
+                brand: '',
+                price: 0,
+                condition: 'New',
+                description: '',
+                image: '',
+                is_available: true,
+                is_offer: false,
+                is_new: false
+            };
+            this.editMode = false;
+        },
+
+        async uploadImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            this.uploading = true;
+            try {
+                this.formData.image = await StoreDatabase.uploadImage(file);
+                console.log('[Admin] Image Uploaded');
+            } catch (error) {
+                alert('فشل رفع الصورة');
+            } finally {
+                this.uploading = false;
+            }
+        },
+
+        editProduct(product) {
+            this.formData = { ...product };
+            this.editMode = true;
+            this.showAddForm = true;
+        },
+
+        async submitProduct() {
+            this.saving = true;
+            try {
+                if (this.editMode) {
+                    await StoreDatabase.updateProduct(this.formData.id, this.formData);
+                    alert('تم تحديث المنتج بنجاح');
+                } else {
+                    await StoreDatabase.addProduct(this.formData);
+                    alert('تم إضافة المنتج بنجاح');
+                }
+
+                this.showAddForm = false;
+                this.resetForm();
+                await this.fetchProducts();
+            } catch (error) {
+                console.error('[Admin] Save Error:', error);
+                alert('حدث خطأ في حفظ المنتج');
+            } finally {
+                this.saving = false;
+            }
+        },
+
+        async deleteProduct(id) {
+            if (!confirm('هل أنت متأكد من حذف هذا المنتج؟')) return;
+
+            try {
+                await StoreDatabase.deleteProduct(id);
+                alert('تم حذف المنتج بنجاح');
+                await this.fetchProducts();
+            } catch (error) {
+                console.error('[Admin] Delete Error:', error);
+                alert('حدث خطأ في حذف المنتج');
+            }
         }
     });
 });
