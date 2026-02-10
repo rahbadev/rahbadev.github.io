@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستودع الشفاء للمستلزمات الطبية</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .medical-gradient {
+            background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
+        }
+    </style>
+</head>
+
+<body class="text-slate-800" x-data="medicalStore()">
+
+    <nav class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-800 leading-none">مستودع الشفاء</h1>
+                    <span class="text-xs text-slate-500">للمستلزمات والتجهيزات الطبية</span>
+                </div>
+            </div>
+            <a href="#contact"
+                class="text-teal-700 font-bold text-sm bg-teal-50 px-3 py-2 rounded-lg hover:bg-teal-100 transition">
+                طلب تسعير جملة
+            </a>
+        </div>
+    </nav>
+
+    <header class="medical-gradient py-10 text-white shadow-lg">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold mb-6 text-center">تصفح الأقسام الرئيسية</h2>
+
+            <div class="flex flex-wrap justify-center gap-3">
+                <template x-for="cat in categories" :key="cat">
+                    <button @click="activeCategory = cat"
+                        :class="activeCategory === cat ? 'bg-white text-teal-700 shadow-lg scale-105' : 'bg-teal-800/50 text-white hover:bg-teal-700'"
+                        class="px-6 py-3 rounded-xl font-semibold transition-all duration-200 border border-teal-500/30 flex items-center gap-2">
+                        <span x-text="cat"></span>
+                    </button>
+                </template>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 min-h-screen">
+
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            <div class="relative w-full md:w-96">
+                <input x-model="searchQuery" type="text" placeholder="ابحث عن منتج (مثال: جهاز ضغط، كرسي...)"
+                    class="w-full pl-4 pr-10 py-3 rounded-lg border border-slate-300 focus:outline-none focus:border-teal-500 shadow-sm">
+                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+            </div>
+            <p class="text-sm text-slate-500">
+                يتم عرض <span class="font-bold text-teal-700" x-text="filteredProducts.length"></span> منتج
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <template x-for="product in filteredProducts" :key="product.id">
+                <div
+                    class="bg-white rounded-xl border border-slate-200 hover:shadow-lg hover:border-teal-200 transition duration-300 group overflow-hidden flex flex-col h-full">
+
+                    <div class="relative h-48 bg-white p-4 flex items-center justify-center border-b border-slate-100">
+                        <img :src="product.image"
+                            class="max-h-full max-w-full object-contain transition group-hover:scale-105"
+                            alt="Medical Item">
+                        <span
+                            class="absolute top-3 right-3 px-2 py-1 bg-slate-100 text-slate-600 text-xs font-bold rounded"
+                            x-text="product.category"></span>
+                    </div>
+
+                    <div class="p-5 flex-1 flex flex-col">
+                        <h3 class="font-bold text-lg text-slate-800 mb-1" x-text="product.name"></h3>
+                        <p class="text-sm text-slate-500 mb-4 line-clamp-2" x-text="product.description"></p>
+
+                        <div class="mt-auto flex justify-between items-end">
+                            <div>
+                                <span class="block text-xs text-slate-400">السعر للقطعة</span>
+                                <span class="text-xl font-bold text-teal-700" x-text="'$' + product.price"></span>
+                            </div>
+                            <button @click="openModal(product)"
+                                class="bg-teal-50 text-teal-700 hover:bg-teal-600 hover:text-white p-2 rounded-lg transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <div x-show="filteredProducts.length === 0"
+            class="text-center py-20 bg-white rounded-xl border border-dashed border-slate-300 mt-6">
+            <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 class="mt-2 text-sm font-medium text-slate-900">لا توجد منتجات</h3>
+            <p class="mt-1 text-sm text-slate-500">جرب البحث بكلمة أخرى أو تغيير القسم.</p>
+        </div>
+    </main>
+
+    <div x-show="modalOpen" style="display: none;"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm"
+        x-transition.opacity>
+
+        <div class="bg-white rounded-xl w-full max-w-2xl overflow-hidden shadow-2xl relative flex flex-col md:flex-row"
+            @click.away="modalOpen = false" x-transition.scale>
+
+            <button @click="modalOpen = false"
+                class="absolute top-4 left-4 z-10 p-2 bg-slate-100 rounded-full hover:bg-slate-200">
+                <svg class="h-5 w-5 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <div class="w-full md:w-1/2 bg-slate-50 p-8 flex items-center justify-center">
+                <img :src="selectedProduct?.image" class="max-w-full h-auto object-contain" alt="Product">
+            </div>
+
+            <div class="w-full md:w-1/2 p-8 flex flex-col">
+                <span class="text-teal-600 font-bold text-sm tracking-wide mb-1"
+                    x-text="selectedProduct?.category"></span>
+                <h2 class="text-2xl font-bold text-slate-800 mb-2" x-text="selectedProduct?.name"></h2>
+
+                <div class="mb-4">
+                    <span class="inline-block px-2 py-1 bg-green-100 text-green-700 text-xs rounded font-bold">متوفر في
+                        المستودع</span>
+                    <span class="inline-block px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded font-bold">أصلي
+                        (Original)</span>
+                </div>
+
+                <p class="text-slate-600 text-sm leading-relaxed mb-6" x-text="selectedProduct?.description"></p>
+
+                <div class="mt-auto">
+                    <div class="flex items-center justify-between mb-4 border-t border-slate-100 pt-4">
+                        <span class="text-slate-500 text-sm">السعر التقديري:</span>
+                        <span class="text-2xl font-bold text-teal-700" x-text="'$' + selectedProduct?.price"></span>
+                    </div>
+
+                    <a :href="getWhatsAppLink()" target="_blank"
+                        class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition duration-200">
+                        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-8.683-2.031-.967-.272-.297-.471-.421-.928-.421-.446 0-.891.061-1.261.534-.149.186-1.549 1.549-1.549 3.887 0 2.338 1.649 4.602 1.884 4.937.235.335 3.321 5.388 8.216 7.37.521.211 1.015.356 1.455.458.857.198 1.833.159 2.548-.053.793-.235 1.782-1.226 1.955-2.043.174-.817.174-1.511.124-1.597-.05-.087-.248-.161-.545-.31z" />
+                        </svg>
+                        <span>طلب للمستودع</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer id="contact" class="bg-slate-800 text-slate-300 py-12 mt-12">
+        <div class="container mx-auto px-4 grid md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="text-white font-bold text-lg mb-4">مستودع الشفاء</h3>
+                <p class="text-sm">نوفر كافة المستلزمات الطبية للمشافي، العيادات، ومراكز العلاج الفيزيائي بأفضل الأسعار.
+                </p>
+            </div>
+            <div>
+                <h3 class="text-white font-bold text-lg mb-4">تواصل معنا</h3>
+                <ul class="space-y-2 text-sm">
+                    <li class="flex items-center gap-2">📞 <span>07701234567</span></li>
+                    <li class="flex items-center gap-2">📍 <span>المنطقة الصناعية، المخازن الطبية</span></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-white font-bold text-lg mb-4">خدماتنا</h3>
+                <ul class="space-y-2 text-sm">
+                    <li>تجهيز مشافي كامل</li>
+                    <li>بيع بالجملة والمفرق</li>
+                    <li>توصيل لجميع المحافظات</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function medicalStore() {
+            return {
+                activeCategory: 'الكل',
+                searchQuery: '',
+                modalOpen: false,
+                selectedProduct: null,
+                categories: ['الكل', 'أجهزة تشخيص', 'مستهلكات', 'كراسي وحركة', 'علاج فيزيائي'],
+
+                // Phone number for WhatsApp
+                phoneNumber: '9647701234567',
+
+                products: [
+                    {
+                        id: 1,
+                        name: 'جهاز قياس ضغط ألماني (Omron)',
+                        category: 'أجهزة تشخيص',
+                        price: 45,
+                        image: 'https://images.unsplash.com/photo-1631549916768-4119b2d3f9e2?auto=format&fit=crop&q=80&w=500',
+                        description: 'جهاز رقمي دقيق لقياس ضغط الدم، يعمل بالبطارية والكهرباء. شاشة كبيرة وسهلة القراءة. ضمان سنتين.'
+                    },
+                    {
+                        id: 2,
+                        name: 'كرسي متحرك قابل للطي (Standard)',
+                        category: 'كراسي وحركة',
+                        price: 120,
+                        image: 'https://images.unsplash.com/photo-1579165466741-7f35a4755657?auto=format&fit=crop&q=80&w=500',
+                        description: 'كرسي متحرك خفيف الوزن وقوي التحمل. مقعد جلدي مريح، عجلات مطاطية صلبة لا تحتاج لنفخ.'
+                    },
+                    {
+                        id: 3,
+                        name: 'علبة كمامات طبية (50 قطعة)',
+                        category: 'مستهلكات',
+                        price: 3,
+                        image: 'https://images.unsplash.com/photo-1584036561566-b93a945c3574?auto=format&fit=crop&q=80&w=500',
+                        description: 'كمامات طبية 3 طبقات للحماية من الفيروسات والأتربة. ناعمة على الوجه وتسمح بالتنفس بسهولة.'
+                    },
+                    {
+                        id: 4,
+                        name: 'جهاز فحص السكر (Accu-Chek)',
+                        category: 'أجهزة تشخيص',
+                        price: 35,
+                        image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=500',
+                        description: 'جهاز فوري لقياس نسبة السكر في الدم. يأتي مع 50 شريط فحص وقلم وخز.'
+                    },
+                    {
+                        id: 5,
+                        name: 'شاش طبي معقم (رول كبير)',
+                        category: 'مستهلكات',
+                        price: 5,
+                        image: 'https://plus.unsplash.com/premium_photo-1673953509975-576678fa6710?auto=format&fit=crop&q=80&w=500',
+                        description: 'رول شاش قطني 100% عالي الامتصاص. يستخدم لتضميد الجروح والحروق. معقم ومغلف بإحكام.'
+                    },
+                    {
+                        id: 6,
+                        name: 'حزام ظهر طبي داعم',
+                        category: 'علاج فيزيائي',
+                        price: 25,
+                        image: 'https://images.unsplash.com/photo-1605289982774-9a6fef564df8?auto=format&fit=crop&q=80&w=500',
+                        description: 'حزام لدعم الفقرات القطنية وتخفيف آلام الظهر والانزلاق الغضروفي. متوفر بجميع المقاسات.'
+                    },
+                    {
+                        id: 7,
+                        name: 'سماعة طبيب (Littmann)',
+                        category: 'أجهزة تشخيص',
+                        price: 90,
+                        image: 'https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&q=80&w=500',
+                        description: 'سماعة طبية احترافية عالية الحساسية للأصوات. مثالية للأطباء والممرضين وطلاب الطب.'
+                    },
+                    {
+                        id: 8,
+                        name: 'عكازات ألمنيوم قابلة للتعديل',
+                        category: 'كراسي وحركة',
+                        price: 30,
+                        image: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=500',
+                        description: 'زوج من العكازات خفيفة الوزن مع مقبض مريح ومانع للانزلاق. يمكن تعديل الطول بسهولة.'
+                    },
+                    {
+                        id: 9,
+                        name: 'جهاز استنشاق بخار (Nebulizer)',
+                        category: 'أجهزة تشخيص',
+                        price: 40,
+                        image: 'https://images.unsplash.com/photo-1632053001719-21669460a87f?auto=format&fit=crop&q=80&w=500',
+                        description: 'جهاز رذاذ لعلاج الربو وحساسية الصدر. صوت منخفض وقوة ضخ ممتازة. مناسب للكبار والأطفال.'
+                    },
+                    {
+                        id: 10,
+                        name: 'قفازات طبية (Latex) - 100 قطعة',
+                        category: 'مستهلكات',
+                        price: 8,
+                        image: 'https://images.unsplash.com/photo-1587563871167-1ee7c735cfca?auto=format&fit=crop&q=80&w=500',
+                        description: 'قفازات فحص مطاطية مرنة وقوية. خالية من البودرة لمنع الحساسية.'
+                    },
+                    {
+                        id: 11,
+                        name: 'كرة تمرين اليد (علاج طبيعي)',
+                        category: 'علاج فيزيائي',
+                        price: 6,
+                        image: 'https://plus.unsplash.com/premium_photo-1664302152996-291db7299386?auto=format&fit=crop&q=80&w=500',
+                        description: 'كرة مطاطية لتقوية عضلات اليد والأصابع، مفيدة بعد الجلطات أو الكسور.'
+                    },
+                    {
+                        id: 12,
+                        name: 'سرير طبي يدوي (حركتين)',
+                        category: 'كراسي وحركة',
+                        price: 450,
+                        image: 'https://images.unsplash.com/photo-1516549655169-df83a092dd14?auto=format&fit=crop&q=80&w=500',
+                        description: 'سرير مشافي منزلي مع جوانب متحركة. يمكن رفع الرأس والقدمين يدوياً. يشمل الفرشة الطبية.'
+                    }
+                ],
+
+                get filteredProducts() {
+                    return this.products.filter(p => {
+                        const matchesCategory = this.activeCategory === 'الكل' || p.category === this.activeCategory;
+                        const matchesSearch = p.name.includes(this.searchQuery) || p.description.includes(this.searchQuery);
+                        return matchesCategory && matchesSearch;
+                    });
+                },
+
+                openModal(product) {
+                    this.selectedProduct = product;
+                    this.modalOpen = true;
+                },
+
+                getWhatsAppLink() {
+                    if (!this.selectedProduct) return '#';
+                    const text = `السلام عليكم، أود الاستفسار عن توفر المنتج: ${this.selectedProduct.name} (السعر المعروض: $${this.selectedProduct.price})`;
+                    return `https://wa.me/${this.phoneNumber}?text=${encodeURIComponent(text)}`;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

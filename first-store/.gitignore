@@ -1,0 +1,81 @@
+# ============================================
+# .gitignore للمتجر الإلكتروني
+# ============================================
+
+# ملفات الإعدادات الحساسة
+# (لا ترفعها على GitHub!)
+# theme-config.js  # إذا كان يحتوي على معلومات حساسة
+
+# ملفات النظام
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ملفات المحررات
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ملفات Node.js (إذا استخدمت)
+node_modules/
+package-lock.json
+yarn.lock
+
+# ملفات Build (إذا استخدمت أدوات بناء)
+dist/
+build/
+.cache/
+
+# ملفات الاختبار
+coverage/
+*.test.js
+test/
+
+# ملفات Log
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ملفات مؤقتة
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# ملفات النسخ الاحتياطي
+*.bak
+*.backup
+*_backup_*
+*_old_*
+
+# مجلدات الصور المحلية (إذا كانت للاختبار فقط)
+# uploads/
+# images/test/
+
+# ملفات البيئة
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# سجلات الأخطاء
+error.log
+debug.log
+
+# ملفات قواعد البيانات المحلية
+*.sqlite
+*.db
+
+# ملفات الضغط
+*.zip
+*.rar
+*.7z
+*.tar.gz
+
+# ملفات Mac
+.AppleDouble
+.LSOverride

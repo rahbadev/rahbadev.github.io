@@ -14,15 +14,19 @@
                     "title": "تصميم شعار",
                     "description": "شعار احترافي لمشروعك أو شركتك",
                     "icon": "fas fa-star",
-                    "price": 25,
+                    "price": 35,
                     "priceLabel": "تبدأ من",
                     "urgent": 15,
                     "exampleUrl": "../../projects/design/index.html?cat=logo",
+                    "details": [
+                        "خيارين مختلفين للتصميم",
+                        "التسليم بصيغتي PNG و SVG",
+                        "مراجعتان مجانيتان للتعديلات",
+                        "مدة التنفيذ: 3 - 5 أيام عمل",
+                        "لا يشمل بناء هوية بصرية كاملة",
+                        "قد يزيد السعر حسب تعقيد التصميم والطلب"
+                    ],
                     "addons": [
-                        {
-                            "name": "تسليم الملف المصدري (AI/PSD)",
-                            "price": 15
-                        },
                         {
                             "name": "تجهيز الشعار لمنصات التواصل",
                             "price": 5
@@ -34,20 +38,17 @@
                     "title": "تصاميم متنوعة",
                     "description": "ترويسة، كرت عمل، منشورات سوشيال ميديا",
                     "icon": "fas fa-images",
-                    "price": 10,
+                    "price": 20,
                     "priceLabel": "تبدأ من",
-                    "urgent": 5,
-                    "exampleUrl": "../../projects/design/index.html?cat=card"
-                },
-                {
-                    "id": "full-identity",
-                    "title": "هوية بصرية",
-                    "description": "هوية متكاملة لمشروعك أو شركتك",
-                    "icon": "fas fa-copyright",
-                    "price": 100,
-                    "priceLabel": "تبدأ من",
-                    "urgent": 40,
-                    "exampleUrl": "../../projects/design/index.html?cat=all"
+                    "urgent": 10,
+                    "exampleUrl": "../../projects/design/index.html?cat=card",
+                    "details": [
+                        "مقابل تصميم واحد (مثال: ترويسة، كرت عمل، منشور واحد للسوشيال ميديا، ...)",
+                        "التسليم بصيغة JPG عالية الجودة",
+                        "مراجعة واحدة مجانية للتعديل",
+                        "مدة التنفيذ: 2 - 5 أيام عمل",
+                        "قد يزيد السعر حسب تعقيد التصميم والطلب"
+                    ]
                 }
             ]
         },
@@ -61,24 +62,31 @@
                 {
                     "id": "bio-page",
                     "title": "صفحة البايو",
-                    "description": "صفحة لعرض روابطك الشخصية (شعار + روابط + QR)",
+                    "description": "صفحة لعرض روابطك الشخصية أو المهنية بشكل جذاب ومنظم",
                     "icon": "fas fa-link",
                     "price": 25,
                     "priceLabel": "تبدأ من",
                     "urgent": 15,
                     "exampleUrl": "../projects/perfurm-site/bio-demo.html",
+                    "details": [
+                        "تشمل حتى 3 روابط لحساباتك",
+                        "كود QR مخصص للصفحة",
+                        "رابط مخصص باسمك (مثال: rehbadev.dev/yourname)",
+                        "تصميم responsive لجميع الأجهزة",
+                        "مدة التنفيذ: 2 - 4 أيام عمل"
+                    ],
                     "addons": [
                         {
-                            "name": "5 روابط إضافية",
+                            "name": "روابط إضافية (كل رابط إضافي)",
+                            "price": 5
+                        },
+                        {
+                            "name": "عرض خدماتك أو منتجاتك (مثال: عرض 3 خدمات أو منتجات)",
                             "price": 10
                         },
                         {
-                            "name": "عرض خدماتك أو منتجاتك",
-                            "price": 10
-                        },
-                        {
-                            "name": "روابط مختصرة باسمك (مثال: rehbadev.dev/yourname)",
-                            "price": 10
+                            "name": "اختصار الروابط (مثال: rehbadev.dev/yourname/wa)",
+                            "price": 15
                         }
                     ]
                 },
@@ -87,29 +95,63 @@
                     "title": "صفحة بسيطة لمشروعك",
                     "description": "صفحة مناسبة لعرض مشروعك أو منتجك بشكل جذاب وبسيط",
                     "icon": "fas fa-pager",
-                    "price": 60,
+                    "price": 80,
                     "priceLabel": "تبدأ من",
-                    "urgent": 30,
+                    "urgent": 40,
                     "exampleUrl": "../projects/perfurm-site/store-demo.html",
+                    "details": [
+                        "رابط مخصص باسمك (مثال: rehbadev.dev/yourname)",
+                        "عرض معلومات عن مشروعك أو منتجك بشكل جذاب",
+                        "عرض صور توضيحية عن منتجاتك أو خدماتك (6) كحد أقصى",
+                        "تصميم responsive لجميع الأجهزة",
+                        "إضافة زر عائم للتواصل المباشر (واتساب، تليجرام، ...)",
+                        "لا تشمل نظام طلب أو متجر",
+                        "مدة التنفيذ: 5-10 أيام عمل"
+                    ],
                     "addons": [
                         {
                             "name": "دعم لغتين",
                             "price": 20
                         },
                         {
-                            "name": "روابط مختصرة باسمك (مثال: rehbadev.dev/yourname)",
-                            "price": 10
+                            "name": "اختصار الروابط (مثال: rehbadev.dev/yourname/wa)",
+                            "price": 15
                         }
                     ]
                 },
                 {
                     "id": "store",
-                    "title": "متجر إلكتروني",
-                    "description": "متجر بسيط لعرض وبيع منتجاتك على الإنترنت",
+                    "title": "صفحة عرض منتجات",
+                    "description": "متجر بسيط لعرض منتجاتك على الإنترنت",
                     "icon": "fas fa-shopping-cart",
-                    "price": 300,
+                    "price": 200,
                     "priceLabel": "تبدأ من",
-                    "urgent": 100
+                    "urgent": 100,
+                    "exampleUrl": "../projects/perfurm-site/store-demo.html",
+                    "details": [
+                        "رابط مخصص باسمك (مثال: rehbadev.dev/yourname)",
+                        "عرض معلومات عن مشروعك أو منتجك بشكل جذاب",
+                        "تصميم responsive لجميع الأجهزة",
+                        "زر طلب المنتج مباشرة عبر الواتساب أو تليجرام",
+                        "إضافة زر عائم للتواصل المباشر (واتساب، تليجرام، ...)",
+                        "إدارة المنتجات تتم عبر نظام بسيط بدون لوحة تحكم",
+                        "إدخال 10 منتجات مبدئياً (يمكنك طلب إضافة منتجات أكثر)",
+                        "مدة التنفيذ: 7 - 14 أيام عمل"
+                    ],
+                    "addons": [
+                        {
+                            "name": "دعم لغتين",
+                            "price": 20
+                        },
+                        {
+                            "name": "اختصار الروابط (مثال: rehbadev.dev/yourname/wa)",
+                            "price": 15
+                        },
+                        {
+                            "name": "عرض تفاصيل المنتج في نافذة منبثقة",
+                            "price": 20
+                        }
+                    ]
                 }
             ]
         },
@@ -127,7 +169,23 @@
                     "icon": "fas fa-window-restore",
                     "price": 150,
                     "priceLabel": "تبدأ من",
-                    "urgent": 75
+                    "urgent": 75,
+                    "details": [
+                        "تحويل موقعك الحالي إلى تطبيق جوال يعمل على Android",
+                        "إضافة أيقونة التطبيق وشاشة البداية (splash screen)",
+                        "توفير ملف APK لتثبيت التطبيق على أجهزة Android",
+                        "مدة التنفيذ: 7-10 أيام عمل"
+                    ],
+                    "addons": [
+                        {
+                            "name": "رفع التطبيق على متجر Google Play",
+                            "price": 50
+                        },
+                        {
+                            "name": "تخصيص تصميم التطبيق ليتناسب مع هوية علامتك التجارية",
+                            "price": 40
+                        }
+                    ]
                 },
                 {
                     "id": "simple-app",
@@ -136,7 +194,29 @@
                     "icon": "fas fa-mobile-alt",
                     "price": 400,
                     "priceLabel": "تبدأ من",
-                    "urgent": 200
+                    "urgent": 200,
+                    "details": [
+                        "تطبيق يعمل على Android",
+                        "يشمل حتى 3 صفحات",
+                        "تصميم UI/UX بسيط وجميل",
+                        "توفير ملف APK لتثبيت التطبيق على أجهزة Android",
+                        "السعر يزيد مع تعقيد المميزات المطلوبة",
+                        "مدة التنفيذ: 15-20 يوم عمل"
+                    ],
+                    "addons": [
+                        {
+                            "name": "رفع التطبيق على متجر Google Play",
+                            "price": 50
+                        },
+                        {
+                            "name": "تخصيص تصميم التطبيق ليتناسب مع هوية علامتك التجارية",
+                            "price": 40
+                        },
+                        {
+                            "name": "دعم نظام iOS",
+                            "price": 250
+                        }
+                    ]
                 },
                 {
                     "id": "pro-app",

@@ -4,21 +4,30 @@
     "categories": [
         {
             "id": "logo",
-            "title": "تصميم شعارات",
+            "title": "شعارات",
             "icon": "fas fa-star",
             "color": "#f59e0b",
             "description": "شعارات احترافية للشركات والمشاريع",
             "designs": [
                 {
-                    "id": "logo-1",
-                    "title": "شعار تقني حديث",
-                    "description": "تصميم شعار بأسلوب تقني عصري",
-                    "image": "logo-voltmaster.webp",
-                    "tags": [
-                        "تقني",
-                        "حديث",
-                        "احترافي"
-                    ]
+                    "title": "شركة فولتماستر",
+                    "description": "شعار حديث واحترافي لشركة فولتماستر",
+                    "image": "images/logo_1.webp"
+                },
+                {
+                    "title": "أناقة الرجال",
+                    "description": "شعار محل ألبسة رجالية فاخرة",
+                    "image": "images/logo_2.webp"
+                },
+                {
+                    "title": "عيادة الابتسامة المشرقة",
+                    "description": "شعار حديث واحترافي لعيادة الابتسامة المشرقة",
+                    "image": "images/logo_3.webp"
+                },
+                {
+                    "title": "شعار شركة EcoHome",
+                    "description": "شركة لبيع المفروشات المنزلية الصديقة للبيئة",
+                    "image": "images/logo_4.webp"
                 }
             ]
         },
@@ -30,26 +39,29 @@
             "description": "كروت عمل احترافية بتصاميم حديثة",
             "designs": [
                 {
-                    "id": "card-1",
-                    "title": "كرت عمل أنيق",
-                    "description": "تصميم كرت عمل بألوان احترافية",
-                    "image": "card-voltmaster.webp",
-                    "tags": [
-                        "كرت",
-                        "احترافي",
-                        "أنيق"
-                    ]
+                    "title": "كرت لشركة فولتماستر",
+                    "description": "تصميم كرت عمل حديث لشركة فولتماستر",
+                    "image": "images/card_1.webp"
                 },
                 {
-                    "id": "card-2",
-                    "title": "كرت عمل عصري",
-                    "description": "تصميم حديث لكرت العمل",
-                    "image": "card-nexora.webp",
-                    "tags": [
-                        "كرت",
-                        "عصري",
-                        "حديث"
-                    ]
+                    "title": "كرت لشركة nexora tech",
+                    "description": "تصميم كرت عمل حديث لشركة nexora tech",
+                    "image": "images/card_2.webp"
+                },
+                {
+                    "title": "كرت لشركة أناقة الرجال",
+                    "description": "تصميم كرت عمل حديث لشركة أناقة الرجال",
+                    "image": "images/card_3.webp"
+                },
+                {
+                    "title": "كرت لشركة أبتسامة المشرقة",
+                    "description": "تصميم كرت عمل حديث لشركة أبتسامة المشرقة",
+                    "image": "images/card_4.webp"
+                },
+                {
+                    "title": "كرت لشركة sarah johnson",
+                    "description": "    ",
+                    "image": "images/card_5.webp"
                 }
             ]
         },

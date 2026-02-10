@@ -38,12 +38,12 @@ const UnifiedServicesCalculator = {
         });
 
         container.innerHTML = html;
-        this.updateSummary();
     },
 
     renderServiceCard(service, category) {
         const isSelected = this.state.selectedServices.has(service.id);
         const hasExample = service.exampleUrl && service.exampleUrl.trim() !== '';
+        const hasDetails = service.details && service.details.length > 0;
 
         // Build addons list including urgent if exists
         const allAddons = [];
@@ -76,7 +76,10 @@ const UnifiedServicesCalculator = {
                                 <span class="service-category-badge" style="background: ${category.color}; color: white;">
                                     ${category.title}
                                 </span>
-                                <span class="price-value-unified" style="color: ${category.color};">${service.price}$</span>
+                                <div class="price-container-unified">
+                                    <span class="price-label-unified">تبدأ من</span>
+                                    <span class="price-value-unified" style="color: ${category.color};">${service.price}$</span>
+                                </div>
                             </div>
                             <h4 class="service-title-unified">${service.title}</h4>
                         </div>
@@ -85,18 +88,28 @@ const UnifiedServicesCalculator = {
                     <!-- Description -->
                     <p class="service-description-unified">${service.description}</p>
 
-                    <!-- Action Buttons Row -->
-                    <div class="service-actions-row">
+                    <!-- Action Buttons -->
+                    <div class="service-actions-wrapper">
+                        ${hasDetails || hasExample ? `
+                            <div class="service-actions-row-top">
+                                ${hasDetails ? `
+                                    <button onclick="UnifiedServicesCalculator.openServiceDetails('${service.id}', '${category.id}')" class="btn-service-secondary" style="background: ${category.color}15; color: ${category.color}; border-color: ${category.color}30;">
+                                        <i class="fas fa-info-circle"></i>
+                                        <span>تفاصيل الخدمة</span>
+                                    </button>
+                                ` : ''}
+                                ${hasExample ? `
+                                    <button onclick="UnifiedServicesCalculator.openExample('${service.exampleUrl.replace(/'/g, "\\'")}', '${category.color}')" class="btn-service-secondary" style="background: ${category.color}15; color: ${category.color}; border-color: ${category.color}30;">
+                                        <i class="fas fa-images"></i>
+                                        <span>شاهد مثالاً</span>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        ` : ''}
                         <button class="btn-add-to-calculator" onclick="UnifiedServicesCalculator.toggleService('${service.id}', '${category.id}')" style="${isSelected ? `background: ${category.color}; border-color: ${category.color};` : `border-color: ${category.color}60; color: ${category.color};`}">
                             <i class="fas ${isSelected ? 'fa-check-circle' : 'fa-plus-circle'}"></i>
                             <span>${isSelected ? 'تمت الإضافة' : 'أضف للحاسبة'}</span>
                         </button>
-                        ${hasExample ? `
-                            <button onclick="UnifiedServicesCalculator.openExample('${service.exampleUrl.replace(/'/g, "\\'")}', '${category.color}')" class="btn-view-example" style="background: ${category.color}15; color: ${category.color}; border-color: ${category.color}30;">
-                                <i class="fas fa-images ms-1"></i>
-                                <span>شاهد مثالاً</span>
-                            </button>
-                        ` : ''}
                     </div>
 
                     <!-- Addons including Urgent (shown when selected) -->
@@ -201,17 +214,15 @@ const UnifiedServicesCalculator = {
             }
         });
 
-        this.updateSummary();
+        // Calculate total and update floating bar
+        this.calculateTotal();
+        this.updateFloatingBar();
     },
 
-    updateSummary() {
-        const summaryContainer = document.getElementById('calculatorSummary');
-        if (!summaryContainer) return;
-
+    calculateTotal() {
         let total = 0;
-        let itemsHtml = '';
 
-        this.state.selectedServices.forEach((selected, serviceId) => {
+        this.state.selectedServices.forEach((selected) => {
             const service = selected.service;
             let serviceTotal = service.price;
 
@@ -226,51 +237,152 @@ const UnifiedServicesCalculator = {
             }
 
             total += serviceTotal;
-
-            itemsHtml += `
-                <div class="selected-service-item">
-                    <span class="selected-service-name">
-                        <i class="${service.icon}" style="color: ${selected.category.color};"></i>
-                        ${service.title}
-                    </span>
-                    <span class="selected-service-price">${serviceTotal}$</span>
-                </div>
-            `;
         });
 
         this.state.totalCost = total;
+    },
+
+    updateFloatingBar() {
+        const floatingBar = document.getElementById('floatingCalcBar');
+        const calcBarCount = document.getElementById('calcBarCount');
+        const calcBarTotal = document.getElementById('calcBarTotal');
+
+        if (!floatingBar) {
+            console.warn('⚠️ floatingCalcBar not found');
+            return;
+        }
+
+        const count = this.state.selectedServices.size;
+        const total = this.state.totalCost;
+
+        console.log(`📊 Updating bar: ${count} services, ${total}$`);
+
+        if (count > 0) {
+            floatingBar.classList.add('show');
+            document.body.classList.add('calc-bar-visible');
+
+            // Update count
+            if (calcBarCount) calcBarCount.textContent = count;
+
+            // Update total
+            if (calcBarTotal) calcBarTotal.textContent = `${total}$`;
+        } else {
+            floatingBar.classList.remove('show');
+            document.body.classList.remove('calc-bar-visible');
+        }
+    },
+
+    openBottomSheet() {
+        console.log('🔵 Opening bottom sheet');
+        const sheet = document.getElementById('calcBottomSheet');
+        const body = document.getElementById('bottomSheetBody');
+        const totalValue = document.getElementById('sheetTotalValue');
+
+        if (!sheet || !body) {
+            console.error('❌ Bottom sheet elements not found', { sheet: !!sheet, body: !!body });
+            return;
+        }
+
+        console.log(`📋 Selected services: ${this.state.selectedServices.size}`);
+
+        // Populate body
+        let html = '';
 
         if (this.state.selectedServices.size === 0) {
-            summaryContainer.innerHTML = `
-                <div class="summary-title">
-                    <i class="fas fa-calculator"></i>
-                    <span>الحاسبة</span>
+            html = `
+                <div class="sheet-empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>لم تختر أي خدمة بعد</p>
                 </div>
-                <p style="text-align: center; color: #94a3b8; padding: 2rem 0;">
-                    اختر الخدمات التي تحتاجها لترى التكلفة
-                </p>
             `;
         } else {
-            summaryContainer.innerHTML = `
-                <div class="summary-title">
-                    <i class="fas fa-calculator"></i>
-                    <span>الملخص (${this.state.selectedServices.size} خدمة)</span>
-                </div>
-                <div class="selected-services-list">
-                    ${itemsHtml}
-                </div>
-                <div class="summary-total">
-                    <div class="total-label">الإجمالي التقديري</div>
-                    <div class="total-value">
-                        <span class="total-currency">$</span>${total}
+            this.state.selectedServices.forEach((selected, serviceId) => {
+                const service = selected.service;
+                let serviceTotal = service.price;
+                let addonsHtml = '';
+
+                // Build addons list
+                if (selected.addons.length > 0 || selected.urgent) {
+                    addonsHtml = '<div class="sheet-addons-list">';
+
+                    selected.addons.forEach(addonIndex => {
+                        const addon = service.addons[addonIndex];
+                        serviceTotal += addon.price;
+                        addonsHtml += `
+                            <div class="sheet-addon-item">
+                                <span><i class="fas fa-plus-circle"></i> ${addon.name}</span>
+                                <span class="sheet-addon-price">${addon.price}$</span>
+                            </div>
+                        `;
+                    });
+
+                    if (selected.urgent && service.urgent) {
+                        serviceTotal += service.urgent;
+                        addonsHtml += `
+                            <div class="sheet-addon-item">
+                                <span><i class="fas fa-bolt"></i> تسليم عاجل</span>
+                                <span class="sheet-addon-price">${service.urgent}$</span>
+                            </div>
+                        `;
+                    }
+
+                    addonsHtml += '</div>';
+                }
+
+                html += `
+                    <div class="sheet-service-item">
+                        <div class="sheet-service-header">
+                            <div class="sheet-service-info">
+                                <div class="sheet-service-title">
+                                    <i class="${service.icon}" style="color: ${selected.category.color};"></i>
+                                    ${service.title}
+                                </div>
+                                <div class="sheet-service-details">
+                                    ${selected.category.title}
+                                </div>
+                            </div>
+                            <div class="sheet-service-price">${serviceTotal}$</div>
+                        </div>
+                        ${addonsHtml}
+                        <button class="sheet-remove-btn" onclick="UnifiedServicesCalculator.removeService('${serviceId}')">
+                            <i class="fas fa-trash-alt"></i>
+                            <span>إزالة</span>
+                        </button>
                     </div>
-                </div>
-                <button class="btn btn-primary w-100 mt-3" onclick="UnifiedServicesCalculator.contactUs()">
-                    <i class="fas fa-paper-plane ms-2"></i>
-                    ابدأ مشروعك الآن
-                </button>
-            `;
+                `;
+            });
         }
+
+        body.innerHTML = html;
+        if (totalValue) totalValue.textContent = `${this.state.totalCost}$`;
+
+        // Show sheet
+        console.log('✅ Showing bottom sheet');
+        sheet.classList.add('show');
+        document.body.classList.add('sheet-open');
+        document.body.style.overflow = 'hidden';
+    },
+
+    closeBottomSheet() {
+        console.log('🔴 Closing bottom sheet');
+        const sheet = document.getElementById('calcBottomSheet');
+        if (!sheet) return;
+
+        sheet.classList.remove('show');
+        document.body.classList.remove('sheet-open');
+        document.body.style.overflow = '';
+    },
+
+    removeService(serviceId) {
+        this.state.selectedServices.delete(serviceId);
+        this.updateUI();
+        this.openBottomSheet(); // Refresh sheet
+    },
+
+    async sendToWhatsApp() {
+        // Same as contactUs but for the floating bar
+        await this.contactUs();
+        this.closeBottomSheet();
     },
 
     async contactUs() {
@@ -331,8 +443,63 @@ const UnifiedServicesCalculator = {
         }
     },
 
+    openServiceDetails(serviceId, categoryId) {
+        const category = this.state.services.categories.find(c => c.id === categoryId);
+        const service = category?.services.find(s => s.id === serviceId);
+
+        if (!service || !service.details) return;
+
+        // Create modal if not exists
+        if (!document.getElementById('serviceDetailsModal')) {
+            this.createDetailsModal();
+        }
+
+        // Fill modal content
+        const modal = document.getElementById('serviceDetailsModal');
+        const title = modal.querySelector('.details-modal-title');
+        const content = modal.querySelector('.details-modal-content');
+
+        title.innerHTML = `<i class="${service.icon} ms-2"></i> ${service.title}`;
+        title.style.color = category.color;
+
+        content.innerHTML = `
+            <ul class="details-list">
+                ${service.details.map(detail => `
+                    <li><i class="fas fa-check-circle" style="color: ${category.color};"></i> ${detail}</li>
+                `).join('')}
+            </ul>
+        `;
+
+        // Show modal
+        modal.classList.add('show');
+    },
+
+    createDetailsModal() {
+        const modalHTML = `
+            <div class="service-details-modal" id="serviceDetailsModal" onclick="if(event.target===this) this.classList.remove('show')">
+                <div class="details-modal-container">
+                    <div class="details-modal-header">
+                        <h3 class="details-modal-title"></h3>
+                        <button class="details-modal-close" onclick="document.getElementById('serviceDetailsModal').classList.remove('show')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="details-modal-content"></div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+    },
+
     attachEvents() {
         // Events are handled inline via onclick for simplicity
+
+        // ESC key to close bottom sheet
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                this.closeBottomSheet();
+            }
+        });
     }
 };
 
