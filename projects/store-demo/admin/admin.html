@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | المتجر</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/database.js"></script>
+    <script src="../assets/js/cloudinary.service.js"></script>
+    <script src="../assets/js/admin.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        blue: {
+                            // خدعة ذكية: نستبدل درجات اللون الأزرق الافتراضي بلون البراند الخاص بك
+                            50: CONFIG.brand.primaryColor + '10', // شفافية 10%
+                            100: CONFIG.brand.primaryColor + '20',
+                            500: CONFIG.brand.primaryColor,
+                            600: CONFIG.brand.primaryColor, // الدرجة الأساسية
+                            700: CONFIG.brand.primaryColor, // مفترض تغميقها قليلاً لكن سنبقيها للتبسيط
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+</head>
+
+<body class="bg-gray-100 font-sans" x-data="admin">
+
+    <div x-show="!session" class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-sm">
+            <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">تسجيل دخول المدير</h2>
+            <form @submit.prevent="login">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">البريد الإلكتروني</label>
+                    <input type="email" x-model="email"
+                        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">كلمة المرور</label>
+                    <input type="password" x-model="password"
+                        class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" required>
+                </div>
+                <button type="submit"
+                    class="w-full bg-blue-600 text-white py-2 rounded-lg font-bold hover:bg-blue-700 transition"
+                    :disabled="loading">
+                    <span x-show="!loading">دخول</span>
+                    <span x-show="loading">جاري التحقق...</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div x-show="session" x-cloak class="min-h-screen flex flex-col md:flex-row">
+
+        <aside class="bg-white w-full md:w-64 border-l border-gray-200 p-6 flex flex-col shadow-sm z-10">
+            <h1 class="text-2xl font-bold text-blue-600 mb-8 flex items-center gap-2">
+                <i class="ph-fill ph-gear"></i> لوحة التحكم
+            </h1>
+
+            <nav class="flex-1 space-y-2">
+                <button @click="activeTab = 'products'"
+                    :class="activeTab === 'products' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50'"
+                    class="w-full text-right px-4 py-3 rounded-xl font-medium transition flex items-center gap-3">
+                    <i class="ph-bold ph-package"></i> المنتجات
+                </button>
+                <button @click="activeTab = 'categories'"
+                    :class="activeTab === 'categories' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50'"
+                    class="w-full text-right px-4 py-3 rounded-xl font-medium transition flex items-center gap-3">
+                    <i class="ph-bold ph-squares-four"></i> التصنيفات
+                </button>
+                <button @click="activeTab = 'settings'"
+                    :class="activeTab === 'settings' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50'"
+                    class="w-full text-right px-4 py-3 rounded-xl font-medium transition flex items-center gap-3">
+                    <i class="ph-bold ph-sliders"></i> الإعدادات
+                </button>
+            </nav>
+
+            <button @click="logout"
+                class="mt-auto flex items-center gap-2 text-red-500 hover:bg-red-50 px-4 py-3 rounded-xl transition font-medium">
+                <i class="ph-bold ph-sign-out"></i> تسجيل خروج
+            </button>
+        </aside>
+
+        <main class="flex-1 p-4 md:p-8 overflow-y-auto">
+
+            <div x-show="activeTab === 'products'" class="space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">المنتجات</h2>
+                        <p class="text-gray-500 text-sm">إدارة المخزون والعروض</p>
+                    </div>
+                    <button @click="openProductModal()"
+                        class="bg-blue-600 text-white px-6 py-2.5 rounded-xl hover:bg-blue-700 flex items-center gap-2 font-bold shadow-lg shadow-blue-600/20 transition transform hover:-translate-y-1">
+                        <i class="ph-bold ph-plus"></i> إضافة منتج
+                    </button>
+                </div>
+
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-4">
+                    <div class="flex-1 relative">
+                        <i class="ph ph-magnifying-glass absolute top-3 right-3 text-gray-400"></i>
+                        <input type="text" x-model="searchQuery" placeholder="بحث باسم المنتج..."
+                            class="w-full bg-gray-50 border-transparent focus:bg-white focus:ring-2 focus:ring-blue-100 rounded-xl py-2.5 px-4 pr-10 transition">
+                    </div>
+                    <div class="w-full md:w-64">
+                        <select x-model="filterCategory"
+                            class="w-full bg-gray-50 border-transparent focus:bg-white focus:ring-2 focus:ring-blue-100 rounded-xl py-2.5 px-4 cursor-pointer">
+                            <option value="">جميع التصنيفات</option>
+                            <template x-for="c in categories" :key="c.id">
+                                <option :value="c.id" x-text="c.name"></option>
+                            </template>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right">
+                            <thead class="bg-gray-50/50 text-gray-500 text-sm font-medium border-b border-gray-100">
+                                <tr>
+                                    <th class="p-5">المنتج</th>
+                                    <th class="p-5">السعر</th>
+                                    <th class="p-5">التصنيف</th>
+                                    <th class="p-5">الحالة</th>
+                                    <th class="p-5">تحكم</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-50">
+                                <template x-for="p in filteredProducts" :key="p.id">
+                                    <tr class="hover:bg-blue-50/50 transition group">
+                                        <td class="p-4">
+                                            <div class="flex items-center gap-3">
+                                                <img :src="p.image_url"
+                                                    class="w-12 h-12 rounded-xl object-cover bg-gray-100 shadow-sm">
+                                                <span class="font-bold text-gray-700" x-text="p.name"></span>
+                                            </div>
+                                        </td>
+                                        <td class="p-4 font-bold text-blue-600" x-text="p.price"></td>
+                                        <td class="p-4">
+                                            <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-lg"
+                                                x-text="p.categories?.name"></span>
+                                        </td>
+                                        <td class="p-4 flex gap-1">
+                                            <span x-show="p.is_new" class="w-2 h-2 rounded-full bg-green-500"
+                                                title="جديد"></span>
+                                            <span x-show="p.is_featured" class="w-2 h-2 rounded-full bg-orange-500"
+                                                title="مميز"></span>
+                                        </td>
+                                        <td class="p-4">
+                                            <div
+                                                class="flex gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition">
+                                                <button @click="openProductModal(p)"
+                                                    class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200 flex items-center justify-center"><i
+                                                        class="ph-bold ph-pencil-simple"></i></button>
+                                                <button @click="deleteProduct(p.id)"
+                                                    class="w-8 h-8 rounded-lg bg-red-100 text-red-500 hover:bg-red-200 flex items-center justify-center"><i
+                                                        class="ph-bold ph-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div x-show="filteredProducts.length === 0" class="p-10 text-center text-gray-400">
+                        <p>لا توجد منتجات مطابقة للبحث</p>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="activeTab === 'categories'" class="space-y-8 max-w-xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">التصنيفات</h2>
+                        <p class="text-gray-500 text-sm">إدارة تصنيفات المنتجات</p>
+                    </div>
+                </div>
+                <form @submit.prevent="addCategory($refs.newCatName.value); $refs.newCatName.value=''"
+                    class="flex gap-2 items-center mb-4">
+                    <input type="text" x-ref="newCatName" placeholder="اسم التصنيف الجديد..."
+                        class="flex-1 p-3 border rounded-xl bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-100 text-sm"
+                        required>
+                    <button type="submit"
+                        class="bg-blue-600 text-white px-6 py-2.5 rounded-xl hover:bg-blue-700 font-bold shadow-lg shadow-blue-600/20 transition flex items-center gap-2">
+                        <i class="ph-bold ph-plus"></i> إضافة
+                    </button>
+                </form>
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
+                    <table class="w-full text-right">
+                        <thead class="bg-gray-50/50 text-gray-500 text-sm font-medium border-b border-gray-100">
+                            <tr>
+                                <th class="p-5">اسم التصنيف</th>
+                                <th class="p-5">تحكم</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template x-for="c in categories" :key="c.id">
+                                <tr class="hover:bg-blue-50/50 transition group">
+                                    <td class="p-4 font-bold text-gray-700" x-text="c.name"></td>
+                                    <td class="p-4">
+                                        <button @click="deleteCategory(c.id)"
+                                            class="w-8 h-8 rounded-lg bg-red-100 text-red-500 hover:bg-red-200 flex items-center justify-center"
+                                            title="حذف التصنيف">
+                                            <i class="ph-bold ph-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </template>
+                            <tr x-show="categories.length === 0">
+                                <td colspan="2" class="p-6 text-center text-gray-400">لا توجد تصنيفات بعد</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div x-show="activeTab === 'settings'" class="max-w-2xl mx-auto space-y-6">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                        <i class="ph-duotone ph-whatsapp-logo text-green-500"></i> التواصل الأساسي
+                    </h2>
+                    <div>
+                        <label class="block text-sm font-medium mb-2 text-gray-600">رقم الواتساب (للاستقبال
+                            الطلبات)</label>
+                        <input type="text" x-model="settings.whatsapp_number"
+                            class="w-full p-3 border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:ring-2 focus:ring-green-500/20 transition"
+                            dir="ltr">
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold flex items-center gap-2">
+                            <i class="ph-duotone ph-share-network text-blue-500"></i> منصات التواصل
+                        </h2>
+                        <button @click="addSocialLink()"
+                            class="text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-lg font-medium transition">
+                            + إضافة منصة
+                        </button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <template x-for="(link, index) in settings.social_links" :key="index">
+                            <div class="flex gap-3 items-start animate-fade-in">
+                                <div class="flex-1 grid grid-cols-1 md:grid-cols-3 gap-3">
+                                    <select x-model="link.platform" class="p-3 border rounded-xl bg-gray-50 text-sm">
+                                        <option value="">اختر الوسيلة...</option>
+                                        <option value="facebook">Facebook</option>
+                                        <option value="tiktok">TikTok</option>
+                                        <option value="youtube">YouTube</option>
+                                        <option value="instagram">Instagram</option>
+                                        <option value="whatsapp">WhatsApp</option>
+                                        <option value="whatsapp_channel">WhatsApp Channel</option>
+                                        <option value="telegram">Telegram</option>
+                                        <option value="twitter">Twitter</option>
+                                    </select>
+                                    <input type="text" x-model="link.url" placeholder="الرابط (URL)"
+                                        class="md:col-span-2 p-3 border rounded-xl bg-gray-50 text-sm text-left"
+                                        dir="ltr">
+                                </div>
+                                <button @click="removeSocialLink(index)"
+                                    class="p-3 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition">
+                                    <i class="ph-bold ph-trash"></i>
+                                </button>
+                            </div>
+                        </template>
+                        <div x-show="!settings.social_links || settings.social_links.length === 0"
+                            class="text-center py-6 text-gray-400 text-sm bg-gray-50 rounded-xl border border-dashed">
+                            لم تقم بإضافة روابط تواصل بعد
+                        </div>
+                    </div>
+                </div>
+
+                <button @click="saveSettings"
+                    class="w-full bg-gray-900 text-white py-4 rounded-xl font-bold hover:bg-black shadow-lg shadow-gray-900/20 transition transform hover:-translate-y-1">
+                    حفظ كافة الإعدادات
+                </button>
+            </div>
+
+        </main>
+    </div>
+
+    <div x-show="productModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4" x-cloak>
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" @click="productModalOpen = false"></div>
+        <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6 overflow-y-auto max-h-[90vh]">
+            <h3 class="text-xl font-bold mb-4" x-text="isEditing ? ' تعديل منتج' : 'منتج جديد'"></h3>
+
+            <div class="space-y-4">
+                <div class="flex items-center gap-4">
+                    <div
+                        class="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden border">
+                        <img x-show="currentProduct.image_url" :src="currentProduct.image_url"
+                            class="w-full h-full object-cover">
+                        <i x-show="!currentProduct.image_url" class="ph-bold ph-image text-2xl text-gray-400"></i>
+                    </div>
+                    <div class="flex-1">
+                        <label class="block text-sm font-bold mb-1">صورة المنتج</label>
+                        <input type="file" @change="handleImageUpload" accept="image/*"
+                            class="text-sm w-full file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                        <p x-show="uploadingImage" class="text-xs text-blue-600 mt-1">جاري الرفع...</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-sm font-medium">الاسم</label>
+                        <input type="text" x-model="currentProduct.name" class="w-full p-2 border rounded-lg">
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium">السعر</label>
+                        <input type="number" x-model="currentProduct.price" class="w-full p-2 border rounded-lg">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-sm font-medium">الوصف</label>
+                    <textarea x-model="currentProduct.description" rows="3"
+                        class="w-full p-2 border rounded-lg"></textarea>
+                </div>
+
+                <div>
+                    <label class="text-sm font-medium">التصنيف</label>
+                    <select x-model="currentProduct.category_id" class="w-full p-2 border rounded-lg bg-white">
+                        <template x-for="c in categories" :key="c.id">
+                            <option :value="c.id" x-text="c.name"></option>
+                        </template>
+                    </select>
+                </div>
+
+                <div class="flex gap-4 pt-2">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" x-model="currentProduct.is_new" class="w-4 h-4 accent-blue-600">
+                        <span class="text-sm">علامة "جديد"</span>
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" x-model="currentProduct.is_featured" class="w-4 h-4 accent-orange-500">
+                        <span class="text-sm">منتج مميز</span>
+                    </label>
+                </div>
+
+                <button @click="saveProduct"
+                    class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 shadow-lg shadow-blue-600/20"
+                    :disabled="loading">
+                    <span x-show="!loading">حفظ المنتج</span>
+                    <span x-show="loading">جاري الحفظ...</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

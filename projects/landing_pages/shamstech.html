@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شمس التقنية | حلول الطاقة المتكاملة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --accent: #f59e0b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--light);
+            color: var(--primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .contact-btn {
+            background: var(--accent);
+            color: var(--primary);
+            padding: 0.6rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 5rem 1rem;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.9)),
+                url('https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(245, 158, 11, 0.1), transparent);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item .number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stat-item .label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Calculator Section */
+        .calculator {
+            max-width: 1000px;
+            margin: -80px auto 3rem;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            position: relative;
+            z-index: 2;
+        }
+
+        .calc-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .calc-title {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .calc-subtitle {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        /* Device Row - تحسين كبير */
+        .device-row {
+            display: grid;
+            grid-template-columns: 3fr 1.5fr 1.5fr auto;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+            align-items: start;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .device-row:hover {
+            border-color: var(--accent);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Input Groups with Labels */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .input-label .icon {
+            color: var(--accent);
+        }
+
+        .device-row input,
+        .device-row select {
+            padding: 0.9rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            font-family: 'Cairo';
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .device-row input:focus,
+        .device-row select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        }
+
+        .device-row input::placeholder {
+            color: #94a3b8;
+        }
+
+        .remove-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            align-self: center;
+            margin-top: 28px;
+        }
+
+        .remove-btn:hover {
+            background: #dc2626;
+            transform: scale(1.1);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border-right: 5px solid #3b82f6;
+            padding: 1.2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            color: #1e40af;
+            display: flex;
+            align-items: start;
+            gap: 10px;
+        }
+
+        .info-box .icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .example-box {
+            background: #fef3c7;
+            border-right: 5px solid var(--accent);
+            padding: 1.2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            color: #92400e;
+        }
+
+        .example-box h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            border: none;
+            padding: 1.2rem 2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            font-family: 'Cairo';
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #334155;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: #d97706;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Results - تحسين كبير */
+        .results {
+            margin-top: 3rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: white;
+            border-radius: 15px;
+            display: none;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .results h3 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Result Cards - تحسين كبير */
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .result-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            text-align: center;
+            border-radius: 15px;
+            border: 3px solid rgba(245, 158, 11, 0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .result-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(245, 158, 11, 0.3);
+            background: rgba(245, 158, 11, 0.15);
+        }
+
+        .result-item .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .result-item .label {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+            display: block;
+            color: #e2e8f0;
+        }
+
+        .result-item .value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .result-item .unit {
+            font-size: 1rem;
+            opacity: 0.8;
+            color: #cbd5e1;
+        }
+
+        .result-item .description {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 0.5rem;
+            line-height: 1.4;
+            color: #94a3b8;
+        }
+
+        .system-info {
+            background: rgba(16, 185, 129, 0.15);
+            border: 3px solid var(--success);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .system-info h4 {
+            color: var(--success);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .system-info .voltage {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .devices-summary {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .devices-summary h4 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .device-item {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.95rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .device-item:last-child {
+            border-bottom: none;
+        }
+
+        .device-name {
+            font-weight: 600;
+        }
+
+        .device-consumption {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .action-buttons-results {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            padding: 1.2rem;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .whatsapp-btn:hover {
+            background: #20ba5a;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+        }
+
+        .print-btn {
+            background: var(--accent);
+            color: var(--primary);
+            padding: 1.2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: 'Cairo';
+        }
+
+        .print-btn:hover {
+            background: #d97706;
+            transform: translateY(-3px);
+        }
+
+        /* Products Section */
+        .products-section {
+            padding: 5rem 5%;
+            background: white;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: #64748b;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .product-content {
+            padding: 2rem;
+        }
+
+        .product-category {
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .product-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin: 0.5rem 0 1rem;
+        }
+
+        .product-description {
+            color: #64748b;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-features li {
+            padding: 0.5rem 0;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .product-features li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .product-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: var(--accent);
+            color: var(--primary);
+            text-align: center;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .product-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Features */
+        .features {
+            padding: 4rem 5%;
+            background: var(--light);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-card .icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .feature-card p {
+            color: #64748b;
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            padding: 4rem 5% 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-section p,
+        .footer-section li {
+            color: #cbd5e1;
+            line-height: 1.8;
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 45px;
+            height: 45px;
+            background: rgba(245, 158, 11, 0.1);
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        .footer-bottom p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hero-stats {
+                gap: 1.5rem;
+            }
+
+            .stat-item .number {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .device-row {
+                grid-template-columns: 1fr;
+            }
+
+            .remove-btn {
+                margin-top: 0;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons-results {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+
+            header,
+            footer,
+            .features,
+            .products-section,
+            .hero,
+            .action-buttons,
+            .action-buttons-results,
+            .btn {
+                display: none;
+            }
+
+            .calculator {
+                margin: 0;
+                box-shadow: none;
+            }
+
+            .results {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <span>⚡</span>
+            <span>شمس التقنية</span>
+        </div>
+        <div class="nav-links">
+            <a href="#calculator">الحاسبة</a>
+            <a href="#products">المنتجات</a>
+            <a href="#features">خدماتنا</a>
+        </div>
+        <a href="#calculator" class="contact-btn">احسب الآن</a>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>كهرباء مستدامة لمنازل سوريا وتركيا</h1>
+            <p>لا تدع التقنين يوقف حياتك. صمم منظومتك الشمسية الآن بمعايير هندسية دقيقة واعرف التكلفة فوراً.</p>
+
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="number">500+</div>
+                    <div class="label">منظومة مركّبة</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">98%</div>
+                    <div class="label">رضا العملاء</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">5</div>
+                    <div class="label">سنوات ضمان</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="calculator" class="calculator">
+        <div class="calc-header">
+            <h2 class="calc-title">⚙️ حاسبة الطاقة الشمسية</h2>
+            <p class="calc-subtitle">أدخل أجهزتك الكهربائية وسنحسب لك حجم المنظومة المناسبة</p>
+        </div>
+
+        <div class="info-box">
+            <span class="icon">💡</span>
+            <div>
+                <strong>كيف تستخدم الحاسبة؟</strong><br>
+                1️⃣ اختر الجهاز من القائمة أو أدخل معلومات جهاز مخصص<br>
+                2️⃣ أدخل استهلاك الجهاز بالواط (موجود عادة على ملصق الجهاز)<br>
+                3️⃣ كم ساعة يعمل هذا الجهاز في اليوم؟<br>
+                4️⃣ اضغط "احسب المنظومة" لمعرفة احتياجاتك
+            </div>
+        </div>
+
+        <div class="example-box">
+            <h4>📝 مثال توضيحي:</h4>
+            لديك تلفاز يستهلك 100 واط ويعمل 5 ساعات يومياً<br>
+            الاستهلاك اليومي = 100 واط × 5 ساعات = 500 واط ساعة
+        </div>
+
+        <div id="devices-container"></div>
+
+        <div class="action-buttons">
+            <button onclick="addDevice()" class="btn btn-primary">
+                <span>➕</span>
+                <span>إضافة جهاز جديد</span>
+            </button>
+            <button onclick="calculateSystem()" class="btn btn-secondary">
+                <span>⚡</span>
+                <span>احسب حجم المنظومة</span>
+            </button>
+        </div>
+
+        <div id="results" class="results">
+            <h3><span>📊</span> نتائج الحساب - منظومتك المثالية</h3>
+
+            <div class="system-info">
+                <h4>⚡ فولتية النظام المقترحة</h4>
+                <div class="voltage" id="system-voltage">24V</div>
+            </div>
+
+            <div class="result-grid">
+                <div class="result-item">
+                    <span class="icon">⚡</span>
+                    <span class="label">إجمالي الاستهلاك اليومي</span>
+                    <span class="value" id="total-watt">0</span>
+                    <span class="unit">واط ساعة/يوم</span>
+                    <p class="description">هذا هو مجموع ما تستهلكه أجهزتك يومياً</p>
+                </div>
+                <div class="result-item">
+                    <span class="icon">☀️</span>
+                    <span class="label">عدد الألواح الشمسية</span>
+                    <span class="value" id="panels-count">0</span>
+                    <span class="unit">لوح (550 واط/لوح)</span>
+                    <p class="description">لتوليد الطاقة الكافية لأجهزتك</p>
+                </div>
+                <div class="result-item">
+                    <span class="icon">🔋</span>
+                    <span class="label">عدد البطاريات</span>
+                    <span class="value" id="batteries-count">0</span>
+                    <span class="unit">بطارية (200 أمبير)</span>
+                    <p class="description">لتخزين الطاقة واستخدامها ليلاً</p>
+                </div>
+                <div class="result-item">
+                    <span class="icon">🔌</span>
+                    <span class="label">حجم الإنفيرتر</span>
+                    <span class="value" id="inverter-size">0</span>
+                    <span class="unit">كيلو فولت أمبير</span>
+                    <p class="description">لتحويل التيار المستمر إلى متناوب</p>
+                </div>
+            </div>
+
+            <div class="devices-summary">
+                <h4>📋 تفاصيل الأجهزة المضافة:</h4>
+                <div id="devices-list"></div>
+            </div>
+
+            <div class="action-buttons-results">
+                <a id="whatsapp-link" href="#" target="_blank" class="whatsapp-btn">
+                    <span>📲</span>
+                    <span>أرسل النتائج واحصل على عرض سعر</span>
+                </a>
+                <button onclick="window.print()" class="print-btn">
+                    <span>🖨️</span>
+                    <span>طباعة التقرير</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products-section">
+        <div class="section-header">
+            <h2>🛒 منتجاتنا وخدماتنا</h2>
+            <p>نوفر أفضل المنتجات والحلول الشمسية من علامات تجارية عالمية موثوقة</p>
+        </div>
+
+        <div class="products-grid">
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276" alt="ألواح شمسية"
+                    class="product-image">
+                <div class="product-content">
+                    <div class="product-category">الألواح الشمسية</div>
+                    <h3 class="product-title">ألواح شمسية 550 واط</h3>
+                    <p class="product-description">ألواح شمسية عالية الكفاءة من الجيل الأحدث بضمان 25 سنة على الأداء</p>
+                    <ul class="product-features">
+                        <li>كفاءة تحويل تصل إلى 21%</li>
+                        <li>مقاومة للظروف الجوية القاسية</li>
+                        <li>ضمان 25 سنة على الأداء</li>
+                        <li>تقنية Half-Cut للأداء الأفضل</li>
+                    </ul>
+                    <a href="#calculator" class="product-btn">احسب احتياجك</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1593941707882-a5bba14938c7" alt="بطاريات"
+                    class="product-image">
+                <div class="product-content">
+                    <div class="product-category">البطاريات</div>
+                    <h3 class="product-title">بطاريات جل 200 أمبير</h3>
+                    <p class="product-description">بطاريات صديقة للبيئة بعمر افتراضي طويل وأداء مستقر</p>
+                    <ul class="product-features">
+                        <li>تقنية Gel لعمر أطول</li>
+                        <li>دورات شحن وتفريغ عالية</li>
+                        <li>لا تحتاج صيانة</li>
+                        <li>ضمان 5 سنوات</li>
+                    </ul>
+                    <a href="#calculator" class="product-btn">احسب احتياجك</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e" alt="إنفيرتر"
+                    class="product-image">
+                <div class="product-content">
+                    <div class="product-category">الإنفيرترات</div>
+                    <h3 class="product-title">إنفيرتر هجين 5 كيلو</h3>
+                    <p class="product-description">إنفيرتر ذكي يجمع بين الشبكة والطاقة الشمسية بكفاءة عالية</p>
+                    <ul class="product-features">
+                        <li>نظام هجين ذكي</li>
+                        <li>شاشة LCD عربي/إنجليزي</li>
+                        <li>حماية ضد الجهد الزائد</li>
+                        <li>ضمان 3 سنوات</li>
+                    </ul>
+                    <a href="#calculator" class="product-btn">احسب احتياجك</a>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837" alt="تركيب كامل"
+                    class="product-image">
+                <div class="product-content">
+                    <div class="product-category">باقات كاملة</div>
+                    <h3 class="product-title">منظومة شمسية متكاملة</h3>
+                    <p class="product-description">باقة شاملة تشمل كل ما تحتاجه لمنزلك مع التركيب والصيانة</p>
+                    <ul class="product-features">
+                        <li>تركيب احترافي مجاني</li>
+                        <li>ضمان شامل على كل المكونات</li>
+                        <li>صيانة دورية لمدة سنة</li>
+                        <li>دعم فني 24/7</li>
+                    </ul>
+                    <a href="#calculator" class="product-btn">احسب احتياجك</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="section-header">
+            <h2>✨ لماذا شمس التقنية؟</h2>
+            <p>نقدم خدمات متكاملة من الاستشارة إلى التركيب والصيانة</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="icon">🛠️</div>
+                <h3>تركيب احترافي</h3>
+                <p>فريق فني متخصص بتركيب القواعد والزوايا المثالية للشمس مع ضمان الأداء الأمثل.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🔋</div>
+                <h3>بطاريات أصلية</h3>
+                <p>ضمان حقيقي على بطاريات الجل والتيوبلار والكربون من أفضل الشركات العالمية.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">⚙️</div>
+                <h3>صيانة دورية</h3>
+                <p>خدمات ما بعد البيع ومراقبة أداء المنظومة عن بعد مع دعم فني على مدار الساعة.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">💰</div>
+                <h3>أسعار تنافسية</h3>
+                <p>نوفر أفضل الأسعار في السوق مع جودة عالية وضمانات موثوقة على جميع المكونات.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📈</div>
+                <h3>مراقبة ذكية</h3>
+                <p>أنظمة مراقبة متطورة لمتابعة إنتاج الطاقة واستهلاكها من خلال تطبيق الهاتف.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🌍</div>
+                <h3>صديق للبيئة</h3>
+                <p>ساهم في حماية البيئة وتقليل الانبعاثات مع توفير كبير في فواتير الكهرباء.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>⚡ شمس التقنية</h3>
+                <p>شركة رائدة في مجال الطاقة المتجددة والحلول الشمسية في سوريا وتركيا. نوفر منظومات شمسية متكاملة بأعلى
+                    معايير الجودة.</p>
+                <div class="social-links">
+                    <a href="#" title="فيسبوك">📘</a>
+                    <a href="#" title="واتساب">📱</a>
+                    <a href="#" title="إنستغرام">📷</a>
+                    <a href="#" title="يوتيوب">📹</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>روابط سريعة</h3>
+                <ul>
+                    <li><a href="#calculator">حاسبة الطاقة</a></li>
+                    <li><a href="#products">المنتجات</a></li>
+                    <li><a href="#features">خدماتنا</a></li>
+                    <li><a href="#">من نحن</a></li>
+                    <li><a href="#">أعمالنا</a></li>
+                    <li><a href="#">المدونة</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>خدماتنا</h3>
+                <ul>
+                    <li><a href="#">تصميم المنظومات الشمسية</a></li>
+                    <li><a href="#">التركيب والتشغيل</a></li>
+                    <li><a href="#">الصيانة الدورية</a></li>
+                    <li><a href="#">الاستشارات الهندسية</a></li>
+                    <li><a href="#">قطع الغيار الأصلية</a></li>
+                    <li><a href="#">الضمان الممتد</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>تواصل معنا</h3>
+                <ul>
+                    <li>📍 دمشق - سوريا | إسطنبول - تركيا</li>
+                    <li>📞 هاتف: +963 XXX XXX XXX</li>
+                    <li>📱 واتساب: +90 XXX XXX XXXX</li>
+                    <li>📧 info@shamstech.com</li>
+                    <li>🕐 الأحد - الخميس: 9:00 - 18:00</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 شمس التقنية - جميع الحقوق محفوظة</p>
+            <p>تصميم وبرمجة بكل ❤️ لخدمة أهلنا في سوريا وتركيا</p>
+        </div>
+    </footer>
+
+    <script>
+        // قائمة الأجهزة الشائعة
+        const commonDevices = [
+            { name: 'شاشة تلفاز LED', watt: 100 },
+            { name: 'مروحة سقف', watt: 80 },
+            { name: 'لمبة LED', watt: 12 },
+            { name: 'راوتر إنترنت', watt: 15 },
+            { name: 'براد (انفيرتر)', watt: 150 },
+            { name: 'غسالة', watt: 500 },
+            { name: 'مكيف 1 طن', watt: 1200 },
+            { name: 'سخان ماء', watt: 1500 },
+            { name: 'شاحن لابتوب', watt: 65 },
+            { name: 'شاحن موبايل', watt: 10 },
+            { name: 'مايكرويف', watt: 1000 },
+            { name: 'غلاية كهربائية', watt: 1800 },
+            { name: 'مكنسة كهربائية', watt: 1200 },
+            { name: 'مدفأة كهربائية', watt: 2000 },
+            { name: 'كمبيوتر مكتبي', watt: 300 }
+        ];
+
+        function addDevice() {
+            const container = document.getElementById('devices-container');
+            const div = document.createElement('div');
+            div.className = 'device-row';
+
+            let options = '<option value="0">اختر الجهاز من القائمة...</option>';
+            options += commonDevices.map(d =>
+                `<option value="${d.watt}">${d.name} (${d.watt} واط)</option>`
+            ).join('');
+            options += '<option value="custom">جهاز آخر - إدخال يدوي ⚙️</option>';
+
+            div.innerHTML = `
+                <div class="input-group">
+                    <label class="input-label">
+                        <span class="icon">📱</span>
+                        <span>نوع الجهاز</span>
+                    </label>
+                    <select class="device-select" onchange="updateWatt(this)">
+                        ${options}
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">
+                        <span class="icon">⚡</span>
+                        <span>الاستهلاك (واط)</span>
+                    </label>
+                    <input type="number" placeholder="مثلاً: 100" class="watt-input" disabled min="0">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">
+                        <span class="icon">🕐</span>
+                        <span>ساعات العمل/يوم</span>
+                    </label>
+                    <input type="number" placeholder="مثلاً: 5" value="4" class="hours-input" min="0" max="24" step="0.5">
+                </div>
+                <button onclick="this.parentElement.remove()" class="remove-btn" title="حذف هذا الجهاز">×</button>
+            `;
+            container.appendChild(div);
+        }
+
+        function updateWatt(selectElement) {
+            const row = selectElement.closest('.device-row');
+            const wattInput = row.querySelector('.watt-input');
+
+            if (selectElement.value === 'custom') {
+                wattInput.disabled = false;
+                wattInput.value = '';
+                wattInput.placeholder = 'أدخل استهلاك الجهاز بالواط';
+                wattInput.focus();
+            } else {
+                wattInput.disabled = true;
+                wattInput.value = selectElement.value;
+            }
+        }
+
+        function calculateSystem() {
+            const rows = document.querySelectorAll('.device-row');
+
+            if (rows.length === 0) {
+                alert("⚠️ الرجاء إضافة جهاز واحد على الأقل!");
+                return;
+            }
+
+            let totalDailyWh = 0;
+            let maxInstantLoad = 0;
+            let maxInductiveLoad = 0;
+            let messageDetails = "";
+            let devicesList = "";
+            let validDevices = 0;
+
+            rows.forEach((row, index) => {
+                const watt = parseFloat(row.querySelector('.watt-input').value) || 0;
+                const hours = parseFloat(row.querySelector('.hours-input').value) || 0;
+                const selectElement = row.querySelector('.device-select');
+                const deviceName = selectElement.options[selectElement.selectedIndex].text;
+
+                if (watt > 0) {
+                    validDevices++;
+                    const dailyWh = watt * hours;
+
+                    totalDailyWh += dailyWh;
+                    maxInstantLoad += watt;
+
+                    if (watt >= 500) {
+                        maxInductiveLoad = Math.max(maxInductiveLoad, watt);
+                    }
+
+                    messageDetails += `${index + 1}. ${deviceName}\n   القدرة: ${watt}W | الاستخدام: ${hours}h/يوم\n   الاستهلاك اليومي: ${dailyWh.toFixed(0)} Wh\n\n`;
+
+                    devicesList += `
+                        <div class="device-item">
+                            <span class="device-name">${deviceName}</span>
+                            <span class="device-consumption">${watt}W × ${hours}h = ${dailyWh.toFixed(0)} Wh/يوم</span>
+                        </div>
+                    `;
+                }
+            });
+
+            if (validDevices === 0 || totalDailyWh === 0) {
+                alert("⚠️ الرجاء إدخال بيانات صحيحة للأجهزة!\n\nتأكد من:\n• اختيار نوع الجهاز أو إدخال الاستهلاك يدوياً\n• إدخال عدد ساعات العمل");
+                return;
+            }
+
+            // الحسابات الهندسية
+            const sunHours = 5;
+            const panelWatt = 550;
+            const systemEfficiency = 0.75;
+            const requiredDailyProduction = totalDailyWh / systemEfficiency;
+            const panelsNeeded = Math.ceil(requiredDailyProduction / (sunHours * panelWatt));
+
+            // فولتية النظام
+            let systemVolt;
+            if (panelsNeeded <= 2) {
+                systemVolt = 12;
+            } else if (panelsNeeded <= 6) {
+                systemVolt = 24;
+            } else {
+                systemVolt = 48;
+            }
+
+            // البطاريات
+            const batteryAh = 200;
+            const batteryVolt = 12;
+            const depthOfDischarge = 0.5;
+            const autonomyDays = 1;
+
+            const totalAhNeeded = (totalDailyWh * autonomyDays) / (systemVolt * depthOfDischarge);
+            let batteriesNeeded = Math.ceil(totalAhNeeded / batteryAh);
+
+            const batteriesInSeries = systemVolt / batteryVolt;
+            batteriesNeeded = Math.ceil(batteriesNeeded / batteriesInSeries) * batteriesInSeries;
+            batteriesNeeded = Math.max(batteriesNeeded, batteriesInSeries);
+
+            // الإنفيرتر
+            const inductiveFactor = maxInductiveLoad > 0 ? 2.5 : 1.5;
+            const safetyFactor = maxInstantLoad > 2000 ? 1.3 : 1.2;
+
+            let inverterWatt = maxInstantLoad * safetyFactor;
+            if (maxInductiveLoad > 0) {
+                inverterWatt = Math.max(inverterWatt, maxInductiveLoad * inductiveFactor);
+            }
+
+            const inverterKVA = Math.ceil(inverterWatt / 1000);
+            const finalInverter = Math.max(inverterKVA, 3);
+
+            // عرض النتائج
+            document.getElementById('total-watt').innerText = totalDailyWh.toFixed(0);
+            document.getElementById('panels-count').innerText = panelsNeeded;
+            document.getElementById('batteries-count').innerText = batteriesNeeded;
+            document.getElementById('inverter-size').innerText = finalInverter;
+            document.getElementById('system-voltage').innerText = systemVolt + 'V';
+            document.getElementById('devices-list').innerHTML = devicesList;
+            document.getElementById('results').style.display = 'block';
+
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // رسالة الواتساب
+            const phone = "905000000000"; // ⚠️ ضع رقمك هنا
+            const text = `مرحباً شمس التقنية 👋
+
+قمت بحساب احتياجاتي من الطاقة الشمسية عبر موقعكم:
+
+━━━━━━━━━━━━━━━━━━
+📊 *النتائج:*
+━━━━━━━━━━━━━━━━━━
+
+⚡ الاستهلاك اليومي: *${totalDailyWh.toFixed(0)} واط ساعة*
+⚙️ فولتية النظام: *${systemVolt}V*
+☀️ عدد الألواح: *${panelsNeeded} لوح (550W)*
+🔋 البطاريات: *${batteriesNeeded} بطارية (200Ah)*
+🔌 الإنفيرتر: *${finalInverter} kVA*
+
+━━━━━━━━━━━━━━━━━━
+📋 *الأجهزة:*
+━━━━━━━━━━━━━━━━━━
+${messageDetails}
+أرغب بالحصول على عرض سعر مفصّل 💰`;
+
+            document.getElementById('whatsapp-link').href = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+        }
+
+        // إضافة جهاز افتراضي عند تحميل الصفحة
+        window.addEventListener('load', function () {
+            addDevice();
+        });
+    </script>
+</body>
+
+</html>
