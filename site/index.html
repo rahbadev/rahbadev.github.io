@@ -27,7 +27,7 @@
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="assets/css/variables.css">
-    <link rel="stylesheet" href="assets/css/main.css?v=5.0">
+    <link rel="stylesheet" href="assets/css/main.css?v=10.2">
 
     <!-- Preload critical resources -->
     <link rel="preload" href="assets/fonts/cairo-700.ttf" as="font" type="font/ttf" crossorigin>
@@ -127,7 +127,7 @@
 
             <div class="row g-4">
                 <!-- Services Cards -->
-                <div class="col-lg-9">
+                <div class="col-12">
                     <div class="row g-3" id="unifiedServicesGrid">
                         <!-- Services will be loaded dynamically -->
                         <div class="text-center py-5 w-100">
@@ -135,19 +135,6 @@
                                 <span class="visually-hidden">جاري التحميل...</span>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Calculator Summary Sidebar -->
-                <div class="col-lg-3">
-                    <div class="calculator-summary-sticky" id="calculatorSummary">
-                        <div class="summary-title">
-                            <i class="fas fa-calculator"></i>
-                            <span>الحاسبة</span>
-                        </div>
-                        <p style="text-align: center; color: #94a3b8; padding: 2rem 0;">
-                            اختر الخدمات التي تحتاجها لترى التكلفة
-                        </p>
                     </div>
                 </div>
             </div>
@@ -261,6 +248,65 @@
 
     <!-- Designs Gallery Modal - Loaded by designs-modal.js -->
 
+    <!-- Floating Calculator Bar -->
+    <div class="floating-calc-bar" id="floatingCalcBar">
+        <div class="container-fluid" style="max-width: 1600px;">
+            <div class="calc-bar-content">
+                <button class="calc-bar-expand-btn" onclick="UnifiedServicesCalculator.openBottomSheet()"
+                    title="عرض التفاصيل">
+                    <i class="fas fa-chevron-up"></i>
+                </button>
+                <div class="calc-bar-info">
+                    <div class="calc-bar-count">
+                        <i class="fas fa-check-circle"></i>
+                        <span id="calcBarCount">0</span>
+                        <span class="calc-bar-count-label">خدمة</span>
+                    </div>
+                    <div class="calc-bar-total">
+                        <span class="calc-bar-total-label">الإجمالي:</span>
+                        <span class="calc-bar-total-value" id="calcBarTotal">0$</span>
+                    </div>
+                </div>
+                <button class="calc-bar-send-btn" onclick="UnifiedServicesCalculator.sendToWhatsApp()">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>إرسال</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calculator Bottom Sheet -->
+    <div class="calc-bottom-sheet" id="calcBottomSheet"
+        onclick="if(event.target===this) UnifiedServicesCalculator.closeBottomSheet()">
+        <div class="bottom-sheet-content">
+            <div class="bottom-sheet-header">
+                <div class="bottom-sheet-handle"></div>
+                <div class="bottom-sheet-title-row">
+                    <h3 class="bottom-sheet-title">
+                        <i class="fas fa-calculator"></i>
+                        <span>تفاصيل الحاسبة</span>
+                    </h3>
+                    <button class="bottom-sheet-close" onclick="UnifiedServicesCalculator.closeBottomSheet()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="bottom-sheet-body" id="bottomSheetBody">
+                <!-- Will be populated dynamically -->
+            </div>
+            <div class="bottom-sheet-footer">
+                <div class="sheet-total-row">
+                    <span class="sheet-total-label">الإجمالي التقديري:</span>
+                    <span class="sheet-total-value" id="sheetTotalValue">0$</span>
+                </div>
+                <button class="sheet-send-btn" onclick="UnifiedServicesCalculator.sendToWhatsApp()">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>إرسال الطلب عبر واتساب</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts - Load from CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
@@ -270,7 +316,7 @@
     <!-- App Scripts -->
     <script defer src="assets/js/data-service.js"></script>
     <script defer src="assets/js/app.js?v=5.0"></script>
-    <script defer src="assets/js/unified-services-calculator.js?v=1.0"></script>
+    <script defer src="assets/js/unified-services-calculator.js?v=6.1"></script>
     <script defer src="assets/js/contact-updater.js?v=1.0"></script>
     <script defer src="assets/js/designs-modal.js"></script>
 </body>

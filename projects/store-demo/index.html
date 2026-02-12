@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المتجر الفاخر </title>
+    <link rel="icon" href="assets/images/logo.webp" type="image/x-icon">
+
+    <!-- External Resources -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- App Scripts -->
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/utils.js"></script>
+    <script src="assets/js/database.js"></script>
+    <script src="assets/js/cart.js"></script>
+    <script src="assets/js/app.js"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Tajawal', 'sans-serif'] },
+                    colors: {
+                        primary: CONFIG.brand.primaryColor,
+                        dark: '#0f172a',
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0,0,0,0.08)',
+                        'softer': '0 2px 10px -1px rgba(0,0,0,0.06)',
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        body {
+            background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%);
+            overflow-x: hidden;
+        }
+
+        /* Horizontal Scroll Snap للمنتجات المميزة */
+        .snap-x {
+            scroll-snap-type: x mandatory;
+        }
+
+        .snap-center {
+            scroll-snap-align: center;
+        }
+
+        .snap-start {
+            scroll-snap-align: start;
+        }
+
+        /* إخفاء Scrollbar */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Soft UI Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out;
+        }
+    </style>
+</head>
+
+<body class="antialiased" x-data="Object.assign(store, {
+          searchDebounce: null,
+          debouncedSearch() {
+              clearTimeout(this.searchDebounce);
+              this.searchDebounce = setTimeout(() => this.searchProducts(), 300);
+          },
+          scrollFeatured(direction) {
+              const container = document.getElementById('featured-scroll');
+              const scrollAmount = 700;
+              container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+          },
+          scrollNew(direction) {
+              const container = document.getElementById('new-scroll');
+              const scrollAmount = 700;
+              container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+          }
+      })" x-init="window.addEventListener('scroll', () => {
+          const scrollY = window.scrollY;
+          const windowHeight = window.innerHeight;
+          const docHeight = document.documentElement.scrollHeight;
+          if (scrollY + windowHeight > docHeight - 400 && productsLimit < filteredProducts.length) {
+              productsLimit += 16;
+          }
+      });">
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         NAVBAR - Compact & Fixed
+         تعديل: غيّر الشعار والنصوص من CONFIG
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-lg shadow-soft border-b border-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+
+                <!-- الشعار -->
+                <div class="flex items-center gap-3 cursor-pointer" @click="window.scrollTo({top:0,behavior:'smooth'})">
+                    <div class="relative">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-primary/20 via-blue-500/20 to-purple-500/20 rounded-xl blur-sm">
+                        </div>
+                        <img :src="CONFIG.brand.logoUrl" alt="Logo"
+                            class="relative h-12 w-auto object-contain rounded-xl p-1.5 bg-white shadow-md border-2 border-primary/10"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="relative h-12 w-12 rounded-xl bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center text-white text-xl shadow-md border-2 border-white/50"
+                            style="display:none">
+                            <i class="ph-fill ph-storefront"></i>
+                        </div>
+                    </div>
+                    <span class="font-bold text-gray-900 text-lg hidden sm:block" x-text="settings.store_name"></span>
+                </div>
+
+                <!-- روابط الانتقال السريع -->
+                <div class="hidden lg:flex items-center gap-1">
+                    <button @click="window.scrollTo({top:0,behavior:'smooth'})"
+                        class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg transition flex items-center gap-1.5">
+                        <i class="ph-bold ph-house text-sm"></i>
+                        <span>الرئيسية</span>
+                    </button>
+                    <button
+                        @click="document.querySelector('section[x-show*=\'is_featured\']')?.scrollIntoView({behavior:'smooth'})"
+                        class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg transition flex items-center gap-1.5">
+                        <i class="ph-bold ph-star text-sm"></i>
+                        <span>المميزة</span>
+                    </button>
+                    <button
+                        @click="document.querySelector('section[x-show*=\'is_new\']')?.scrollIntoView({behavior:'smooth'})"
+                        class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg transition flex items-center gap-1.5">
+                        <i class="ph-bold ph-sparkle text-sm"></i>
+                        <span>جديدنا</span>
+                    </button>
+                    <button @click="document.getElementById('products-grid')?.scrollIntoView({behavior:'smooth'})"
+                        class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg transition flex items-center gap-1.5">
+                        <i class="ph-bold ph-squares-four text-sm"></i>
+                        <span>جميع المنتجات</span>
+                    </button>
+                </div>
+
+                <!-- البحث -->
+                <div class="hidden md:flex flex-1 max-w-md mx-6">
+                    <div class="relative w-full">
+                        <i class="ph ph-magnifying-glass absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" x-model="searchQuery" @input="debouncedSearch()" placeholder="بحث سريع..."
+                            class="w-full pr-10 pl-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition">
+                    </div>
+                </div>
+
+                <!-- السلة -->
+                <button @click="cartOpen = true"
+                    class="relative h-10 w-10 rounded-lg bg-gradient-to-br from-primary to-blue-600 text-white flex items-center justify-center shadow-soft hover:scale-105 transition">
+                    <span x-show="cart.length > 0" x-text="cart.length"
+                        class="absolute -top-1 -right-1 h-5 w-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center ring-2 ring-white"></span>
+                    <i class="ph-fill ph-shopping-cart text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Spacer -->
+    <div class="h-16"></div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         LOADING STATE
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <div x-show="loading" class="fixed inset-0 z-40 bg-white flex items-center justify-center">
+        <div class="text-center">
+            <div class="w-12 h-12 border-3 border-gray-200 border-t-primary rounded-full animate-spin mb-3 mx-auto">
+            </div>
+            <p class="text-gray-400 text-sm">جاري التحميل...</p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         MAIN CONTENT
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <main x-show="!loading" x-cloak class="animate-fade-in">
+
+        <!-- Hero Banner - Store Image Background -->
+        <section class="container mx-auto px-4 py-8">
+            <div
+                class="relative rounded-3xl p-8 md:p-16 overflow-hidden shadow-2xl min-h-[400px] md:min-h-[500px] flex items-center">
+                <!-- صورة الخلفية المتعلقة بنوع المتجر -->
+                <div class="absolute inset-0">
+                    <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=1200"
+                        alt="Store Background" class="w-full h-full object-cover">
+                </div>
+
+                <!-- طبقة Blur وDarkness -->
+                <div class="absolute inset-0 backdrop-blur-sm bg-black/70"></div>
+
+                <!-- شبكة الخلفية -->
+                <div
+                    class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-30">
+                </div>
+
+                <div class="relative z-10 text-center max-w-3xl mx-auto text-white">
+                    <!-- العنوان الرئيسي -->
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight drop-shadow-2xl"
+                        x-text="settings.store_name"></h1>
+
+                    <!-- الوصف -->
+                    <p class="text-gray-100 text-base md:text-xl mb-8 leading-relaxed max-w-2xl mx-auto drop-shadow-lg">
+                        <i class="ph-fill ph-sparkle text-yellow-400"></i>
+                        أسلوب حياة جديد في متناول يدك - جودة عالية وأسعار منافسة
+                    </p>
+
+                    <!-- أزرار الإجراءات -->
+                    <div class="flex flex-wrap items-center justify-center gap-3">
+                        <button @click="document.getElementById('products-grid').scrollIntoView({behavior: 'smooth'})"
+                            class="px-6 py-3 bg-white text-gray-900 rounded-xl font-bold text-sm md:text-base shadow-xl hover:shadow-2xl hover:scale-105 transition flex items-center gap-2">
+                            <i class="ph-bold ph-shopping-bag text-lg"></i>
+                            <span>تسوق الآن</span>
+                        </button>
+                        <a :href="'https://wa.me/' + settings.whatsapp_number" target="_blank"
+                            class="px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl font-bold text-sm md:text-base shadow-xl hover:shadow-2xl hover:scale-105 transition flex items-center gap-2">
+                            <i class="ph-fill ph-whatsapp-logo text-lg"></i>
+                            <span>اتصل بنا</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════════════════
+             FEATURED ITEMS - Horizontal Scroll Snap
+        ═══════════════════════════════════════════════════════════════════════ -->
+        <section x-show="products.filter(p => p.is_featured).length > 0" class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2">
+                    <div
+                        class="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow-soft">
+                        <i class="ph-fill ph-star text-white text-lg"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-900">عناصر مميزة</h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <!-- أزرار التمرير -->
+                    <button @click="scrollFeatured(-1)"
+                        class="hidden md:flex w-10 h-10 rounded-lg bg-gradient-to-r from-yellow-400 to-orange-500 text-white items-center justify-center shadow-md hover:shadow-lg hover:scale-105 transition">
+                        <i class="ph-bold ph-caret-right text-xl"></i>
+                    </button>
+                    <button @click="scrollFeatured(1)"
+                        class="hidden md:flex w-10 h-10 rounded-lg bg-gradient-to-r from-yellow-400 to-orange-500 text-white items-center justify-center shadow-md hover:shadow-lg hover:scale-105 transition">
+                        <i class="ph-bold ph-caret-left text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="featured-scroll" class="overflow-x-auto hide-scrollbar snap-x snap-mandatory -mx-4 px-4">
+                <div class="flex gap-4 pb-2" style="width: fit-content;">
+                    <template x-for="product in products.filter(p => p.is_featured).slice(0, 8)"
+                        :key="'feat-'+product.id">
+                        <div @click="openProductModal(product)"
+                            class="snap-start flex-shrink-0 w-44 bg-white rounded-xl shadow-soft hover:shadow-lg transition cursor-pointer group">
+                            <div class="relative aspect-square overflow-hidden rounded-t-xl bg-gray-100">
+                                <img :src="product.image_url" :alt="product.name" width="176" height="176"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition duration-300"
+                                    loading="lazy">
+                                <div
+                                    class="absolute top-2 right-2 bg-yellow-400 text-yellow-900 px-2 py-1 rounded-md text-xs font-bold flex items-center gap-1 shadow">
+                                    <i class="ph-fill ph-star"></i>
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-bold text-gray-900 text-sm mb-1 truncate" x-text="product.name"></h3>
+                                <p class="text-xs text-gray-500 mb-2 line-clamp-2" x-text="product.description"></p>
+                                <div class="flex items-center justify-between mt-3">
+                                    <span class="text-primary font-black text-base"
+                                        x-text="`${product.price} ${CONFIG.currency.symbol}`"></span>
+                                    <button @click.stop="addToCart(product)"
+                                        class="h-8 px-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition flex items-center justify-center gap-1 font-bold text-xs">
+                                        <i class="ph-bold ph-shopping-cart"></i>
+                                        <span>أضف</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════════════════
+             NEW ARRIVALS - Horizontal Scroll Snap
+        ═══════════════════════════════════════════════════════════════════════ -->
+        <section x-show="products.filter(p => p.is_new).length > 0" class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-2">
+                    <div
+                        class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-soft">
+                        <i class="ph-fill ph-sparkle text-white text-lg"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-900">جديدنا</h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <!-- أزرار التمرير -->
+                    <button @click="scrollNew(-1)"
+                        class="hidden md:flex w-10 h-10 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white items-center justify-center shadow-md hover:shadow-lg hover:scale-105 transition">
+                        <i class="ph-bold ph-caret-right text-xl"></i>
+                    </button>
+                    <button @click="scrollNew(1)"
+                        class="hidden md:flex w-10 h-10 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white items-center justify-center shadow-md hover:shadow-lg hover:scale-105 transition">
+                        <i class="ph-bold ph-caret-left text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="new-scroll" class="overflow-x-auto hide-scrollbar snap-x snap-mandatory -mx-4 px-4">
+                <div class="flex gap-4 pb-2" style="width: fit-content;">
+                    <template x-for="product in products.filter(p => p.is_new).slice(0, 8)" :key="'new-'+product.id">
+                        <div @click="openProductModal(product)"
+                            class="snap-start flex-shrink-0 w-44 bg-white rounded-xl shadow-soft hover:shadow-lg transition cursor-pointer group">
+                            <div class="relative aspect-square overflow-hidden rounded-t-xl bg-gray-100">
+                                <img :src="product.image_url" :alt="product.name" width="176" height="176"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition duration-300"
+                                    loading="lazy">
+                                <div
+                                    class="absolute top-2 right-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-2 py-1 rounded-md text-xs font-bold flex items-center gap-1 shadow">
+                                    <i class="ph-fill ph-sparkle"></i>
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-bold text-gray-900 text-sm mb-1 truncate" x-text="product.name"></h3>
+                                <p class="text-xs text-gray-500 mb-2 line-clamp-2" x-text="product.description"></p>
+                                <div class="flex items-center justify-between mt-3">
+                                    <span class="text-primary font-black text-base"
+                                        x-text="`${product.price} ${CONFIG.currency.symbol}`"></span>
+                                    <button @click.stop="addToCart(product)"
+                                        class="h-8 px-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition flex items-center justify-center gap-1 font-bold text-xs">
+                                        <i class="ph-bold ph-shopping-cart"></i>
+                                        <span>أضف</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════════════════
+             STICKY SEARCH & CATEGORIES BAR
+        ═══════════════════════════════════════════════════════════════════════ -->
+        <div class="sticky top-16 z-40 bg-white/95 backdrop-blur-lg shadow-soft border-y border-gray-100 py-3">
+            <div class="container mx-auto px-4">
+                <!-- البحث على الموبايل -->
+                <div class="md:hidden mb-3">
+                    <div class="relative">
+                        <i class="ph ph-magnifying-glass absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" x-model="searchQuery" @input="debouncedSearch()" placeholder="بحث..."
+                            class="w-full pr-10 pl-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition">
+                    </div>
+                </div>
+
+                <!-- التصنيفات -->
+                <div class="overflow-x-auto hide-scrollbar -mx-4 px-4">
+                    <div class="flex gap-2" style="width: fit-content;">
+                        <button @click="activeCategory = null; filterByCategory(null)"
+                            :class="activeCategory === null ? 'bg-gradient-to-br from-primary to-blue-600 text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+                            class="px-4 py-2 rounded-lg font-bold text-sm whitespace-nowrap transition flex items-center gap-2 flex-shrink-0">
+                            <i class="ph-fill ph-squares-four"></i>
+                            <span>الكل</span>
+                        </button>
+                        <template x-for="category in categories" :key="'cat-'+category.id">
+                            <button @click="activeCategory = category.id; filterByCategory(category.id)"
+                                :class="activeCategory === category.id ? 'bg-gradient-to-br from-primary to-blue-600 text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+                                class="px-4 py-2 rounded-lg font-bold text-sm whitespace-nowrap transition flex-shrink-0"
+                                x-text="category.name"></button>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- فاصل بصري -->
+        <div class="h-4"></div>
+        
+        <!-- قسم جميع المنتجات -->
+        <section id="products-grid" class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-2">
+                    <div
+                        class="w-10 h-10 rounded-lg bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center shadow-soft">
+                        <i class="ph-fill ph-squares-four text-white text-lg"></i>
+                    </div>
+                    <h2 class="text-xl md:text-2xl font-bold text-gray-900">جميع المنتجات</h2>
+                </div>
+                <span class="text-sm text-gray-400" x-text="`${filteredProducts.length} منتج`"></span>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <template x-for="product in filteredProducts.slice(0, productsLimit)" :key="'prod-'+product.id">
+                    <div class="group bg-white rounded-xl p-3 shadow-soft hover:shadow-lg transition cursor-pointer"
+                        @click="openProductModal(product)">
+                        <div class="relative aspect-square overflow-hidden rounded-lg bg-gray-100 mb-3">
+                            <img :src="product.image_url" :alt="product.name" width="200" height="200" loading="lazy"
+                                class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+                            <div class="absolute top-2 left-2 flex flex-col gap-1">
+                                <span x-show="product.is_new"
+                                    class="bg-blue-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow flex items-center gap-1 w-max">
+                                    <i class="ph-fill ph-sparkle"></i> جديد
+                                </span>
+                                <span x-show="product.is_featured"
+                                    class="bg-yellow-400 text-gray-900 text-[10px] font-bold px-2 py-0.5 rounded shadow flex items-center gap-1 w-max">
+                                    <i class="ph-fill ph-star"></i> مميز
+                                </span>
+                            </div>
+                        </div>
+                        <div class="px-1">
+                            <div class="text-xs text-gray-400 mb-1"
+                                x-text="categories.find(c => c.id === product.category_id)?.name"></div>
+                            <h3 class="font-bold text-gray-900 text-sm mb-2 line-clamp-2 leading-snug"
+                                x-text="product.name"></h3>
+                            <div class="flex justify-between items-center pt-2">
+                                <span class="font-black text-primary text-base"
+                                    x-text="`${product.price} ${CONFIG.currency.symbol}`"></span>
+                                <button @click.stop="addToCart(product)"
+                                    class="h-7 px-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition flex items-center justify-center text-xs font-bold">
+                                    <i class="ph-bold ph-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+            <!-- عرض المزيد -->
+            <div x-show="productsLimit < filteredProducts.length" class="text-center mt-8">
+                <button @click="productsLimit += 16"
+                    class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-lg transition">
+                    عرض المزيد
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         PRODUCT MODAL - Modern & Clean
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <div x-show="modalOpen" class="fixed inset-0 z-[60] flex items-end md:items-center justify-center p-0 md:p-4"
+        x-cloak>
+        <div class="absolute inset-0 bg-gray-900/60 backdrop-blur-sm transition" @click="closeProductModal()">
+        </div>
+
+        <div class="relative w-full md:max-w-4xl bg-white rounded-t-3xl md:rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh]"
+            x-show="modalOpen" x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="translate-y-full md:translate-y-10 opacity-0"
+            x-transition:enter-end="translate-y-0 opacity-100">
+
+            <button @click="closeProductModal()"
+                class="absolute top-4 left-4 z-20 w-10 h-10 bg-white/90 hover:bg-white text-gray-800 rounded-full flex items-center justify-center backdrop-blur transition shadow-soft">
+                <i class="ph-bold ph-x text-lg"></i>
+            </button>
+
+            <div class="w-full md:w-1/2 h-80 md:h-auto bg-gray-100 shrink-0 relative">
+                <img :src="selectedProduct?.image_url" :alt="selectedProduct?.name" class="w-full h-full object-cover">
+            </div>
+
+            <div class="flex-1 p-6 md:p-8 flex flex-col bg-white overflow-y-auto">
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="px-3 py-1 bg-gray-100 text-gray-500 rounded-lg text-xs font-bold"
+                        x-text="categories.find(c => c.id === selectedProduct?.category_id)?.name"></span>
+                    <span x-show="selectedProduct?.is_new"
+                        class="text-blue-600 text-xs font-bold flex items-center gap-1">
+                        <i class="ph-fill ph-check-circle"></i> جديد
+                    </span>
+                </div>
+
+                <h2 class="text-2xl md:text-3xl font-black text-gray-900 mb-3 leading-tight"
+                    x-text="selectedProduct?.name"></h2>
+                <div class="text-3xl font-black text-primary mb-6"
+                    x-text="`${selectedProduct?.price} ${CONFIG.currency.symbol}`"></div>
+
+                <div class="text-gray-600 mb-8 text-sm leading-relaxed max-h-32 overflow-y-auto">
+                    <p x-text="selectedProduct?.description"></p>
+                </div>
+
+                <div class="mt-auto space-y-3 pt-6 border-t border-gray-100">
+                    <button @click="checkoutWhatsApp(); closeProductModal()"
+                        class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl font-bold text-lg transition shadow-soft flex items-center justify-center gap-2 group">
+                        <i class="ph-fill ph-whatsapp-logo text-2xl group-hover:scale-110 transition"></i>
+                        <span>طلب عبر الواتساب</span>
+                    </button>
+
+                    <button @click="addToCart(selectedProduct); cartOpen = true; closeProductModal()"
+                        class="w-full bg-primary hover:bg-primary-dark text-white py-4 rounded-xl font-bold text-lg transition shadow-soft flex items-center justify-center gap-2">
+                        <i class="ph-bold ph-shopping-cart text-xl"></i>
+                        <span>إضافة للسلة</span>
+                    </button>
+
+                    <a x-show="selectedProduct?.video_url" :href="selectedProduct?.video_url" target="_blank"
+                        class="w-full py-4 rounded-xl bg-red-50 text-red-600 border-2 border-red-200 font-bold hover:bg-red-600 hover:text-white flex items-center justify-center gap-2 transition">
+                        <i class="ph-fill ph-youtube-logo text-xl"></i>
+                        <span>مشاهدة الفيديو</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         CART SIDEBAR - Smooth & Functional
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <div class="relative z-[70]" x-cloak>
+        <div x-show="cartOpen" x-transition.opacity @click="cartOpen = false"
+            class="fixed inset-0 bg-black/50 backdrop-blur-sm"></div>
+        <div class="fixed inset-y-0 left-0 max-w-sm w-full bg-white shadow-2xl flex flex-col transform transition-transform duration-300"
+            :class="cartOpen ? 'translate-x-0' : '-translate-x-full'">
+
+            <div class="p-6 border-b flex justify-between items-center bg-gray-50/50">
+                <h2 class="text-xl font-bold flex items-center gap-2">
+                    <i class="ph-duotone ph-shopping-bag text-primary"></i>
+                    حقيبة التسوق
+                </h2>
+                <button @click="cartOpen = false"
+                    class="w-8 h-8 rounded-full hover:bg-gray-100 flex items-center justify-center transition">
+                    <i class="ph-bold ph-x text-lg"></i>
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-4 space-y-4">
+                <template x-if="cart.length === 0">
+                    <div class="h-full flex flex-col items-center justify-center text-center text-gray-400">
+                        <i class="ph-duotone ph-basket text-6xl mb-4"></i>
+                        <p class="font-medium">الحقيبة فارغة</p>
+                    </div>
+                </template>
+
+                <template x-for="item in cart" :key="item.id">
+                    <div class="flex gap-3 p-3 border border-gray-100 rounded-2xl bg-white shadow-sm">
+                        <img :src="item.image_url" class="w-16 h-16 rounded-xl object-cover bg-gray-50">
+                        <div class="flex-1">
+                            <h4 class="font-bold text-sm text-gray-900 line-clamp-1" x-text="item.name"></h4>
+                            <p class="text-primary font-bold text-sm mt-1" x-text="formatPrice(item.price)"></p>
+                            <div class="flex items-center gap-3 mt-2 bg-gray-50 w-max px-2 py-1 rounded-lg">
+                                <button @click="updateQty(item.id, -1)"
+                                    class="w-5 h-5 flex items-center justify-center hover:text-red-500 transition font-bold">−</button>
+                                <span class="text-sm font-bold w-4 text-center" x-text="item.quantity"></span>
+                                <button @click="updateQty(item.id, 1)"
+                                    class="w-5 h-5 flex items-center justify-center hover:text-green-500 transition font-bold">+</button>
+                            </div>
+                        </div>
+                        <button @click="removeFromCart(item.id)"
+                            class="w-8 h-8 rounded-lg bg-red-50 text-red-600 hover:bg-red-600 hover:text-white flex items-center justify-center transition flex-shrink-0"
+                            title="حذف من السلة">
+                            <i class="ph-fill ph-trash text-base"></i>
+                        </button>
+                    </div>
+                </template>
+            </div>
+
+            <div class="p-6 border-t bg-gray-50/50" x-show="cart.length > 0">
+                <div class="flex justify-between mb-4">
+                    <span class="text-gray-500">المجموع الكلي</span>
+                    <span class="text-xl font-black text-gray-900" x-text="formatPrice(cartTotal)"></span>
+                </div>
+                <button @click="checkoutWhatsApp()"
+                    class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl font-bold text-lg shadow-lg shadow-green-600/20 flex items-center justify-center gap-2 transition">
+                    <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+                    <span>إتمام الطلب</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-900 text-white pt-16 pb-8 mt-20">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 border-b border-gray-800 pb-12">
+
+                <div class="md:col-span-5 space-y-5">
+                    <div class="flex items-center gap-3">
+                        <div class="relative">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-br from-primary/30 via-blue-500/30 to-purple-500/30 rounded-2xl blur-md">
+                            </div>
+                            <img :src="CONFIG.brand.logoUrl" alt="Logo"
+                                class="relative h-16 w-auto object-contain rounded-2xl p-2 bg-gradient-to-br from-gray-800 to-gray-900 shadow-xl border-2 border-primary/20"
+                                style="max-width: 120px;"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                            <div class="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-blue-600 flex items-center justify-center text-white text-3xl shadow-xl border-2 border-white/10"
+                                style="display:none">
+                                <i class="ph-fill ph-storefront"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold" x-text="settings.store_name"></h2>
+                            <span class="text-xs text-gray-400 flex items-center gap-1">
+                                <i class="ph-fill ph-seal-check text-primary"></i>
+                                متجر معتمد
+                            </span>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed max-w-sm">
+                        نسعى لتقديم تجربة تسوق استثنائية تجمع بين الجودة والسهولة.
+                    </p>
+                </div>
+
+                <div class="md:col-span-3">
+                    <h3 class="font-bold text-base mb-5 text-white">روابط سريعة</h3>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li>
+                            <button @click="window.scrollTo({top:0, behavior:'smooth'})"
+                                class="hover:text-primary transition flex items-center gap-2">
+                                <i class="ph-bold ph-caret-left text-xs"></i> الصفحة الرئيسية
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                @click="activeCategory = null; filterByCategory(null); document.getElementById('products-grid').scrollIntoView({behavior: 'smooth'})"
+                                class="hover:text-primary transition flex items-center gap-2">
+                                <i class="ph-bold ph-caret-left text-xs"></i> جميع المنتجات
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="md:col-span-4">
+                    <h3 class="font-bold text-base mb-5 text-white">تواصل معنا</h3>
+                    <div class="space-y-4">
+                        <a :href="'https://wa.me/' + settings.whatsapp_number" target="_blank"
+                            class="flex items-center gap-3 group p-3 rounded-xl bg-gray-800/50 hover:bg-gray-800 border border-gray-700 transition">
+                            <div
+                                class="w-10 h-10 rounded-lg bg-green-600 flex items-center justify-center text-white shadow-soft group-hover:scale-105 transition">
+                                <i class="ph-fill ph-whatsapp-logo text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-400">خدمة العملاء</p>
+                                <p class="font-bold text-base dir-ltr font-mono" x-text="settings.whatsapp_number"></p>
+                            </div>
+                        </a>
+
+                        <div x-show="settings.social_links && settings.social_links.length > 0">
+                            <p class="text-xs text-gray-400 mb-3 font-medium">تابعنا:</p>
+                            <div class="flex flex-wrap gap-2">
+                                <template x-for="link in settings.social_links" :key="'social-'+link.platform">
+                                    <template x-if="link.url">
+                                        <a :href="link.url" target="_blank"
+                                            class="w-10 h-10 rounded-lg bg-gray-800 hover:bg-primary border border-gray-700 hover:border-primary text-white flex items-center justify-center transition text-xl"
+                                            :title="link.platform">
+                                            <template x-if="link.platform === 'facebook'"><i
+                                                    class="ph-fill ph-facebook-logo"></i></template>
+                                            <template x-if="link.platform === 'tiktok'"><i
+                                                    class="ph-fill ph-tiktok-logo"></i></template>
+                                            <template x-if="link.platform === 'youtube'"><i
+                                                    class="ph-fill ph-youtube-logo"></i></template>
+                                            <template x-if="link.platform === 'instagram'"><i
+                                                    class="ph-fill ph-instagram-logo"></i></template>
+                                            <template x-if="link.platform === 'whatsapp'"><i
+                                                    class="ph-fill ph-whatsapp-logo"></i></template>
+                                            <template x-if="link.platform === 'whatsapp_channel'"><i
+                                                    class="ph-fill ph-broadcast"></i></template>
+                                            <template x-if="link.platform === 'telegram'"><i
+                                                    class="ph-fill ph-paper-plane-tilt"></i></template>
+                                            <template x-if="link.platform === 'twitter'"><i
+                                                    class="ph-fill ph-twitter-logo"></i></template>
+                                            <template
+                                                x-if="!['facebook','tiktok','youtube','instagram','whatsapp','whatsapp_channel','telegram','twitter'].includes(link.platform)">
+                                                <i class="ph-bold ph-link"></i>
+                                            </template>
+                                        </a>
+                                    </template>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-gray-500">
+                <p>&copy; <span x-text="new Date().getFullYear()"></span> <span x-text="settings.store_name"></span>.
+                    جميع الحقوق محفوظة.</p>
+                <div class="flex items-center gap-1 opacity-70 hover:opacity-100 transition">
+                    <span>Made with</span>
+                    <i class="ph-fill ph-heart text-red-500"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         TOAST NOTIFICATIONS
+    ═══════════════════════════════════════════════════════════════════════ -->
+    <div x-show="toastVisible" x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 translate-y-4"
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[80] pointer-events-none" x-cloak>
+        <div class="bg-white rounded-2xl shadow-2xl border-2 px-6 py-4 flex items-center gap-3 min-w-[300px] max-w-[400px]"
+            :class="{
+                 'border-green-500': toastColor === 'green',
+                 'border-red-500': toastColor === 'red',
+                 'border-blue-500': toastColor === 'blue',
+                 'border-yellow-500': toastColor === 'yellow'
+             }">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0" :class="{
+                     'bg-green-100 text-green-600': toastColor === 'green',
+                     'bg-red-100 text-red-600': toastColor === 'red',
+                     'bg-blue-100 text-blue-600': toastColor === 'blue',
+                     'bg-yellow-100 text-yellow-600': toastColor === 'yellow'
+                 }">
+                <i class="text-xl" :class="'ph-fill ph-' + toastIcon"></i>
+            </div>
+            <p class="text-gray-900 font-bold text-sm" x-text="toastMessage"></p>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+</html>
